@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NIHAYA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body data-page="services">
+    <!-- Header -->
+    <header class="header">
+      <a href="index.html" class="header__logo">
+        <img src="assets/images/nihaya-logo.png" alt="NIHAYA" />
+      </a>
+      <button class="nav__toggle" type="button" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav">
+        <a href="index.html" class="nav__link">Home</a>
+        <a href="shop.html" class="nav__link">Shop</a>
+        <a href="about.html" class="nav__link">About us</a>
+        <a href="contact.html" class="nav__link">Contact us</a>
+        <a href="cart.html" class="nav__link nav__cart-count">Cart</a>
+        <a href="services.html" class="nav__link nav__link--active">Services</a>
+      </nav>
+    </header>
+
+    <!-- Body -->
+    <main class="page-body">
+      <div class="services-panel">
+        <!-- Heading -->
+        <div class="services-heading">
+          <span class="services-heading__breadcrumb">Home / Services</span>
+          <h1 class="services-heading__title">Customer Services</h1>
+          <p class="services-heading__subtitle">
+            Know what is covered and what to prepare when requesting assistance.
+          </p>
+        </div>
+
+        <!-- Policy Banner -->
+        <div class="policy-banner">
+          <h2 class="policy-banner__title">
+            Warranty &amp; Replacement Policy
+          </h2>
+          <p class="policy-banner__text">
+            Please keep your receipt and original packaging for service or
+            replacement requests.
+          </p>
+        </div>
+
+        <!-- Coverage Cards -->
+        <div class="coverage-cards">
+          <div class="coverage-card">
+            <div class="coverage-card__accent"></div>
+            <div class="coverage-card__content">
+              <span class="coverage-card__label">Service warranty</span>
+              <span class="coverage-card__value">1 Month</span>
+              <p class="coverage-card__desc">
+                Service warranty for eligible units.
+              </p>
+              <p class="coverage-card__note">
+                Keep your receipt as proof of purchase.
+              </p>
+            </div>
+          </div>
+          <div class="coverage-card">
+            <div
+              class="coverage-card__accent coverage-card__accent--light"
+            ></div>
+            <div class="coverage-card__content">
+              <span class="coverage-card__label">Unit replacement</span>
+              <span class="coverage-card__value">3 Days</span>
+              <p class="coverage-card__desc">
+                Replacement requests must be made within 3 days.
+              </p>
+              <p class="coverage-card__note">
+                Unit must have no physical damage and the complete box must be
+                included.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reminders -->
+        <div class="reminders">
+          <h2 class="reminders__title">Important reminders</h2>
+          <div class="reminder-row">
+            <div class="reminder-card">
+              <h3 class="reminder-card__title">Keep your receipt</h3>
+              <p class="reminder-card__text">
+                The receipt is required for warranty claims.
+              </p>
+            </div>
+            <div class="reminder-card">
+              <h3 class="reminder-card__title">Do not break the seal</h3>
+              <p class="reminder-card__text">
+                Warranty is not accepted if the seal is broken.
+              </p>
+            </div>
+            <div class="reminder-card reminder-card--warning">
+              <h3 class="reminder-card__title">LCD is not covered</h3>
+              <p class="reminder-card__text">
+                LCD damage is excluded from the warranty.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <p class="services-footer">
+          For assistance, please visit NIHAYA or contact the store through our
+          Contact Us page.
+        </p>
+      </div>
+    </main>
+    <!-- Site Footer -->
+    <footer class="site-footer">
+      <div class="footer-trust">
+        <div class="footer-trust__item">
+          <span>1-Month Service Warranty</span>
+        </div>
+        <div class="footer-trust__item">
+          <span>3-Day Unit Replacement</span>
+        </div>
+        <div class="footer-trust__item">
+          <span>Cash on Delivery</span>
+        </div>
+        <div class="footer-trust__item">
+          <span>Physical Store in Daet</span>
+        </div>
+      </div>
+
+      <div class="footer-main">
+        <div class="footer-brand">
+          <img src="assets/images/nihaya-logo.png" alt="NIHAYA" class="footer-logo-img" />
+          <p class="footer-tagline">
+            Your trusted local destination for authentic cellphones, laptops, and everyday tech accessories with guaranteed store warranty.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Shop</h4>
+          <ul class="footer-links">
+            <li><a href="shop.html?category=cellphone">Cellphones</a></li>
+            <li><a href="shop.html?category=laptop">Laptops</a></li>
+            <li><a href="shop.html?category=charger">Accessories</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Customer Care</h4>
+          <ul class="footer-links">
+            <li><a href="services.html">Warranty Policy</a></li>
+            <li><a href="about.html">About NIHAYA</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-store-info">
+          <h4 class="footer-heading">Visit Our Shop</h4>
+          <p>Dolor Hotel Bldg., Vinzons Ave, Daet, Camarines Norte</p>
+          <p><strong>Hours:</strong> Mon – Sun 9:00 AM – 9:00 PM</p>
+          <div class="store-badge">
+            Open Daily in Daet
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 NIHAYA Cellphone and Accessories. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>
+

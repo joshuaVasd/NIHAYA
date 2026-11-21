@@ -1,5 +1,25 @@
+# OS files
 .DS_Store
 Thumbs.db
-node_modules/
+desktop.ini
+
+# Environment and secrets (never commit)
 .env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Editor / IDE
 .vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Dependencies & build (if added later)
+node_modules/
+dist/
+build/

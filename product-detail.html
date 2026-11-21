@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NIHAYA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body data-page="product-detail">
+    <!-- Header -->
+    <header class="header">
+      <a href="index.html" class="header__logo">
+        <img src="assets/images/nihaya-logo.png" alt="NIHAYA" />
+      </a>
+      <button class="nav__toggle" type="button" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav">
+        <a href="index.html" class="nav__link">Home</a>
+        <a href="shop.html" class="nav__link nav__link--active">Shop</a>
+        <a href="about.html" class="nav__link">About us</a>
+        <a href="contact.html" class="nav__link">Contact us</a>
+        <a href="cart.html" class="nav__link nav__cart-count">Cart</a>
+        <a href="services.html" class="nav__link">Services</a>
+      </nav>
+    </header>
+
+    <!-- Body -->
+    <main class="page-body">
+      <div class="card card--medium" data-product-id="1">
+        <div class="card__inner">
+          <div class="product-detail">
+            <!-- Product Image -->
+            <div class="product-detail__image">
+              <span style="font-size: 14px; color: var(--color-text-muted)"
+                >Image</span
+              >
+              <span class="stock-badge">In Stock</span>
+            </div>
+
+            <!-- Product Info -->
+            <div class="product-detail__info">
+              <a
+                href="shop.html"
+                class="product-detail__back-btn"
+                id="btn-back-to-shop"
+              >
+                <span>&larr;</span> Back to Shop
+              </a>
+              <span class="product-detail__breadcrumb">Shop / Cellphone</span>
+              <div>
+                <span class="product-detail__brand">Brand</span>
+                <h1 class="product-detail__name">Smartphone X</h1>
+              </div>
+              <span class="product-detail__price">₱12,990</span>
+              <p class="product-detail__desc">
+                Product description goes here: key features, what is in the box,
+                and warranty details.
+              </p>
+
+              <div class="divider"></div>
+
+              <div>
+                <p class="product-detail__qty-label">Quantity</p>
+                <div class="quantity-control">
+                  <span
+                    class="quantity-control__btn"
+                    role="button"
+                    aria-label="Decrease quantity"
+                    >−</span
+                  >
+                  <span class="quantity-control__value">1</span>
+                  <span
+                    class="quantity-control__btn"
+                    role="button"
+                    aria-label="Increase quantity"
+                    >+</span
+                  >
+                </div>
+              </div>
+
+              <div class="product-detail__actions">
+                <button
+                  class="btn btn--primary btn--add-to-cart"
+                  style="width: 227px; font-size: 15px; padding: 12px 16px"
+                  type="button"
+                >
+                  Add to Cart
+                </button>
+                <a
+                  href="cart.html"
+                  class="btn btn--secondary"
+                  style="width: 180px"
+                  >View Cart</a
+                >
+              </div>
+
+              <span class="product-detail__warranty"
+                >1-month service warranty and 3-day unit replacement.</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Site Footer -->
+    <footer class="site-footer">
+      <div class="footer-trust">
+        <div class="footer-trust__item">
+          <span>1-Month Service Warranty</span>
+        </div>
+        <div class="footer-trust__item">
+          <span>3-Day Unit Replacement</span>
+        </div>
+        <div class="footer-trust__item">
+          <span>Cash on Delivery</span>
+        </div>
+        <div class="footer-trust__item">
+          <span>Physical Store in Daet</span>
+        </div>
+      </div>
+
+      <div class="footer-main">
+        <div class="footer-brand">
+          <img
+            src="assets/images/nihaya-logo.png"
+            alt="NIHAYA"
+            class="footer-logo-img"
+          />
+          <p class="footer-tagline">
+            Your trusted local destination for authentic cellphones, laptops,
+            and everyday tech accessories with guaranteed store warranty.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Shop</h4>
+          <ul class="footer-links">
+            <li><a href="shop.html?category=cellphone">Cellphones</a></li>
+            <li><a href="shop.html?category=laptop">Laptops</a></li>
+            <li><a href="shop.html?category=charger">Accessories</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Customer Care</h4>
+          <ul class="footer-links">
+            <li><a href="services.html">Warranty Policy</a></li>
+            <li><a href="about.html">About NIHAYA</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-store-info">
+          <h4 class="footer-heading">Visit Our Shop</h4>
+          <p>Dolor Hotel Bldg., Vinzons Ave, Daet, Camarines Norte</p>
+          <p><strong>Hours:</strong> Mon – Sun 9:00 AM – 9:00 PM</p>
+          <div class="store-badge">Open Daily in Daet</div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>
+          &copy; 2026 NIHAYA Cellphone and Accessories. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>

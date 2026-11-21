@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NIHAYA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body data-page="checkout">
+    <!-- Header -->
+    <header class="header">
+      <a href="index.html" class="header__logo">
+        <img src="assets/images/nihaya-logo.png" alt="NIHAYA" />
+      </a>
+      <button class="nav__toggle" type="button" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav">
+        <a href="index.html" class="nav__link">Home</a>
+        <a href="shop.html" class="nav__link">Shop</a>
+        <a href="about.html" class="nav__link">About us</a>
+        <a href="contact.html" class="nav__link">Contact us</a>
+        <a href="cart.html" class="nav__link nav__link--active nav__cart-count"
+          >Cart</a
+        >
+        <a href="services.html" class="nav__link">Services</a>
+      </nav>
+    </header>
+
+    <!-- Body -->
+    <main class="page-body">
+      <!--GUEST CONTACT EMAIL-->
+      <div class="card card--small" id="checkout-step-1">
+        <div class="card__inner">
+          <!-- Title Row with Progress -->
+          <div class="title-row--checkout">
+            <h1 class="title-row__heading">Checkout</h1>
+            <div class="progress">
+              <div class="progress__bars">
+                <div
+                  class="progress__bar progress__bar--active"
+                  id="progress-bar-1"
+                ></div>
+                <div class="progress__bar" id="progress-bar-2"></div>
+              </div>
+              <span class="progress__text" id="progress-step-text"
+                >Step 1 of 2: Contact</span
+              >
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Contact Email Intro -->
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <h2
+              style="
+                font-size: 20px;
+                font-weight: 600;
+                color: var(--color-text-dark);
+              "
+            >
+              Contact Email Address
+            </h2>
+            <p style="font-size: 15px; color: var(--color-text-muted)">
+              We will send your order confirmation and updates to this email.
+            </p>
+          </div>
+
+          <!-- Email Field -->
+          <div class="form-group form-group--full" id="contact-email-group">
+            <label class="form-label" for="contact-email-input"
+              >Email address *</label
+            >
+            <input
+              type="email"
+              id="contact-email-input"
+              class="form-input"
+              placeholder="name@example.com"
+              data-field="email"
+              autocomplete="email"
+              required
+            />
+            <span class="form-error" id="contact-email-error"
+              >Enter a valid email address, like name@gmail.com</span
+            >
+          </div>
+
+          <!-- Actions -->
+          <button
+            class="btn btn--primary btn--full"
+            id="btn-step-1-continue"
+            type="button"
+          >
+            Continue
+          </button>
+          <a href="cart.html" class="btn btn--secondary btn--full"
+            >Back to Cart</a
+          >
+        </div>
+      </div>
+
+      <!--DELIVERY & PAYMENT-->
+      <div class="card card--medium" id="checkout-step-2" style="display: none">
+        <div class="card__inner">
+          <!-- Title Row with Progress -->
+          <div class="title-row--checkout">
+            <h1 class="title-row__heading">Checkout</h1>
+            <div class="progress">
+              <div class="progress__bars">
+                <div class="progress__bar progress__bar--active"></div>
+                <div class="progress__bar progress__bar--active"></div>
+              </div>
+              <span class="progress__text"
+                >Step 2 of 2: Delivery and payment</span
+              >
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Checkout Content -->
+          <div class="checkout-content">
+            <!-- Form Details -->
+            <div class="checkout-form">
+              <!-- Customer Email Badge / Change -->
+              <div
+                style="
+                  background: var(--color-surface);
+                  padding: 12px 16px;
+                  border-radius: var(--radius-md);
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                "
+              >
+                <div style="font-size: 14px; color: var(--color-text-dark)">
+                  <span
+                    style="
+                      color: var(--color-text-muted);
+                      font-size: 13px;
+                      display: block;
+                    "
+                    >Contact Email:</span
+                  >
+                  <strong id="display-contact-email">name@example.com</strong>
+                </div>
+                <button
+                  type="button"
+                  id="btn-edit-email"
+                  style="
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: var(--color-primary);
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    text-decoration: underline;
+                  "
+                >
+                  Change
+                </button>
+              </div>
+
+              <!-- Delivery Details -->
+              <div class="checkout-section">
+                <h2 class="checkout-section__title">Delivery details</h2>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="fullname">Full name *</label>
+                    <input
+                      type="text"
+                      id="fullname"
+                      class="form-input"
+                      placeholder="Juan Dela Cruz"
+                      data-required
+                      data-field="fullname"
+                    />
+                    <span class="form-error">Full name is required</span>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="mobile"
+                      >Mobile number *</label
+                    >
+                    <input
+                      type="tel"
+                      id="mobile"
+                      class="form-input"
+                      placeholder="09XX XXX XXXX"
+                      data-required
+                      data-field="mobile"
+                    />
+                    <span class="form-error"
+                      >Enter a valid mobile number (e.g. 09171234567)</span
+                    >
+                  </div>
+                </div>
+
+                <div class="form-group form-group--full">
+                  <label class="form-label" for="address"
+                    >Delivery address *</label
+                  >
+                  <input
+                    type="text"
+                    id="address"
+                    class="form-input"
+                    placeholder="House no., street, barangay, city, province"
+                    data-required
+                    data-field="address"
+                  />
+                  <span class="form-error">Delivery address is required</span>
+                </div>
+
+                <div class="form-group form-group--full">
+                  <label class="form-label" for="notes">Notes (optional)</label>
+                  <textarea
+                    id="notes"
+                    class="form-textarea"
+                    placeholder="Additional info for the seller or rider"
+                    data-field="notes"
+                  ></textarea>
+                </div>
+              </div>
+
+              <!-- Payment Method -->
+              <div class="checkout-section">
+                <h2 class="checkout-section__title">Payment method</h2>
+                <div class="payment-grid">
+                  <div
+                    class="payment-option payment-option--selected"
+                    data-payment="gcash"
+                  >
+                    <div class="payment-option__radio"></div>
+                    <span class="payment-option__label">GCash</span>
+                  </div>
+                  <div class="payment-option" data-payment="maya">
+                    <div class="payment-option__radio"></div>
+                    <span class="payment-option__label">Maya</span>
+                  </div>
+                  <div class="payment-option" data-payment="paypal">
+                    <div class="payment-option__radio"></div>
+                    <span class="payment-option__label">PayPal</span>
+                  </div>
+                  <div class="payment-option" data-payment="card">
+                    <div class="payment-option__radio"></div>
+                    <span class="payment-option__label"
+                      >Credit / Debit card</span
+                    >
+                  </div>
+                  <div class="payment-option" data-payment="banking">
+                    <div class="payment-option__radio"></div>
+                    <span class="payment-option__label">Online banking</span>
+                  </div>
+                  <div class="payment-option" data-payment="cod">
+                    <div class="payment-option__radio"></div>
+                    <span class="payment-option__label">Cash on Delivery</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="order-summary">
+              <h2 class="order-summary__title">Order Summary</h2>
+
+              <div class="order-summary__item">
+                <div class="order-summary__thumb"></div>
+                <span class="order-summary__item-name">Smartphone X × 1</span>
+                <span class="order-summary__item-price">₱12,990</span>
+              </div>
+              <div class="order-summary__item">
+                <div class="order-summary__thumb"></div>
+                <span class="order-summary__item-name"
+                  >Galaxy A Series × 1</span
+                >
+                <span class="order-summary__item-price">₱9,490</span>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="order-summary__row">
+                <span class="order-summary__label">Subtotal</span>
+                <span class="order-summary__value">₱22,480</span>
+              </div>
+              <div class="order-summary__row">
+                <span class="order-summary__label">Shipping Fee</span>
+                <span class="order-summary__value">₱75</span>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="order-summary__row order-summary__total">
+                <span class="order-summary__label">Total</span>
+                <span class="order-summary__value">₱22,630</span>
+              </div>
+
+              <button
+                class="btn btn--primary btn--full"
+                data-action="place-order"
+                type="button"
+              >
+                Place Order
+              </button>
+              <button
+                class="btn btn--secondary btn--full"
+                id="btn-back-to-step-1"
+                type="button"
+              >
+                Back
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Site Footer -->
+    <footer class="site-footer">
+      <div class="footer-trust">
+        <div class="footer-trust__item">
+          <span>1-Month Service Warranty</span>
+        </div>
+        <div class="footer-trust__item">
+          <span>3-Day Unit Replacement</span>
+        </div>
+        <div class="footer-trust__item">
+          <span>Cash on Delivery</span>
+        </div>
+        <div class="footer-trust__item">
+          <span>Physical Store in Daet</span>
+        </div>
+      </div>
+
+      <div class="footer-main">
+        <div class="footer-brand">
+          <img
+            src="assets/images/nihaya-logo.png"
+            alt="NIHAYA"
+            class="footer-logo-img"
+          />
+          <p class="footer-tagline">
+            Your trusted local destination for authentic cellphones, laptops,
+            and everyday tech accessories with guaranteed store warranty.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Shop</h4>
+          <ul class="footer-links">
+            <li><a href="shop.html?category=cellphone">Cellphones</a></li>
+            <li><a href="shop.html?category=laptop">Laptops</a></li>
+            <li><a href="shop.html?category=charger">Accessories</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Customer Care</h4>
+          <ul class="footer-links">
+            <li><a href="services.html">Warranty Policy</a></li>
+            <li><a href="about.html">About NIHAYA</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-store-info">
+          <h4 class="footer-heading">Visit Our Shop</h4>
+          <p>Dolor Hotel Bldg., Vinzons Ave, Daet, Camarines Norte</p>
+          <p><strong>Hours:</strong> Mon – Sun 9:00 AM – 9:00 PM</p>
+          <div class="store-badge">Open Daily in Daet</div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>
+          &copy; 2026 NIHAYA Cellphone and Accessories. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>
