@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Forgot username · NIHAYA Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body class="auth-page" data-auth-page="forgot-username">
+    <header class="auth-header">
+      <a href="./login.html" class="topbar-logo">
+        <img src="./assets/images/nihaya-logo.png" alt="NIHAYA" />
+      </a>
+    </header>
+
+    <main class="auth-main">
+      <form class="auth-card" id="fu-form" novalidate>
+        <h1>Forgot username?</h1>
+        <p class="auth-lead">
+          Enter the email address linked to your admin account. We’ll send you your username.
+        </p>
+
+        <div class="auth-field">
+          <label class="field-label" for="fu-email">Email address</label>
+          <input
+            class="figma-input"
+            id="fu-email"
+            type="email"
+            autocomplete="email"
+            placeholder="name@example.com"
+          />
+          <p class="auth-error hidden" id="fu-email-error"></p>
+        </div>
+
+        <button type="submit" class="btn-solid btn-full">Send username</button>
+
+        <div class="auth-links">
+          <a href="./login.html">Back to login</a>
+        </div>
+        <p class="auth-note">You can also log in using your registered email address.</p>
+      </form>
+
+      <section class="auth-card hidden" id="fu-sent">
+        <h1>Check your email</h1>
+        <p class="auth-lead">
+          If an admin account is linked to this email, you’ll receive an email containing your username.
+        </p>
+        <div class="auth-links">
+          <a href="./login.html">Back to login</a>
+          <button type="button" id="fu-different" style="color: var(--primary); font-weight: 600">
+            Use a different email
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <script src="./js/app.js"></script>
+  </body>
+</html>

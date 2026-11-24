@@ -1,0 +1,1729 @@
+/* =========================================================
+   NIHAYA Admin — Exact Figma Design System
+   Source: Figma Admin (Copy) & Admin v2 — Improved
+   ========================================================= */
+
+:root {
+  --primary: #0f6b36;
+  --primary-dark: #084a25;
+  --banner-from: #0d5e30;
+  --banner-to: #06401f;
+  --surface: #e3efe7;
+  --surface-mid: #cfe5d8;
+  --surface-dark: #b7d9c5;
+  --border: #669478;
+  --border-soft: #d5e6dc;
+  --ink-dark: #12301f;
+  --ink-muted: #295b53;
+  --ink-subtle: #738c80;
+  --white: #ffffff;
+  --danger: #d01818;
+  --danger-bg: #fde8e8;
+
+  --radius-md: 10px;
+  --radius-xl: 20px;
+  --radius-full: 999px;
+
+  --shadow-card: 0 8px 24px rgba(6, 54, 27, 0.14);
+  --shadow-banner: 0 10px 26px rgba(4, 42, 20, 0.24);
+  --sidebar-w: 285px;
+  --header-h: 72px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--ink-dark);
+  background: #0a4f28;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* =========================================================
+   App Shell — Exact Figma 285px Sidebar + 72px White Header
+   ========================================================= */
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--sidebar-w);
+  background: linear-gradient(90deg, #0f6b36 0%, #084a25 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 156px 20px 32px;
+  z-index: 40;
+  transition: transform 0.22s ease;
+  user-select: none;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.nav-pill {
+  height: 68px;
+  padding: 0 28px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--surface);
+  transition: background-color 0.16s ease, color 0.16s ease, transform 0.12s ease;
+}
+
+.nav-pill svg {
+  width: 26px;
+  height: 26px;
+  stroke-width: 1.85;
+  flex-shrink: 0;
+}
+
+.nav-pill:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--white);
+}
+
+.nav-pill.active {
+  background: var(--white);
+  color: var(--primary);
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(4, 38, 18, 0.22);
+}
+
+/* Right Main Column */
+.main-wrap {
+  min-height: 100vh;
+  padding-left: var(--sidebar-w);
+  display: flex;
+  flex-direction: column;
+  background:
+    linear-gradient(135deg, rgba(16, 128, 66, 0.12) 0%, rgba(10, 82, 42, 0.16) 100%),
+    url("../assets/images/figma-bg.png") center / cover no-repeat fixed;
+}
+
+/* White Top Header */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  height: var(--header-h);
+  background: var(--white);
+  padding: 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 10px rgba(8, 74, 37, 0.08);
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.topbar-logo {
+  display: inline-flex;
+  align-items: center;
+}
+
+.topbar-logo img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+}
+
+.profile-anchor {
+  position: relative;
+}
+
+.profile-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 8px;
+  border-radius: var(--radius-full);
+  transition: background-color 0.15s;
+}
+
+.profile-trigger:hover {
+  background: var(--surface);
+}
+
+.profile-orb {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #74c28e 0%, #0f6b36 58%, #073f1f 100%);
+  background-size: cover;
+  background-position: center;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.profile-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink-dark);
+}
+
+.profile-chevron {
+  width: 16px;
+  height: 16px;
+  color: var(--ink-muted);
+}
+
+.profile-popover {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  width: 220px;
+  background: var(--white);
+  border-radius: 16px;
+  border: 1px solid var(--surface-mid);
+  box-shadow: 0 14px 36px rgba(6, 54, 27, 0.22);
+  padding: 6px 0;
+  z-index: 50;
+}
+
+.popover-user {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--surface);
+  display: flex;
+  flex-direction: column;
+}
+
+.popover-user strong {
+  font-size: 14px;
+  color: var(--ink-dark);
+}
+
+.popover-user span {
+  font-size: 12px;
+  color: var(--ink-subtle);
+  margin-top: 2px;
+}
+
+.popover-link {
+  width: 100%;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink-dark);
+  transition: background-color 0.12s;
+}
+
+.popover-link svg {
+  width: 16px;
+  height: 16px;
+  color: var(--primary);
+}
+
+.popover-link:hover {
+  background: var(--surface);
+}
+
+.popover-link.danger {
+  color: var(--danger);
+}
+
+.popover-link.danger svg {
+  color: var(--danger);
+}
+
+.popover-link.danger:hover {
+  background: var(--danger-bg);
+}
+
+/* =========================================================
+   Main Content Area & Exact Figma Cards / Banners
+   ========================================================= */
+
+.page-root {
+  flex: 1;
+  padding: 32px 64px 48px;
+  max-width: 1220px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.page-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* Deep Forest Green Hero Banner */
+.hero-banner {
+  border-radius: var(--radius-xl);
+  background: linear-gradient(90deg, var(--banner-from) 0%, var(--banner-to) 100%);
+  padding: 28px 34px;
+  color: var(--white);
+  box-shadow: var(--shadow-banner);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.hero-banner h1 {
+  margin: 0;
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.hero-banner p {
+  margin: 8px 0 0;
+  font-size: 13.5px;
+  color: #cfe5d8;
+}
+
+.hero-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+}
+
+.hero-search {
+  position: relative;
+  width: 300px;
+}
+
+.hero-search svg {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: var(--ink-subtle);
+  pointer-events: none;
+}
+
+.hero-search input {
+  width: 100%;
+  height: 44px;
+  padding: 0 18px 0 42px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: var(--white);
+  color: var(--ink-dark);
+  font-size: 14px;
+}
+
+.hero-search input::placeholder {
+  color: var(--ink-subtle);
+}
+
+.hero-search input:focus {
+  outline: 2px solid var(--surface-dark);
+}
+
+/* Figma White Cards */
+.card {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  padding: 22px 24px;
+  box-shadow: var(--shadow-card);
+}
+
+.card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  background: var(--surface);
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: var(--radius-full);
+}
+
+.view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.view-all:hover {
+  color: var(--primary-dark);
+}
+
+.view-all svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Grids matching Figma proportions */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.grid-dash-row1 {
+  display: grid;
+  grid-template-columns: 1.05fr 1.25fr 1fr;
+  gap: 20px;
+}
+
+.grid-dash-row2 {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 20px;
+}
+
+.grid-marketing {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.grid-account {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.grid-add-product {
+  display: grid;
+  grid-template-columns: 1fr 1.65fr;
+  gap: 28px;
+}
+
+/* Centered KPI Cards (Products, Customers, Marketing, Orders) */
+.kpi-card {
+  text-align: center;
+  padding: 18px 20px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.kpi-value {
+  margin: 0;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+/* Dashboard Specific Widgets */
+.rev-big {
+  margin: 2px 0 4px;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: -0.02em;
+}
+
+.rev-sub {
+  margin: 0 0 18px;
+  font-size: 12.5px;
+  color: var(--ink-muted);
+}
+
+.mini-stats-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.mini-stat-val {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.mini-stat-lbl {
+  font-size: 11.5px;
+  color: var(--ink-subtle);
+  margin-top: 2px;
+}
+
+.visitors-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.visitors-val {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.1;
+}
+
+.visitors-lbl {
+  font-size: 11.5px;
+  color: var(--ink-subtle);
+  margin-top: 4px;
+}
+
+/* Pure CSS Figma Weekly Orders Bar Chart */
+.weekly-bars {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  align-items: end;
+  height: 122px;
+  padding-top: 16px;
+}
+
+.bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  gap: 5px;
+}
+
+.bar-num {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.bar-fill {
+  width: 100%;
+  max-width: 28px;
+  border-radius: 6px 6px 3px 3px;
+  background: linear-gradient(180deg, #168043 0%, #0b562b 100%);
+  transition: height 0.25s ease;
+}
+
+.bar-day {
+  font-size: 11.5px;
+  color: var(--ink-subtle);
+}
+
+/* Clean Divider Lists */
+.clean-list > * {
+  padding: 11px 0;
+  border-bottom: 1px solid #edf4f0;
+}
+
+.clean-list > *:first-child {
+  padding-top: 0;
+}
+
+.clean-list > *:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.clickable-row {
+  cursor: pointer;
+  border-radius: 10px;
+  padding-left: 6px !important;
+  padding-right: 6px !important;
+  margin-left: -6px;
+  margin-right: -6px;
+  transition: background-color 0.14s;
+}
+
+.clickable-row:hover {
+  background: #f4faf6;
+}
+
+/* =========================================================
+   Buttons, Pills, Filter Tabs, Tables, Status Badges
+   ========================================================= */
+
+.btn-solid {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 24px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, #0f6b36 0%, #084a25 100%);
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 600;
+  transition: opacity 0.15s, transform 0.1s;
+  white-space: nowrap;
+}
+
+.btn-solid:hover:not(:disabled) {
+  opacity: 0.92;
+}
+
+.btn-hero-green {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 22px;
+  border-radius: var(--radius-full);
+  background: #0d6634;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.15s;
+}
+
+.btn-hero-green:hover {
+  background: #148044;
+}
+
+.btn-white {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 22px;
+  border-radius: var(--radius-full);
+  background: var(--white);
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.15s;
+}
+
+.btn-white:hover {
+  background: var(--surface);
+}
+
+.btn-text-white {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+}
+
+.btn-text-white:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 42px;
+  padding: 0 22px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--primary);
+  background: var(--white);
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.15s;
+}
+
+.btn-outline:hover {
+  background: var(--surface);
+}
+
+.btn-outline-sm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  padding: 0 16px;
+  border-radius: var(--radius-full);
+  border: 1.25px solid var(--primary);
+  background: var(--white);
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 600;
+  transition: background-color 0.14s, color 0.14s;
+}
+
+.btn-outline-sm:hover {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  padding: 0 22px;
+  border-radius: var(--radius-full);
+  background: var(--danger);
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn-danger:hover {
+  background: #b51212;
+}
+
+.btn-full {
+  width: 100%;
+}
+
+/* Filter Pills inside Table Cards */
+.filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.filter-pill {
+  padding: 5px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-soft);
+  background: var(--white);
+  color: var(--ink-muted);
+  font-size: 12px;
+  font-weight: 500;
+  transition: background-color 0.14s, color 0.14s, border-color 0.14s;
+}
+
+.filter-pill:hover {
+  background: var(--surface);
+}
+
+.filter-pill.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--white);
+  font-weight: 600;
+}
+
+/* Figma Data Tables */
+.table-scroll {
+  overflow-x: auto;
+}
+
+table.figma-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+table.figma-table th {
+  padding: 10px 10px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-subtle);
+  border-bottom: 1px solid #e6f0ea;
+  white-space: nowrap;
+}
+
+table.figma-table th.sortable {
+  cursor: pointer;
+}
+
+table.figma-table th.sortable:hover {
+  color: var(--primary);
+}
+
+table.figma-table td {
+  padding: 13px 10px;
+  font-size: 13.5px;
+  color: var(--ink-dark);
+  border-bottom: 1px solid #edf4f0;
+  vertical-align: middle;
+}
+
+table.figma-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+table.figma-table tbody tr:hover {
+  background: #f7fbf8;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.price-green {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.initial-badge {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.initial-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.name-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
+}
+
+/* Soft Figma Status Pills */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pill-green {
+  background: var(--surface);
+  color: var(--primary);
+}
+
+.pill-mid {
+  background: #cfe5d8;
+  color: #0b562b;
+}
+
+.pill-red {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+.pill-gray {
+  background: #eef2f0;
+  color: var(--ink-subtle);
+}
+
+/* =========================================================
+   Products — Categories (Figma Admin v2 — Improved)
+   ========================================================= */
+
+.cat-card {
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+}
+
+.cat-preview {
+  position: relative;
+  height: 142px;
+  border-radius: 14px;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  cursor: pointer;
+}
+
+.cat-icon-art {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(15, 107, 54, 0.08);
+}
+
+.cat-icon-art svg {
+  width: 34px;
+  height: 34px;
+}
+
+.cat-preview-tools {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 6px;
+}
+
+.cat-tool-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--ink-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cat-tool-btn:hover {
+  color: var(--primary);
+}
+
+.cat-tool-btn.danger:hover {
+  color: var(--danger);
+}
+
+.cat-tool-btn svg {
+  width: 13px;
+  height: 13px;
+}
+
+.cat-go-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.cat-go-btn:hover {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.cat-go-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.stock-bar {
+  height: 7px;
+  border-radius: 999px;
+  background: #e9f1ec;
+  overflow: hidden;
+  display: flex;
+  gap: 2px;
+  margin-top: 12px;
+}
+
+.seg-ok {
+  background: var(--primary);
+}
+.seg-low {
+  background: var(--danger);
+}
+.seg-out {
+  background: #9ca3af;
+}
+
+.stock-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+  font-size: 11.5px;
+  color: var(--ink-muted);
+}
+
+.stock-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.cat-add-dashed {
+  min-height: 274px;
+  border-radius: var(--radius-xl);
+  border: 2px dashed rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(2px);
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background-color 0.16s;
+}
+
+.cat-add-dashed:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.cat-add-plus {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
+}
+
+/* =========================================================
+   Add Product Screen & Forms (Exact Figma styling)
+   ========================================================= */
+
+.field-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-muted);
+  margin-bottom: 6px;
+}
+
+.figma-input,
+.figma-select,
+.figma-textarea {
+  width: 100%;
+  height: 42px;
+  padding: 0 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid #9ab8a6;
+  background: var(--white);
+  font-size: 13.5px;
+  color: var(--ink-dark);
+}
+
+.figma-textarea {
+  height: auto;
+  padding: 10px 14px;
+  resize: vertical;
+}
+
+.figma-input:focus,
+.figma-select:focus,
+.figma-textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(15, 107, 54, 0.12);
+}
+
+.upload-dropzone {
+  border: 1.5px dashed var(--border);
+  background: var(--surface);
+  border-radius: 16px;
+  min-height: 196px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  color: var(--ink-muted);
+  font-size: 13.5px;
+}
+
+.gallery-slots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.gallery-slot {
+  height: 92px;
+  border: 1.5px dashed var(--border);
+  background: var(--surface);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.gallery-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  border-radius: 999px;
+  background: #cbd5e1;
+  transition: background-color 0.18s;
+  flex-shrink: 0;
+}
+
+.toggle-switch.on {
+  background: var(--primary);
+}
+
+.toggle-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--white);
+  transition: transform 0.18s;
+}
+
+.toggle-switch.on .toggle-knob {
+  transform: translateX(18px);
+}
+
+/* Marketing Screen */
+.promo-row {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 13px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.promo-code-chip {
+  background: var(--white);
+  color: var(--ink-muted);
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.02em;
+}
+
+.banner-preview-box {
+  border-radius: 16px;
+  background: linear-gradient(120deg, #0d5c2f 0%, #063d1e 100%);
+  color: var(--white);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.banner-preview-box h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.banner-preview-box p {
+  margin: 4px 0 14px;
+  font-size: 12.5px;
+  color: #cfe5d8;
+}
+
+/* Account Avatar Circle */
+.account-avatar-lg {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--primary);
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.account-avatar-lg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* =========================================================
+   Modals, Confirm Dialog, Toasts, Signed Out
+   ========================================================= */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 42, 22, 0.5);
+  backdrop-filter: blur(2px);
+}
+
+.modal-box {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 24px 54px rgba(4, 38, 18, 0.28);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-box.modal-sm {
+  max-width: 440px;
+}
+
+.modal-box.modal-lg {
+  max-width: 680px;
+}
+
+/* Exact Figma Overlay / Customer Details (199:604) & Order Details (199:834) */
+.modal-box.modal-figma-customer,
+.modal-box.modal-figma-order {
+  max-width: 480px;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(0, 26, 13, 0.3);
+}
+
+.modal-box.modal-figma-order {
+  max-width: 520px;
+}
+
+.modal-box.modal-figma-customer .modal-header,
+.modal-box.modal-figma-customer .modal-footer,
+.modal-box.modal-figma-order .modal-header,
+.modal-box.modal-figma-order .modal-footer {
+  display: none !important;
+}
+
+.modal-box.modal-figma-customer .modal-body,
+.modal-box.modal-figma-order .modal-body {
+  padding: 26px 28px;
+}
+
+.figma-order-section {
+  padding: 14px 0 6px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.figma-order-status-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.figma-order-status-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+}
+
+.figma-order-select {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-dark);
+}
+
+.figma-order-select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.figma-cust-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.figma-cust-name {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--primary);
+}
+
+.figma-cust-email {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-muted);
+}
+
+.figma-cust-details {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.figma-cust-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--surface);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.figma-cust-label {
+  color: var(--ink-muted);
+  flex-shrink: 0;
+}
+
+.figma-cust-val {
+  color: var(--primary);
+  text-align: right;
+}
+
+.figma-cust-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.figma-cust-actions .btn-outline,
+.figma-cust-actions .btn-solid {
+  height: auto;
+  padding: 12px 28px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.figma-cust-actions .btn-solid {
+  background: var(--primary);
+  border: 1.5px solid var(--primary);
+}
+
+.figma-cust-actions .btn-solid:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+  opacity: 1;
+}
+
+.modal-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid #e8f1ec;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink-dark);
+}
+
+.modal-subtitle {
+  margin: 3px 0 0;
+  font-size: 12.5px;
+  color: var(--ink-subtle);
+}
+
+.modal-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-subtle);
+}
+
+.modal-close:hover {
+  background: var(--surface);
+  color: var(--primary);
+}
+
+.modal-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.modal-footer {
+  padding: 14px 24px;
+  background: #f5faf7;
+  border-top: 1px solid #e8f1ec;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.confirm-text {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-muted);
+  line-height: 1.55;
+}
+
+.info-box {
+  background: #f4faf6;
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.toast-container {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  background: var(--primary-dark);
+  color: var(--white);
+  padding: 12px 18px;
+  border-radius: var(--radius-full);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.24);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+.toast svg {
+  width: 16px;
+  height: 16px;
+}
+
+.signed-out {
+  min-height: 100vh;
+  background: url("../assets/images/figma-bg.png") center / cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.signed-out-card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--white);
+  border-radius: 24px;
+  padding: 36px 28px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(4, 38, 18, 0.28);
+}
+
+.signed-out-logo {
+  height: 54px;
+  margin: 0 auto 14px;
+  display: block;
+  object-fit: contain;
+}
+
+.signed-out-card h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.signed-out-card p {
+  margin: 8px 0 22px;
+  font-size: 13.5px;
+  color: var(--ink-subtle);
+}
+
+/* =========================================================
+   Auth Pages (Login, Forgot Password, Forgot Username, Reset)
+   ========================================================= */
+
+body.auth-page {
+  min-height: 100vh;
+  background: url("../assets/images/figma-bg.png") center / cover no-repeat fixed;
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-header {
+  height: var(--header-h);
+  background: var(--white);
+  padding: 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 10px rgba(8, 74, 37, 0.08);
+}
+
+.auth-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--white);
+  border-radius: 24px;
+  padding: 34px 32px;
+  box-shadow: 0 20px 50px rgba(4, 38, 18, 0.26);
+}
+
+.auth-card h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.auth-lead {
+  margin: 8px 0 22px;
+  font-size: 13.5px;
+  color: var(--ink-muted);
+  line-height: 1.5;
+}
+
+.auth-field {
+  margin-bottom: 14px;
+}
+
+.auth-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.auth-label-row .field-label {
+  margin-bottom: 0;
+}
+
+.show-pw-btn {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.auth-error {
+  margin: 5px 0 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--danger);
+}
+
+.auth-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin: 4px 0 18px;
+  cursor: pointer;
+}
+
+.auth-check input {
+  accent-color: var(--primary);
+  width: 16px;
+  height: 16px;
+}
+
+.auth-links {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.auth-links a:hover,
+.auth-links button:hover {
+  text-decoration: underline;
+}
+
+.auth-note {
+  margin: 12px 0 0;
+  font-size: 12px;
+  color: var(--ink-subtle);
+  line-height: 1.45;
+}
+
+/* Mobile Helpers & Responsive */
+.mobile-only {
+  display: none;
+}
+
+.mobile-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 40, 20, 0.55);
+  z-index: 35;
+}
+
+.mobile-menu-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+}
+
+.mobile-close-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: var(--white);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 1180px) {
+  .page-root {
+    padding: 24px 28px 40px;
+  }
+  .grid-dash-row1,
+  .grid-dash-row2,
+  .grid-marketing,
+  .grid-account,
+  .grid-add-product {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 920px) {
+  .mobile-only {
+    display: inline-flex;
+  }
+  .sidebar {
+    transform: translateX(-100%);
+    padding-top: 86px;
+    width: 268px;
+  }
+  .app-shell.mobile-open .sidebar {
+    transform: translateX(0);
+  }
+  .main-wrap {
+    padding-left: 0;
+  }
+  .topbar {
+    padding: 0 18px;
+  }
+  .page-root {
+    padding: 20px 16px 36px;
+  }
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+  .hero-search {
+    width: 100%;
+  }
+}
