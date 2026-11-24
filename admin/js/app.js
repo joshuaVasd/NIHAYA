@@ -71,11 +71,11 @@
 
   const SEED_DATA = {
     categories: [
-      { id: 'cat-cellphone', name: 'Cellphone', icon: 'smartphone' },
-      { id: 'cat-laptop', name: 'Laptop', icon: 'laptop' },
-      { id: 'cat-airbuds', name: 'Airbuds', icon: 'headphones' },
-      { id: 'cat-charger', name: 'Charger', icon: 'plug-zap' },
-      { id: 'cat-powerbank', name: 'Powerbank', icon: 'battery-charging' },
+      { id: 'cat-cellphone', name: 'Cellphone', icon: 'smartphone', stockStatus: 'In stock', visibility: 'Visible in shop' },
+      { id: 'cat-laptop', name: 'Laptop', icon: 'laptop', stockStatus: 'In stock', visibility: 'Visible in shop' },
+      { id: 'cat-airbuds', name: 'Airbuds', icon: 'headphones', stockStatus: 'In stock', visibility: 'Visible in shop' },
+      { id: 'cat-charger', name: 'Charger', icon: 'plug-zap', stockStatus: 'In stock', visibility: 'Visible in shop' },
+      { id: 'cat-powerbank', name: 'Powerbank', icon: 'battery-charging', stockStatus: 'In stock', visibility: 'Visible in shop' },
     ],
 
     products: [
@@ -796,6 +796,8 @@
         id: 'cat-' + Date.now(),
         name: String(payload.name || '').trim(),
         icon: payload.icon || 'package',
+        stockStatus: payload.stockStatus || 'In stock',
+        visibility: payload.visibility || 'Visible in shop',
       };
       data.categories.push(cat);
       db().write(data);
@@ -1646,7 +1648,7 @@
               <i data-lucide="search"></i>
               <input id="cat-search-input" type="text" value="${UI.esc(uiState.catSearch)}" placeholder="Search categories" />
             </div>
-            <button type="button" id="hero-add-cat-btn" class="btn-text-white">Add category</button>
+            <a href="./add-product.html" class="btn-hero-green">Add Product</a>
           </div>
         </section>
 
@@ -1714,7 +1716,6 @@
       }
     });
 
-    root.querySelector('#hero-add-cat-btn').addEventListener('click', () => openCategoryModal(null, root));
     root.querySelector('#dashed-add-cat-btn').addEventListener('click', () => openCategoryModal(null, root));
 
     root.querySelectorAll('[data-open-cat]').forEach((el) => {
@@ -1757,61 +1758,102 @@
     UI.refreshIcons();
   }
 
+  /** Opens the Figma Manage Category / New Category overlay (199:998 & 199:1043). */
   function openCategoryModal(catId, root) {
     const UI = window.NIHAYA.ui;
     const V = window.NIHAYA.validators;
     const { categories } = window.NIHAYA.services;
     const existing = catId ? uiState.cachedCategories.find((c) => c.id === catId) : null;
-    const icons = ['smartphone', 'laptop', 'headphones', 'plug-zap', 'battery-charging', 'watch'];
-    let picked = existing?.icon || 'smartphone';
+    const stockStatus = existing?.stockStatus || 'In stock';
+    const visibility = existing?.visibility || 'Visible in shop';
 
     UI.openModal({
-      title: existing ? `Manage Category - ${existing.name}` : 'New Category',
-      size: 'sm',
+      title: existing ? 'Manage Category' : 'New Category',
+      size: 'figma-customer',
       bodyHTML: `
-        <form id="cat-form" class="page-stack" style="gap:14px" novalidate>
-          <div>
-            <label class="field-label">Category Name *</label>
-            <input name="name" class="figma-input" value="${UI.esc(existing?.name || '')}" placeholder="e.g. Smartwatches" />
+        <form id="cat-form" class="figma-cust-modal" novalidate>
+          <h2 class="figma-cust-name">${existing ? 'Manage Category' : 'New Category'}</h2>
+          <p class="figma-cust-email">${
+            existing
+              ? 'Edit the category details or remove it from your shop.'
+              : 'Add a category to organise your products.'
+          }</p>
+
+          <div class="figma-order-status-field">
+            <label class="figma-order-status-label" for="cat-name-input">CATEGORY NAME</label>
+            <input
+              id="cat-name-input"
+              name="name"
+              class="figma-order-select"
+              value="${UI.esc(existing?.name || '')}"
+              placeholder="e.g. Chargers"
+            />
           </div>
-          <div>
-            <label class="field-label">Category Icon</label>
-            <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px">
-              ${icons
-                .map(
-                  (ic) => `
-                  <button type="button" data-ic="${ic}" style="height:40px;border-radius:10px;border:1px solid #cfe5d8;display:flex;align-items:center;justify-content:center;background:${picked === ic ? '#0f6b36' : '#e3efe7'};color:${picked === ic ? '#fff' : '#0f6b36'}">
-                    <i data-lucide="${ic}" style="width:18px;height:18px"></i>
-                  </button>`
-                )
+
+          <div class="figma-order-status-field">
+            <label class="figma-order-status-label" for="cat-stock-input">STOCK STATUS</label>
+            <select id="cat-stock-input" name="stockStatus" class="figma-order-select">
+              ${['In stock', 'Low stock', 'Out of stock']
+                .map((st) => `<option value="${st}" ${stockStatus === st ? 'selected' : ''}>${st}</option>`)
                 .join('')}
-            </div>
+            </select>
+          </div>
+
+          <div class="figma-order-status-field">
+            <label class="figma-order-status-label" for="cat-vis-input">VISIBILITY</label>
+            <select id="cat-vis-input" name="visibility" class="figma-order-select">
+              ${['Visible in shop', 'Hidden from shop']
+                .map((v) => `<option value="${v}" ${visibility === v ? 'selected' : ''}>${v}</option>`)
+                .join('')}
+            </select>
+          </div>
+
+          <div class="figma-cust-actions">
+            ${
+              existing
+                ? `<button type="button" id="cat-delete-btn" class="btn-danger-outline">Delete</button>`
+                : ''
+            }
+            <button type="button" class="btn-outline" data-modal-close>Cancel</button>
+            <button type="submit" id="cat-submit-btn" class="btn-solid">${
+              existing ? 'Save Changes' : 'Create Category'
+            }</button>
           </div>
         </form>
       `,
-      footerHTML: `
-        <button type="button" class="btn-outline" data-modal-close>Cancel</button>
-        <button type="submit" id="cat-submit-btn" form="cat-form" class="btn-solid">${existing ? 'Save Changes' : 'Add Category'}</button>
-      `,
     });
 
-    document.querySelectorAll('[data-ic]').forEach((b) => {
-      b.addEventListener('click', () => {
-        picked = b.dataset.ic;
-        document.querySelectorAll('[data-ic]').forEach((x) => {
-          x.style.background = '#e3efe7';
-          x.style.color = '#0f6b36';
-        });
-        b.style.background = '#0f6b36';
-        b.style.color = '#fff';
+    document.getElementById('cat-delete-btn')?.addEventListener('click', () => {
+      UI.confirmDialog({
+        title: `Delete "${existing.name}"?`,
+        message: 'This category will be removed from the Products grid.',
+        confirmLabel: 'Delete',
+        danger: true,
+        onConfirm: async () => {
+          try {
+            await categories.remove(existing.id);
+            UI.closeModal();
+            UI.toast(`Deleted category "${existing.name}".`);
+            renderProductsCategories(root);
+          } catch (err) {
+            UI.toast(err.message || 'Failed to delete category.', 'error');
+          }
+        },
       });
     });
 
     document.getElementById('cat-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const form = e.target;
-      const name = new FormData(form).get('name');
-      const check = V.validateCategory({ name });
+      const fd = new FormData(form);
+      const payload = {
+        name: String(fd.get('name') || '').trim(),
+        stockStatus: fd.get('stockStatus'),
+        visibility: fd.get('visibility'),
+        icon: existing?.icon || UI.categoryIcon(String(fd.get('name') || '').trim()),
+      };
+
+      const check = V.validateCategory(payload);
       if (!check.valid) {
         V.showFormErrors(form, check.errors);
         return;
@@ -1822,11 +1864,11 @@
       UI.setButtonBusy(btn, true);
       try {
         if (existing) {
-          await categories.update(existing.id, { name: String(name).trim(), icon: picked });
+          await categories.update(existing.id, payload);
           UI.toast('Category updated.');
         } else {
-          await categories.create({ name: String(name).trim(), icon: picked });
-          UI.toast(`Category "${String(name).trim()}" added.`);
+          await categories.create(payload);
+          UI.toast(`Category "${payload.name}" created.`);
         }
         UI.closeModal();
         renderProductsCategories(root);
