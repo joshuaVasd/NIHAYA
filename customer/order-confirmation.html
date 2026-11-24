@@ -12,7 +12,7 @@
     />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
-  <body data-page="cart">
+  <body data-page="order-confirmation">
     <!-- Header -->
     <header class="header">
       <a href="index.html" class="header__logo">
@@ -26,82 +26,107 @@
         <a href="shop.html" class="nav__link">Shop</a>
         <a href="about.html" class="nav__link">About us</a>
         <a href="contact.html" class="nav__link">Contact us</a>
-        <a href="cart.html" class="nav__link nav__link--active nav__cart-count"
-          >Cart</a
-        >
+        <a href="cart.html" class="nav__link nav__cart-count">Cart</a>
         <a href="services.html" class="nav__link">Services</a>
       </nav>
     </header>
 
     <!-- Body -->
-    <main class="page-body">
-      <div class="card card--medium">
-        <div class="card__inner">
-          <!-- Title Row -->
-          <div class="title-row">
-            <h1 class="title-row__heading">Your Cart</h1>
-            <span class="title-row__subtitle">0 items</span>
+    <main class="confirmation">
+      <div class="confirmation__card">
+        <h1 class="confirmation__title">Order placed!</h1>
+        <p class="confirmation__text">
+          Thank you for shopping with Nihaya. We’ve received your order and will
+          message you once it’s on its way.
+        </p>
+
+        <div class="confirmation__details">
+          <div class="confirmation__row">
+            <span class="confirmation__label">Order number</span>
+            <span class="confirmation__value" id="confirm-order-number"
+              >#NHY-92841</span
+            >
           </div>
-
-          <div class="divider"></div>
-
-          <!-- Cart Content -->
-          <div class="cart-content">
-            <!-- Items injected dynamically by renderCartPage() -->
-            <div class="cart-items"></div>
-
-            <!-- Order Summary -->
-            <div class="order-summary">
-              <h2 class="order-summary__title">Order Summary</h2>
-              <div class="order-summary__row">
-                <span class="order-summary__label">Selected items</span>
-                <span class="order-summary__value" data-summary="selected-count"
-                  >0</span
-                >
-              </div>
-              <div class="order-summary__row">
-                <span class="order-summary__label">Subtotal</span>
-                <span class="order-summary__value" data-summary="subtotal"
-                  >₱0</span
-                >
-              </div>
-              <div class="order-summary__row">
-                <span class="order-summary__label">Shipping Fee</span>
-                <span class="order-summary__value" data-summary="shipping"
-                  >₱0</span
-                >
-              </div>
-              <div class="divider"></div>
-              <div class="order-summary__row order-summary__total">
-                <span class="order-summary__label">Total</span>
-                <span class="order-summary__value" data-summary="total"
-                  >₱0</span
-                >
-              </div>
-              <a
-                href="checkout.html"
-                class="btn btn--primary btn--full"
-                data-action="checkout"
-                >Checkout (0)</a
-              >
-            </div>
+          <div class="confirmation__row">
+            <span class="confirmation__label">Payment method</span>
+            <span class="confirmation__value" id="confirm-payment-method"
+              >GCash</span
+            >
+          </div>
+          <div class="confirmation__row">
+            <span class="confirmation__total-label">Total</span>
+            <span class="confirmation__total-value" id="confirm-total"
+              >₱22,630</span
+            >
           </div>
         </div>
+
+        <a href="shop.html" class="btn btn--primary btn--full"
+          >Continue Shopping</a
+        >
+        <a href="contact.html" class="btn btn--secondary btn--full"
+          >Need help? Contact us</a
+        >
       </div>
     </main>
     <!-- Site Footer -->
     <footer class="site-footer">
       <div class="footer-trust">
         <div class="footer-trust__item">
+          <svg
+            class="footer-trust__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            <path d="m9 12 2 2 4-4" />
+          </svg>
           <span>1-Month Service Warranty</span>
         </div>
         <div class="footer-trust__item">
+          <svg
+            class="footer-trust__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
+            <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+            <path d="M16 16h5v5" />
+          </svg>
           <span>3-Day Unit Replacement</span>
         </div>
         <div class="footer-trust__item">
-          <span>Cash on Delivery</span>
-        </div>
-        <div class="footer-trust__item">
+          <svg
+            class="footer-trust__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path
+              d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"
+            />
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+            <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4" />
+            <path d="M2 7h20" />
+            <path
+              d="M22 7v3a2 2 0 0 1-2 2a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7"
+            />
+          </svg>
           <span>Physical Store in Daet</span>
         </div>
       </div>

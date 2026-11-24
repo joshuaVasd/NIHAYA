@@ -235,6 +235,7 @@ const AppState = {
   checkout: {
     step: 1,
     paymentMethod: "gcash",
+    proofOfPayment: null,
     formData: {
       email: "",
       fullName: "",
@@ -1025,7 +1026,7 @@ function updateOrderSummary() {
     subtotal += Number(item.price) * Number(item.quantity || 1);
   });
 
-  const shippingFee = selectedCount > 0 ? 75 : 0;
+  const shippingFee = selectedCount > 0 ? 250 : 0;
   const total = subtotal + shippingFee;
 
   const subtotalEl = document.querySelector('[data-summary="subtotal"]');
@@ -1084,7 +1085,7 @@ function renderCheckoutSummary() {
     `;
   });
 
-  const shippingFee = itemsToRender.length > 0 ? 75 : 0;
+  const shippingFee = itemsToRender.length > 0 ? 250 : 0;
   const total = subtotal + shippingFee;
 
   itemsHtml += `
@@ -1094,7 +1095,7 @@ function renderCheckoutSummary() {
       <span class="order-summary__value">${formatCurrency(subtotal)}</span>
     </div>
     <div class="order-summary__row">
-      <span class="order-summary__label">Shipping Fee</span>
+      <span class="order-summary__label">Shipping Fee (LBC)</span>
       <span class="order-summary__value">${formatCurrency(shippingFee)}</span>
     </div>
     <div class="divider"></div>
@@ -1214,6 +1215,7 @@ function initCheckoutFlow() {
 
 // Initialize payment method selection
 function initPaymentOptions() {
+  const proofPaymentLabel = document.getElementById("proof-payment-label");
   document.querySelectorAll(".payment-option").forEach((option) => {
     option.addEventListener("click", () => {
       document
@@ -1221,8 +1223,138 @@ function initPaymentOptions() {
         .forEach((o) => o.classList.remove("payment-option--selected"));
       option.classList.add("payment-option--selected");
       AppState.checkout.paymentMethod = option.dataset.payment;
+      const labelText = option
+        .querySelector(".payment-option__label")
+        ?.textContent?.trim();
+      if (proofPaymentLabel && labelText) {
+        proofPaymentLabel.textContent = labelText;
+      }
     });
   });
+}
+
+// Proof of payment upload (click, drag-and-drop, preview & validation)
+const PROOF_ALLOWED_TYPES = [
+  "image/png",
+  "image/jpeg",
+  "image/webp",
+  "application/pdf",
+];
+const PROOF_MAX_BYTES = 5 * 1024 * 1024; // 5 MB
+
+function setProofError(message) {
+  const dropzone = document.getElementById("proof-dropzone");
+  const errorEl = document.getElementById("proof-error");
+  if (message) {
+    dropzone?.classList.add("has-error");
+    if (errorEl) {
+      errorEl.textContent = message;
+      errorEl.classList.add("is-visible");
+    }
+  } else {
+    dropzone?.classList.remove("has-error");
+    errorEl?.classList.remove("is-visible");
+  }
+}
+
+function validateProofOfPayment() {
+  const fileInput = document.getElementById("proof-of-payment-input");
+  if (!fileInput) return true;
+  if (!AppState.checkout.proofOfPayment) {
+    setProofError(
+      "Please upload your proof of payment before placing your order.",
+    );
+    return false;
+  }
+  setProofError("");
+  return true;
+}
+
+function initProofOfPayment() {
+  const fileInput = document.getElementById("proof-of-payment-input");
+  const dropzone = document.getElementById("proof-dropzone");
+  const preview = document.getElementById("proof-preview");
+  const thumb = document.getElementById("proof-thumb");
+  const filenameEl = document.getElementById("proof-filename");
+  const sizeEl = document.getElementById("proof-size");
+  const removeBtn = document.getElementById("proof-remove-btn");
+
+  if (!fileInput || !dropzone || !preview) return;
+
+  const formatSize = (bytes) => {
+    const kb = Math.max(1, Math.round(bytes / 1024));
+    return kb >= 1024 ? `${(kb / 1024).toFixed(1)} MB` : `${kb} KB`;
+  };
+
+  const clearFile = () => {
+    AppState.checkout.proofOfPayment = null;
+    fileInput.value = "";
+    preview.hidden = true;
+    dropzone.style.display = "flex";
+    if (thumb) thumb.innerHTML = "";
+    setProofError("");
+  };
+
+  const handleFile = (file) => {
+    if (!file) return;
+
+    if (!PROOF_ALLOWED_TYPES.includes(file.type)) {
+      clearFile();
+      setProofError("Unsupported file type. Please upload PNG, JPG, WEBP, or PDF.");
+      return;
+    }
+
+    if (file.size > PROOF_MAX_BYTES) {
+      clearFile();
+      setProofError("File is too large. Maximum allowed size is 5 MB.");
+      return;
+    }
+
+    AppState.checkout.proofOfPayment = file;
+    setProofError("");
+    if (filenameEl) filenameEl.textContent = file.name;
+    if (sizeEl) sizeEl.textContent = `${formatSize(file.size)} · Ready to submit`;
+
+    if (thumb) {
+      if (file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          thumb.innerHTML = `<img src="${ev.target.result}" alt="Proof of payment preview" />`;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        thumb.textContent = "PDF";
+      }
+    }
+
+    dropzone.style.display = "none";
+    preview.hidden = false;
+  };
+
+  fileInput.addEventListener("change", (e) => {
+    handleFile(e.target.files?.[0]);
+  });
+
+  ["dragenter", "dragover"].forEach((evt) => {
+    dropzone.addEventListener(evt, (e) => {
+      e.preventDefault();
+      dropzone.classList.add("is-dragover");
+    });
+  });
+
+  ["dragleave", "drop"].forEach((evt) => {
+    dropzone.addEventListener(evt, (e) => {
+      e.preventDefault();
+      dropzone.classList.remove("is-dragover");
+    });
+  });
+
+  dropzone.addEventListener("drop", (e) => {
+    const file = e.dataTransfer?.files?.[0];
+    handleFile(file);
+  });
+
+  removeBtn?.addEventListener("click", clearFile);
 }
 
 // Validate individual form field
@@ -1249,7 +1381,116 @@ function validateField(field) {
   return valid;
 }
 
-// Validate checkout delivery form
+// Designated payment accounts & QR codes shown in Checkout Step 3
+// Replace the placeholder account numbers and optional qrImage paths with NIHAYA's actual details
+const PAYMENT_ACCOUNTS = {
+  gcash: {
+    label: "GCash",
+    qrCaption: "Scan GCash QR",
+    accountName: "NIHAYA Cellphone & Accessories",
+    numberLabel: "GCash Number",
+    accountNumber: "0917 123 4567",
+    qrImage: "", // e.g. "assets/images/qr-gcash.png"
+  },
+  maya: {
+    label: "Maya",
+    qrCaption: "Scan Maya QR",
+    accountName: "NIHAYA Cellphone & Accessories",
+    numberLabel: "Maya Number",
+    accountNumber: "0918 765 4321",
+    qrImage: "", // e.g. "assets/images/qr-maya.png"
+  },
+  paypal: {
+    label: "PayPal",
+    qrCaption: "Scan PayPal QR",
+    accountName: "NIHAYA Daet Store",
+    numberLabel: "PayPal Email",
+    accountNumber: "payments@nihaya.ph",
+    qrImage: "", // e.g. "assets/images/qr-paypal.png"
+  },
+  gotyme: {
+    label: "GoTyme",
+    qrCaption: "Scan GoTyme QR",
+    accountName: "NIHAYA Cellphone & Accessories",
+    numberLabel: "GoTyme Account No.",
+    accountNumber: "0123 4567 8901",
+    qrImage: "", // e.g. "assets/images/qr-gotyme.png"
+  },
+};
+
+const PLACEHOLDER_QR_SVG = `<svg viewBox="0 0 64 64" fill="currentColor" aria-hidden="true"><path d="M4 4h20v20H4V4zm4 4v12h12V8H8zm4 4h4v4h-4v-4zm28-8h20v20H40V4zm4 4v12h12V8H44zm4 4h4v4h-4v-4zM4 40h20v20H4V40zm4 4v12h12V44H8zm4 4h4v4h-4v-4zM28 4h4v8h-4V4zm8 8h4v4h-4v-4zm-8 4h4v8h-4v-8zm4 8h8v4h-8v-4zM4 28h8v4H4v-4zm12 0h8v8h-4v-4h-4v-4zm12 4h8v4h-8v-4zm12-4h8v4h-8v-4zm12 0h8v8h-4v-4h-4v-4zM28 40h4v8h-4v-8zm8 0h8v4h-4v4h-4v-8zm12 0h4v4h4v4h-8v-8zm8 8h4v12h-8v-4h4v-8zm-16 4h8v8h-4v-4h-4v-4zm-12 0h8v8h-8v-8z"/></svg>`;
+
+// Populate Step 3 with the selected payment method's QR, account details, and total
+function renderPaymentStep() {
+  const methodKey = AppState.checkout.paymentMethod || "gcash";
+  const account = PAYMENT_ACCOUNTS[methodKey] || PAYMENT_ACCOUNTS.gcash;
+  const totalText =
+    document.querySelector(
+      "#checkout-step-2 .order-summary__total .order-summary__value",
+    )?.textContent || "₱22,730";
+
+  const headingEl = document.getElementById("payment-step-heading");
+  const totalEl = document.getElementById("payment-step-total");
+  const qrBoxEl = document.getElementById("payment-qr-box");
+  const qrCaptionEl = document.getElementById("payment-qr-caption");
+  const accNameEl = document.getElementById("payment-account-name");
+  const numLabelEl = document.getElementById("payment-number-label");
+  const accNumEl = document.getElementById("payment-account-number");
+  const proofLabelEl = document.getElementById("proof-payment-label");
+
+  if (headingEl) headingEl.textContent = `Pay via ${account.label}`;
+  if (totalEl) totalEl.textContent = totalText;
+  if (qrCaptionEl) qrCaptionEl.textContent = account.qrCaption;
+  if (accNameEl) accNameEl.textContent = account.accountName;
+  if (numLabelEl) numLabelEl.textContent = account.numberLabel;
+  if (accNumEl) accNumEl.textContent = account.accountNumber;
+  if (proofLabelEl) proofLabelEl.textContent = account.label;
+
+  if (qrBoxEl) {
+    qrBoxEl.innerHTML = account.qrImage
+      ? `<img src="${account.qrImage}" alt="${account.label} QR code" />`
+      : PLACEHOLDER_QR_SVG;
+  }
+}
+
+// Initialize Step 3 controls (Copy button, Back to Step 2, Confirm & Submit Order)
+function initPaymentStep() {
+  const step2Card = document.getElementById("checkout-step-2");
+  const step3Card = document.getElementById("checkout-step-3");
+  const copyBtn = document.getElementById("btn-copy-account");
+  const backBtn = document.getElementById("btn-back-to-step-2");
+  const confirmBtn = document.getElementById("btn-confirm-payment");
+
+  if (copyBtn) {
+    copyBtn.addEventListener("click", () => {
+      const account =
+        PAYMENT_ACCOUNTS[AppState.checkout.paymentMethod] ||
+        PAYMENT_ACCOUNTS.gcash;
+      navigator.clipboard?.writeText(account.accountNumber).catch(() => {});
+      copyBtn.textContent = "Copied!";
+      setTimeout(() => {
+        copyBtn.textContent = "Copy";
+      }, 1500);
+    });
+  }
+
+  if (backBtn && step2Card && step3Card) {
+    backBtn.addEventListener("click", () => {
+      step3Card.style.display = "none";
+      step2Card.style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  if (confirmBtn) {
+    confirmBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      submitPaymentAndOrder();
+    });
+  }
+}
+
+// Validate checkout delivery form (Step 2)
 function validateCheckoutForm() {
   let isValid = true;
   const requiredFields = document.querySelectorAll(
@@ -1285,9 +1526,28 @@ function initFormValidation() {
   });
 }
 
-// Handle order placement
-async function placeOrder() {
+// Step 2 -> Step 3: Validate delivery form and show designated payment QR/details
+function placeOrder() {
   if (!validateCheckoutForm()) {
+    return;
+  }
+
+  const step2Card = document.getElementById("checkout-step-2");
+  const step3Card = document.getElementById("checkout-step-3");
+  if (step2Card && step3Card) {
+    renderPaymentStep();
+    step2Card.style.display = "none";
+    step3Card.style.display = "block";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return;
+  }
+
+  submitPaymentAndOrder();
+}
+
+// Step 3: Validate proof of payment and finalize order
+async function submitPaymentAndOrder() {
+  if (!validateProofOfPayment()) {
     return;
   }
 
@@ -1307,22 +1567,38 @@ async function placeOrder() {
     notes: document.querySelector('#checkout-step-2 [data-field="notes"]')
       ?.value,
     paymentMethod: AppState.checkout.paymentMethod,
+    proofOfPayment: AppState.checkout.proofOfPayment,
   };
+
+  // Ready-to-send multipart FormData payload for backend POST /orders
+  const orderPayload = new FormData();
+  orderPayload.append("email", formData.email);
+  orderPayload.append("fullName", formData.fullName || "");
+  orderPayload.append("mobileNumber", formData.mobileNumber || "");
+  orderPayload.append("deliveryAddress", formData.deliveryAddress || "");
+  orderPayload.append("notes", formData.notes || "");
+  orderPayload.append("paymentMethod", formData.paymentMethod);
+  if (formData.proofOfPayment) {
+    orderPayload.append("proofOfPayment", formData.proofOfPayment);
+  }
+  // Backend integration: await fetch(API.checkout.create(), { method: "POST", body: orderPayload });
 
   sessionStorage.setItem(
     "nihaya_order",
     JSON.stringify({
       orderNumber: "#NHY-" + Math.floor(10000 + Math.random() * 90000),
       paymentMethod: AppState.checkout.paymentMethod.toUpperCase(),
+      proofFileName: formData.proofOfPayment?.name || "",
       email: formData.email,
       total:
         document.querySelector(
           "#checkout-step-2 .order-summary__total .order-summary__value",
-        )?.textContent || "₱22,630",
+        )?.textContent || "₱22,730",
       date: new Date().toLocaleDateString(),
     }),
   );
 
+  AppState.checkout.proofOfPayment = null;
   AppState.cart.items = [];
   AppState.cart.selectedIds.clear();
   saveCart([]);
@@ -1651,6 +1927,8 @@ document.addEventListener("DOMContentLoaded", () => {
       initCheckoutFlow();
       renderCheckoutSummary();
       initPaymentOptions();
+      initProofOfPayment();
+      initPaymentStep();
       initFormValidation();
       initPlaceOrder();
       break;

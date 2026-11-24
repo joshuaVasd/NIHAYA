@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NIHAYA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body data-page="cart">
+    <!-- Header -->
+    <header class="header">
+      <a href="index.html" class="header__logo">
+        <img src="assets/images/nihaya-logo.png" alt="NIHAYA" />
+      </a>
+      <button class="nav__toggle" type="button" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav">
+        <a href="index.html" class="nav__link">Home</a>
+        <a href="shop.html" class="nav__link">Shop</a>
+        <a href="about.html" class="nav__link">About us</a>
+        <a href="contact.html" class="nav__link">Contact us</a>
+        <a href="cart.html" class="nav__link nav__link--active nav__cart-count"
+          >Cart</a
+        >
+        <a href="services.html" class="nav__link">Services</a>
+      </nav>
+    </header>
+
+    <!-- Body -->
+    <main class="page-body">
+      <div class="card card--medium">
+        <div class="card__inner">
+          <!-- Title Row -->
+          <div class="title-row">
+            <h1 class="title-row__heading">Your Cart</h1>
+            <span class="title-row__subtitle">0 items</span>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Cart Content -->
+          <div class="cart-content">
+            <!-- Items injected dynamically by renderCartPage() -->
+            <div class="cart-items"></div>
+
+            <!-- Order Summary -->
+            <div class="order-summary">
+              <h2 class="order-summary__title">Order Summary</h2>
+              <div class="order-summary__row">
+                <span class="order-summary__label">Selected items</span>
+                <span class="order-summary__value" data-summary="selected-count"
+                  >0</span
+                >
+              </div>
+              <div class="order-summary__row">
+                <span class="order-summary__label">Subtotal</span>
+                <span class="order-summary__value" data-summary="subtotal"
+                  >₱0</span
+                >
+              </div>
+              <div class="order-summary__row">
+                <span class="order-summary__label">Shipping Fee (LBC)</span>
+                <span class="order-summary__value" data-summary="shipping"
+                  >₱0</span
+                >
+              </div>
+              <div class="divider"></div>
+              <div class="order-summary__row order-summary__total">
+                <span class="order-summary__label">Total</span>
+                <span class="order-summary__value" data-summary="total"
+                  >₱0</span
+                >
+              </div>
+              <a
+                href="checkout.html"
+                class="btn btn--primary btn--full"
+                data-action="checkout"
+                >Checkout (0)</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Site Footer -->
+    <footer class="site-footer">
+      <div class="footer-trust">
+        <div class="footer-trust__item">
+          <svg
+            class="footer-trust__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            <path d="m9 12 2 2 4-4" />
+          </svg>
+          <span>1-Month Service Warranty</span>
+        </div>
+        <div class="footer-trust__item">
+          <svg
+            class="footer-trust__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
+            <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+            <path d="M16 16h5v5" />
+          </svg>
+          <span>3-Day Unit Replacement</span>
+        </div>
+        <div class="footer-trust__item">
+          <svg
+            class="footer-trust__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path
+              d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"
+            />
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+            <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4" />
+            <path d="M2 7h20" />
+            <path
+              d="M22 7v3a2 2 0 0 1-2 2a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7"
+            />
+          </svg>
+          <span>Physical Store in Daet</span>
+        </div>
+      </div>
+
+      <div class="footer-main">
+        <div class="footer-brand">
+          <img
+            src="assets/images/nihaya-logo.png"
+            alt="NIHAYA"
+            class="footer-logo-img"
+          />
+          <p class="footer-tagline">
+            Your trusted local destination for authentic cellphones, laptops,
+            and everyday tech accessories with guaranteed store warranty.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Shop</h4>
+          <ul class="footer-links">
+            <li><a href="shop.html?category=cellphone">Cellphones</a></li>
+            <li><a href="shop.html?category=laptop">Laptops</a></li>
+            <li><a href="shop.html?category=charger">Accessories</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Customer Care</h4>
+          <ul class="footer-links">
+            <li><a href="services.html">Warranty Policy</a></li>
+            <li><a href="about.html">About NIHAYA</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-store-info">
+          <h4 class="footer-heading">Visit Our Shop</h4>
+          <p>Dolor Hotel Bldg., Vinzons Ave, Daet, Camarines Norte</p>
+          <p><strong>Hours:</strong> Mon – Sun 9:00 AM – 9:00 PM</p>
+          <div class="store-badge">Open Daily in Daet</div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>
+          &copy; 2026 NIHAYA Cellphone and Accessories. All rights reserved.
+        </p>
+      </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>

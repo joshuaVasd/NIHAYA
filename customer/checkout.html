@@ -48,9 +48,10 @@
                   id="progress-bar-1"
                 ></div>
                 <div class="progress__bar" id="progress-bar-2"></div>
+                <div class="progress__bar" id="progress-bar-3"></div>
               </div>
               <span class="progress__text" id="progress-step-text"
-                >Step 1 of 2: Contact</span
+                >Step 1 of 3: Contact</span
               >
             </div>
           </div>
@@ -116,9 +117,10 @@
               <div class="progress__bars">
                 <div class="progress__bar progress__bar--active"></div>
                 <div class="progress__bar progress__bar--active"></div>
+                <div class="progress__bar"></div>
               </div>
               <span class="progress__text"
-                >Step 2 of 2: Delivery and payment</span
+                >Step 2 of 3: Delivery and payment</span
               >
             </div>
           </div>
@@ -247,19 +249,9 @@
                     <div class="payment-option__radio"></div>
                     <span class="payment-option__label">PayPal</span>
                   </div>
-                  <div class="payment-option" data-payment="card">
+                  <div class="payment-option" data-payment="gotyme">
                     <div class="payment-option__radio"></div>
-                    <span class="payment-option__label"
-                      >Credit / Debit card</span
-                    >
-                  </div>
-                  <div class="payment-option" data-payment="banking">
-                    <div class="payment-option__radio"></div>
-                    <span class="payment-option__label">Online banking</span>
-                  </div>
-                  <div class="payment-option" data-payment="cod">
-                    <div class="payment-option__radio"></div>
-                    <span class="payment-option__label">Cash on Delivery</span>
+                    <span class="payment-option__label">GoTyme</span>
                   </div>
                 </div>
               </div>
@@ -289,15 +281,15 @@
                 <span class="order-summary__value">₱22,480</span>
               </div>
               <div class="order-summary__row">
-                <span class="order-summary__label">Shipping Fee</span>
-                <span class="order-summary__value">₱75</span>
+                <span class="order-summary__label">Shipping Fee (LBC)</span>
+                <span class="order-summary__value">₱250</span>
               </div>
 
               <div class="divider"></div>
 
               <div class="order-summary__row order-summary__total">
                 <span class="order-summary__label">Total</span>
-                <span class="order-summary__value">₱22,630</span>
+                <span class="order-summary__value">₱22,730</span>
               </div>
 
               <button
@@ -318,20 +310,255 @@
           </div>
         </div>
       </div>
+
+      <!-- STEP 3: COMPLETE PAYMENT & PROOF UPLOAD -->
+      <div class="card card--medium" id="checkout-step-3" style="display: none">
+        <div class="card__inner">
+          <!-- Title Row with Progress -->
+          <div class="title-row--checkout">
+            <h1 class="title-row__heading" id="payment-step-heading">
+              Pay via GCash
+            </h1>
+            <div class="progress">
+              <div class="progress__bars">
+                <div class="progress__bar progress__bar--active"></div>
+                <div class="progress__bar progress__bar--active"></div>
+                <div class="progress__bar progress__bar--active"></div>
+              </div>
+              <span class="progress__text">Step 3 of 3: Complete payment</span>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Amount Banner -->
+          <div class="payment-amount-banner">
+            <div>
+              <span class="payment-amount-banner__label"
+                >Total amount to pay (incl. ₱250 LBC shipping)</span
+              >
+              <span class="payment-amount-banner__note"
+                >Send the exact amount using the QR code or account details
+                below.</span
+              >
+            </div>
+            <strong class="payment-amount-banner__value" id="payment-step-total"
+              >₱22,730</strong
+            >
+          </div>
+
+          <!-- 2-Column Payment + Upload Layout -->
+          <div class="payment-step-grid">
+            <!-- Left: Designated QR & Account Details -->
+            <div class="payment-details-card">
+              <div class="payment-details-card__qr" id="payment-qr-box">
+                <svg
+                  viewBox="0 0 64 64"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M4 4h20v20H4V4zm4 4v12h12V8H8zm4 4h4v4h-4v-4zm28-8h20v20H40V4zm4 4v12h12V8H44zm4 4h4v4h-4v-4zM4 40h20v20H4V40zm4 4v12h12V44H8zm4 4h4v4h-4v-4zM28 4h4v8h-4V4zm8 8h4v4h-4v-4zm-8 4h4v8h-4v-8zm4 8h8v4h-8v-4zM4 28h8v4H4v-4zm12 0h8v8h-4v-4h-4v-4zm12 4h8v4h-8v-4zm12-4h8v4h-8v-4zm12 0h8v8h-4v-4h-4v-4zM28 40h4v8h-4v-8zm8 0h8v4h-4v4h-4v-8zm12 0h4v4h4v4h-8v-8zm8 8h4v12h-8v-4h4v-8zm-16 4h8v8h-4v-4h-4v-4zm-12 0h8v8h-8v-8z"
+                  />
+                </svg>
+              </div>
+              <span class="payment-details-card__caption" id="payment-qr-caption"
+                >Scan GCash QR</span
+              >
+
+              <div class="payment-details-card__info">
+                <div class="payment-details-card__row">
+                  <span class="payment-details-card__label">Account Name</span>
+                  <strong
+                    class="payment-details-card__value"
+                    id="payment-account-name"
+                    >NIHAYA Cellphone &amp; Accessories</strong
+                  >
+                </div>
+                <div class="payment-details-card__row">
+                  <span
+                    class="payment-details-card__label"
+                    id="payment-number-label"
+                    >GCash Number</span
+                  >
+                  <div class="payment-details-card__copy-row">
+                    <strong
+                      class="payment-details-card__number"
+                      id="payment-account-number"
+                      >0917 123 4567</strong
+                    >
+                    <button
+                      type="button"
+                      class="payment-copy-btn"
+                      id="btn-copy-account"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Proof of Payment Upload & Confirm -->
+            <div class="checkout-section" id="proof-of-payment-section">
+              <div class="proof-upload__header">
+                <h2 class="checkout-section__title">
+                  Proof of payment <span class="proof-upload__required">*</span>
+                </h2>
+                <span class="proof-upload__hint"
+                  >PNG, JPG, WEBP, or PDF · Max 5 MB</span
+                >
+              </div>
+              <p class="proof-upload__helper">
+                Upload a screenshot or receipt of your
+                <strong id="proof-payment-label">GCash</strong> payment so we
+                can verify your order.
+              </p>
+
+              <input
+                type="file"
+                id="proof-of-payment-input"
+                class="proof-upload__input"
+                accept="image/png,image/jpeg,image/webp,application/pdf"
+              />
+
+              <label
+                for="proof-of-payment-input"
+                class="proof-upload__dropzone"
+                id="proof-dropzone"
+              >
+                <span class="proof-upload__icon" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="17 8 12 3 7 8" />
+                    <line x1="12" y1="3" x2="12" y2="15" />
+                  </svg>
+                </span>
+                <span class="proof-upload__cta">
+                  <strong>Click to upload</strong> or drag and drop
+                </span>
+                <span class="proof-upload__sub"
+                  >Receipt screenshot or PDF file</span
+                >
+              </label>
+
+              <div class="proof-upload__preview" id="proof-preview" hidden>
+                <div class="proof-upload__thumb" id="proof-thumb"></div>
+                <div class="proof-upload__meta">
+                  <span class="proof-upload__filename" id="proof-filename"
+                    >receipt.png</span
+                  >
+                  <span class="proof-upload__size" id="proof-size"
+                    >Ready to submit</span
+                  >
+                </div>
+                <div class="proof-upload__actions">
+                  <label
+                    for="proof-of-payment-input"
+                    class="proof-upload__btn proof-upload__btn--change"
+                    >Change</label
+                  >
+                  <button
+                    type="button"
+                    class="proof-upload__btn proof-upload__btn--remove"
+                    id="proof-remove-btn"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+
+              <span class="proof-upload__error" id="proof-error"
+                >Please upload your proof of payment before confirming your
+                order.</span
+              >
+
+              <div class="payment-step-actions">
+                <button
+                  class="btn btn--secondary"
+                  id="btn-back-to-step-2"
+                  type="button"
+                >
+                  Back
+                </button>
+                <button
+                  class="btn btn--primary payment-step-actions__submit"
+                  id="btn-confirm-payment"
+                  type="button"
+                >
+                  Confirm &amp; Submit Order
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
     <!-- Site Footer -->
     <footer class="site-footer">
       <div class="footer-trust">
         <div class="footer-trust__item">
+          <svg
+            class="footer-trust__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            <path d="m9 12 2 2 4-4" />
+          </svg>
           <span>1-Month Service Warranty</span>
         </div>
         <div class="footer-trust__item">
+          <svg
+            class="footer-trust__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
+            <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+            <path d="M16 16h5v5" />
+          </svg>
           <span>3-Day Unit Replacement</span>
         </div>
         <div class="footer-trust__item">
-          <span>Cash on Delivery</span>
-        </div>
-        <div class="footer-trust__item">
+          <svg
+            class="footer-trust__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path
+              d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7"
+            />
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+            <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4" />
+            <path d="M2 7h20" />
+            <path
+              d="M22 7v3a2 2 0 0 1-2 2a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 16 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 12 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 8 12a2.7 2.7 0 0 1-1.59-.63.7.7 0 0 0-.82 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2V7"
+            />
+          </svg>
           <span>Physical Store in Daet</span>
         </div>
       </div>
