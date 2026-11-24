@@ -3,7 +3,7 @@
    ========================================================= */
 
 (function () {
-  const STORAGE_KEY = 'nihaya_figma_admin_v2';
+  const STORAGE_KEY = 'nihaya_figma_admin_v4';
 
   const DEFAULT_DATA = {
     categories: [
@@ -174,25 +174,25 @@
     ],
 
     customers: [
-      { id: 'CUS-1', name: 'Maria Santos', email: 'maria.s@email.com', phone: '+63 917 482 1920', orders: 12, totalSpent: 18450, status: 'Active', joined: '2026-02-14' },
-      { id: 'CUS-2', name: 'John Dela Cruz', email: 'john.d@email.com', phone: '+63 918 551 0394', orders: 8, totalSpent: 9980, status: 'Active', joined: '2026-03-08' },
-      { id: 'CUS-3', name: 'Ana Reyes', email: 'ana.r@email.com', phone: '+63 927 891 4412', orders: 5, totalSpent: 6200, status: 'Active', joined: '2026-04-21' },
-      { id: 'CUS-4', name: 'Leo Perez', email: 'leo.p@email.com', phone: '+63 917 663 9021', orders: 3, totalSpent: 2397, status: 'Inactive', joined: '2026-05-19' },
-      { id: 'CUS-5', name: 'Carlo Mendoza', email: 'carlo.m@email.com', phone: '+63 919 304 7718', orders: 1, totalSpent: 1299, status: 'New', joined: '2026-11-05' },
-      { id: 'CUS-6', name: 'Bea Tolentino', email: 'bea.t@email.com', phone: '+63 915 772 6100', orders: 6, totalSpent: 7850, status: 'Active', joined: '2026-06-11' },
-      { id: 'CUS-7', name: 'Paolo Garcia', email: 'paolo.g@email.com', phone: '+63 917 119 8832', orders: 2, totalSpent: 3150, status: 'New', joined: '2026-11-08' },
-      { id: 'CUS-8', name: 'Lia Fernandez', email: 'lia.f@email.com', phone: '+63 928 441 5520', orders: 9, totalSpent: 12640, status: 'Active', joined: '2026-02-28' },
+      { id: 'CUS-1', name: 'Maria Santos', email: 'maria.s@email.com', phone: '0917 234 5678', address: 'Purok 3, Brgy. Lag-on, Daet, Camarines Norte', orders: 12, totalSpent: 18450, lastOrder: '#10482 · Nov 10', status: 'Active', joined: 'Mar 2025' },
+      { id: 'CUS-2', name: 'John Dela Cruz', email: 'john.d@email.com', phone: '0918 551 0394', address: '18 Ayala Ave, Makati City, Metro Manila', orders: 8, totalSpent: 9980, lastOrder: '#10481 · Nov 9', status: 'Active', joined: 'Apr 2025' },
+      { id: 'CUS-3', name: 'Ana Reyes', email: 'ana.r@email.com', phone: '0927 891 4412', address: '105 BGC High St, Taguig, Metro Manila', orders: 5, totalSpent: 6200, lastOrder: '#10480 · Nov 9', status: 'Active', joined: 'May 2025' },
+      { id: 'CUS-4', name: 'Leo Perez', email: 'leo.p@email.com', phone: '0917 663 9021', address: '88 Ortigas Ave, Pasig City, Metro Manila', orders: 3, totalSpent: 2397, lastOrder: '#10479 · Nov 8', status: 'Inactive', joined: 'Jun 2025' },
+      { id: 'CUS-5', name: 'Carlo Mendoza', email: 'carlo.m@email.com', phone: '0919 304 7718', address: '33 Shaw Blvd, Mandaluyong City', orders: 1, totalSpent: 1299, lastOrder: '#10475 · Nov 5', status: 'New', joined: 'Nov 2025' },
+      { id: 'CUS-6', name: 'Bea Tolentino', email: 'bea.t@email.com', phone: '0915 772 6100', address: '12 Session Rd, Baguio City, Benguet', orders: 6, totalSpent: 7850, lastOrder: '#10478 · Nov 8', status: 'Active', joined: 'Jul 2025' },
+      { id: 'CUS-7', name: 'Paolo Garcia', email: 'paolo.g@email.com', phone: '0917 119 8832', address: '204 IT Park, Cebu City, Cebu', orders: 2, totalSpent: 3150, lastOrder: '#10477 · Nov 7', status: 'New', joined: 'Nov 2025' },
+      { id: 'CUS-8', name: 'Lia Fernandez', email: 'lia.f@email.com', phone: '0928 441 5520', address: '51 J.P. Laurel Ave, Davao City', orders: 9, totalSpent: 12640, lastOrder: '#10476 · Nov 6', status: 'Active', joined: 'Feb 2025' },
     ],
 
     orders: [
-      { id: '10482', customerName: 'Maria S.', fullCustomer: 'Maria Santos', email: 'maria.s@email.com', item: 'USB-C fast charger', total: 1374, date: 'Nov 10', paymentMethod: 'GCash', paymentStatus: 'Paid', status: 'Processing', address: '42 Katipunan Ave, Quezon City' },
-      { id: '10481', customerName: 'John D.', fullCustomer: 'John Dela Cruz', email: 'john.d@email.com', item: 'Phone case', total: 573, date: 'Nov 9', paymentMethod: 'Maya', paymentStatus: 'Paid', status: 'Shipped', address: '18 Ayala Ave, Makati City' },
-      { id: '10480', customerName: 'Ana R.', fullCustomer: 'Ana Reyes', email: 'ana.r@email.com', item: 'Wireless earbuds', total: 2225, date: 'Nov 9', paymentMethod: 'Credit Card', paymentStatus: 'Paid', status: 'Delivered', address: '105 BGC High St, Taguig' },
-      { id: '10479', customerName: 'Leo P.', fullCustomer: 'Leo Perez', email: 'leo.p@email.com', item: 'Power bank 30,000 mAh', total: 874, date: 'Nov 8', paymentMethod: 'GCash', paymentStatus: 'Pending', status: 'Pending', address: '88 Ortigas Ave, Pasig City' },
-      { id: '10478', customerName: 'Bea T.', fullCustomer: 'Bea Tolentino', email: 'bea.t@email.com', item: 'USB-C fast charger', total: 1299, date: 'Nov 8', paymentMethod: 'Credit Card', paymentStatus: 'Paid', status: 'Delivered', address: '12 Session Rd, Baguio City' },
-      { id: '10477', customerName: 'Paolo G.', fullCustomer: 'Paolo Garcia', email: 'paolo.g@email.com', item: 'Phone case', total: 573, date: 'Nov 7', paymentMethod: 'COD', paymentStatus: 'Pending', status: 'Pending', address: '204 IT Park, Cebu City' },
-      { id: '10476', customerName: 'Lia F.', fullCustomer: 'Lia Fernandez', email: 'lia.f@email.com', item: 'Wireless earbuds', total: 2225, date: 'Nov 6', paymentMethod: 'Maya', paymentStatus: 'Paid', status: 'Shipped', address: '51 J.P. Laurel Ave, Davao City' },
-      { id: '10475', customerName: 'Carlo M.', fullCustomer: 'Carlo Mendoza', email: 'carlo.m@email.com', item: 'Power bank 30,000 mAh', total: 874, date: 'Nov 5', paymentMethod: 'GCash', paymentStatus: 'Paid', status: 'Delivered', address: '33 Shaw Blvd, Mandaluyong' },
+      { id: '10482', customerName: 'Maria S.', fullCustomer: 'Maria Santos', mobile: '0917 234 5678', email: 'maria.s@email.com', item: 'USB-C fast charger', qty: 1, subtotal: 1299, shippingFee: 75, total: 1374, date: 'Nov 10', deliveryMethod: 'Delivery', address: 'Purok 3, Brgy. Lag-on, Daet, Camarines Norte', notes: 'Please call before delivery.', paymentMethod: 'GCash', paymentStatus: 'Paid', status: 'Processing' },
+      { id: '10481', customerName: 'John D.', fullCustomer: 'John Dela Cruz', mobile: '0918 551 0394', email: 'john.d@email.com', item: 'Phone case', qty: 1, subtotal: 498, shippingFee: 75, total: 573, date: 'Nov 9', deliveryMethod: 'Delivery', address: '18 Ayala Ave, Makati City, Metro Manila', notes: 'Leave at lobby reception.', paymentMethod: 'Maya', paymentStatus: 'Paid', status: 'Shipped' },
+      { id: '10480', customerName: 'Ana R.', fullCustomer: 'Ana Reyes', mobile: '0927 891 4412', email: 'ana.r@email.com', item: 'Wireless earbuds', qty: 1, subtotal: 2150, shippingFee: 75, total: 2225, date: 'Nov 9', deliveryMethod: 'Delivery', address: '105 BGC High St, Taguig, Metro Manila', notes: 'Deliver during office hours.', paymentMethod: 'Credit Card', paymentStatus: 'Paid', status: 'Delivered' },
+      { id: '10479', customerName: 'Leo P.', fullCustomer: 'Leo Perez', mobile: '0917 663 9021', email: 'leo.p@email.com', item: 'Power bank 30,000 mAh', qty: 1, subtotal: 799, shippingFee: 75, total: 874, date: 'Nov 8', deliveryMethod: 'Delivery', address: '88 Ortigas Ave, Pasig City, Metro Manila', notes: 'Text upon arrival.', paymentMethod: 'GCash', paymentStatus: 'Pending', status: 'Pending' },
+      { id: '10478', customerName: 'Bea T.', fullCustomer: 'Bea Tolentino', mobile: '0915 772 6100', email: 'bea.t@email.com', item: 'USB-C fast charger', qty: 1, subtotal: 1299, shippingFee: 0, total: 1299, date: 'Nov 8', deliveryMethod: 'Pickup', address: '12 Session Rd, Baguio City, Benguet', notes: 'Store pickup requested.', paymentMethod: 'Credit Card', paymentStatus: 'Paid', status: 'Delivered' },
+      { id: '10477', customerName: 'Paolo G.', fullCustomer: 'Paolo Garcia', mobile: '0917 119 8832', email: 'paolo.g@email.com', item: 'Phone case', qty: 1, subtotal: 498, shippingFee: 75, total: 573, date: 'Nov 7', deliveryMethod: 'Delivery', address: '204 IT Park, Cebu City, Cebu', notes: 'Call 10 minutes before arrival.', paymentMethod: 'COD', paymentStatus: 'Pending', status: 'Pending' },
+      { id: '10476', customerName: 'Lia F.', fullCustomer: 'Lia Fernandez', mobile: '0928 441 5520', email: 'lia.f@email.com', item: 'Wireless earbuds', qty: 1, subtotal: 2150, shippingFee: 75, total: 2225, date: 'Nov 6', deliveryMethod: 'Delivery', address: '51 J.P. Laurel Ave, Davao City', notes: 'No special instructions.', paymentMethod: 'Maya', paymentStatus: 'Paid', status: 'Shipped' },
+      { id: '10475', customerName: 'Carlo M.', fullCustomer: 'Carlo Mendoza', mobile: '0919 304 7718', email: 'carlo.m@email.com', item: 'Power bank 30,000 mAh', qty: 1, subtotal: 799, shippingFee: 75, total: 874, date: 'Nov 5', deliveryMethod: 'Delivery', address: '33 Shaw Blvd, Mandaluyong City', notes: 'Deliver to guard house.', paymentMethod: 'GCash', paymentStatus: 'Paid', status: 'Delivered' },
     ],
 
     promotions: [
@@ -450,7 +450,17 @@
     const bodyEl = document.getElementById('modal-body');
     const footerEl = document.getElementById('modal-footer');
 
-    box.className = 'modal-box' + (size === 'sm' ? ' modal-sm' : size === 'lg' ? ' modal-lg' : '');
+    box.className =
+      'modal-box' +
+      (size === 'sm'
+        ? ' modal-sm'
+        : size === 'lg'
+        ? ' modal-lg'
+        : size === 'figma-customer'
+        ? ' modal-figma-customer'
+        : size === 'figma-order'
+        ? ' modal-figma-order'
+        : '');
     titleEl.textContent = title;
     subEl.textContent = subtitle;
     subEl.classList.toggle('hidden', !subtitle);
@@ -1428,60 +1438,56 @@
     const c = state.customers.find((x) => x.id === custId);
     if (!c) return;
     const custOrders = state.orders.filter((o) => o.email === c.email);
+    const latestOrder = custOrders[0]
+      ? `#${custOrders[0].id} &middot; ${UI.esc(custOrders[0].date)}`
+      : UI.esc(c.lastOrder || 'No orders yet');
+    const firstName = c.name.split(' ')[0] || c.name;
 
     UI.openModal({
       title: c.name,
-      subtitle: `${c.email} · ${c.phone}`,
+      size: 'figma-customer',
       bodyHTML: `
-        <div class="page-stack" style="gap:16px">
-          <div class="info-box row-between" style="flex-wrap:wrap">
-            <div style="display:flex;align-items:center;gap:12px">
-              <span class="account-avatar-lg" style="width:46px;height:46px;font-size:17px">${UI.esc(c.name[0])}</span>
-              <div>
-                <div style="display:flex;align-items:center;gap:8px">
-                  <strong>${UI.esc(c.name)}</strong>
-                  ${UI.statusPill(c.status)}
-                </div>
-                <div style="font-size:12px;color:var(--ink-subtle);margin-top:2px">Joined ${UI.esc(c.joined)}</div>
-              </div>
+        <div class="figma-cust-modal">
+          <h2 class="figma-cust-name">${UI.esc(c.name)}</h2>
+          <p class="figma-cust-email">${UI.esc(c.email)}</p>
+
+          <div class="figma-cust-details">
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Status</span>
+              ${UI.statusPill(c.status)}
             </div>
-            <select id="modal-cust-status" class="figma-select" style="width:auto;height:36px">
-              ${['Active', 'New', 'Inactive']
-                .map((s) => `<option value="${s}" ${c.status === s ? 'selected' : ''}>${s}</option>`)
-                .join('')}
-            </select>
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Mobile</span>
+              <span class="figma-cust-val">${UI.esc(c.phone)}</span>
+            </div>
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Delivery address</span>
+              <span class="figma-cust-val">${UI.esc(c.address || 'Not provided')}</span>
+            </div>
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Total orders</span>
+              <span class="figma-cust-val">${c.orders}</span>
+            </div>
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Total spent</span>
+              <span class="figma-cust-val">${UI.formatPeso(c.totalSpent)}</span>
+            </div>
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Last order</span>
+              <span class="figma-cust-val">${latestOrder}</span>
+            </div>
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Member since</span>
+              <span class="figma-cust-val">${UI.esc(c.joined)}</span>
+            </div>
           </div>
 
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-            <div class="info-box"><div style="font-size:11.5px;color:var(--ink-subtle)">Total Orders</div><strong style="font-size:20px;color:var(--primary)">${c.orders}</strong></div>
-            <div class="info-box"><div style="font-size:11.5px;color:var(--ink-subtle)">Total Spent</div><strong style="font-size:20px;color:var(--primary)">${UI.formatPeso(c.totalSpent)}</strong></div>
-          </div>
-
-          <div>
-            <div class="field-label">Recent Orders</div>
-            ${
-              custOrders.length === 0
-                ? `<div class="info-box" style="font-size:12.5px;color:var(--ink-subtle)">No orders in this period.</div>`
-                : `<div class="clean-list">${custOrders
-                    .map(
-                      (o) => `
-                      <div class="row-between">
-                        <div><strong>#${o.id}</strong> &middot; <span style="color:var(--ink-muted)">${UI.esc(o.item)}</span></div>
-                        <div style="display:flex;align-items:center;gap:10px"><span class="price-green">${UI.formatPeso(o.total)}</span>${UI.statusPill(o.status)}</div>
-                      </div>`
-                    )
-                    .join('')}</div>`
-            }
+          <div class="figma-cust-actions">
+            <button type="button" class="btn-outline" data-modal-close>Close</button>
+            <a href="./orders.html?search=${encodeURIComponent(firstName)}" class="btn-solid">View Orders</a>
           </div>
         </div>
       `,
-    });
-
-    document.getElementById('modal-cust-status').addEventListener('change', (e) => {
-      Store.updateCustomerStatus(c.id, e.target.value);
-      UI.toast(`${c.name} marked as ${e.target.value}.`);
-      window.NIHAYA_APP.render();
-      openCustomerModal(c.id);
     });
   }
 
@@ -1733,6 +1739,11 @@
      ------------------------------------------------------- */
   function renderOrders(root) {
     const state = Store.get();
+    const urlSearch = new URLSearchParams(window.location.search).get('search');
+    if (urlSearch && !opsState._urlSearchApplied) {
+      opsState.ordSearch = urlSearch;
+      opsState._urlSearchApplied = true;
+    }
     const q = opsState.ordSearch.trim().toLowerCase();
 
     const filtered = state.orders.filter((o) => {
@@ -1840,59 +1851,134 @@
     const o = Store.get().orders.find((x) => x.id === orderId);
     if (!o) return;
 
+    const qty = o.qty || 1;
+    const shippingFee = o.shippingFee !== undefined ? o.shippingFee : 75;
+    const subtotal = o.subtotal !== undefined ? o.subtotal : Math.max(0, o.total - shippingFee);
+    const warrantyStatus = o.status === 'Delivered' ? 'Active' : 'Starts on delivery';
+
+    const nextStepMap = {
+      Pending: { next: 'Processing', label: 'Mark as Processing' },
+      Processing: { next: 'Shipped', label: 'Mark as Shipped' },
+      Shipped: { next: 'Delivered', label: 'Mark as Delivered' },
+      Delivered: { next: 'Delivered', label: 'Save Status' },
+    };
+    const nextAction = nextStepMap[o.status] || { next: 'Shipped', label: 'Mark as Shipped' };
+
     UI.openModal({
       title: `Order #${o.id}`,
-      subtitle: `${o.date} - ${o.paymentMethod} (${o.paymentStatus})`,
+      size: 'figma-order',
       bodyHTML: `
-        <div class="page-stack" style="gap:16px">
-          <div class="info-box" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-            <div>
-              <div class="field-label">Customer</div>
-              <strong>${UI.esc(o.fullCustomer)}</strong>
-              <div style="font-size:12px;color:var(--ink-muted)">${UI.esc(o.email)}</div>
+        <div class="figma-cust-modal">
+          <h2 class="figma-cust-name">Order #${UI.esc(o.id)}</h2>
+          <p class="figma-cust-email">Placed ${UI.esc(o.date)} by ${UI.esc(o.fullCustomer)}</p>
+
+          <div class="figma-cust-details">
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Status</span>
+              ${UI.statusPill(o.status)}
             </div>
-            <div>
-              <div class="field-label">Shipping Address</div>
-              <div style="font-size:12.5px;color:var(--ink-dark)">${UI.esc(o.address)}</div>
+
+            <div class="figma-order-section">ITEMS</div>
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">${UI.esc(o.item)} &times; ${qty}</span>
+              <span class="figma-cust-val">${UI.formatPeso(subtotal)}</span>
+            </div>
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Subtotal</span>
+              <span class="figma-cust-val">${UI.formatPeso(subtotal)}</span>
+            </div>
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Shipping fee</span>
+              <span class="figma-cust-val">${UI.formatPeso(shippingFee)}</span>
+            </div>
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Total</span>
+              <span class="figma-cust-val">${UI.formatPeso(o.total)}</span>
+            </div>
+
+            <div class="figma-order-section">CUSTOMER</div>
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Name</span>
+              <span class="figma-cust-val">${UI.esc(o.fullCustomer)}</span>
+            </div>
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Mobile</span>
+              <span class="figma-cust-val">${UI.esc(o.mobile || '0917 234 5678')}</span>
+            </div>
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Email</span>
+              <span class="figma-cust-val">${UI.esc(o.email)}</span>
+            </div>
+
+            <div class="figma-order-section">DELIVERY</div>
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Method</span>
+              <span class="figma-cust-val">${UI.esc(o.deliveryMethod || 'Delivery')}</span>
+            </div>
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Address</span>
+              <span class="figma-cust-val">${UI.esc(o.address)}</span>
+            </div>
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Notes</span>
+              <span class="figma-cust-val">${UI.esc(o.notes || 'None')}</span>
+            </div>
+
+            <div class="figma-order-section">PAYMENT</div>
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Method</span>
+              <span class="figma-cust-val">${UI.esc(o.paymentMethod)}</span>
+            </div>
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Payment status</span>
+              <span class="figma-cust-val">${UI.esc(o.paymentStatus)}</span>
+            </div>
+
+            <div class="figma-order-section">WARRANTY &amp; RETURNS</div>
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Replacement (3 days)</span>
+              <span class="figma-cust-val">${warrantyStatus}</span>
+            </div>
+            <div class="figma-cust-row">
+              <span class="figma-cust-label">Service warranty (1 month)</span>
+              <span class="figma-cust-val">${warrantyStatus}</span>
             </div>
           </div>
 
-          <div class="info-box row-between">
-            <div>
-              <div class="field-label" style="margin-bottom:2px">Item</div>
-              <strong>${UI.esc(o.item)}</strong>
-            </div>
-            <div style="text-align:right">
-              <div class="field-label" style="margin-bottom:2px">Total</div>
-              <strong style="font-size:18px;color:var(--primary)">${UI.formatPeso(o.total)}</strong>
-            </div>
-          </div>
-
-          <div>
-            <div class="field-label">Update Order Status</div>
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+          <div class="figma-order-status-field">
+            <label class="figma-order-status-label" for="figma-ord-status-select">UPDATE STATUS</label>
+            <select id="figma-ord-status-select" class="figma-order-select">
               ${['Pending', 'Processing', 'Shipped', 'Delivered']
-                .map(
-                  (st) => `
-                  <button type="button" class="filter-pill ${o.status === st ? 'active' : ''}" data-ord-status="${st}" style="height:36px">
-                    ${st}
-                  </button>`
-                )
+                .map((st) => `<option value="${st}" ${o.status === st ? 'selected' : ''}>${st}</option>`)
                 .join('')}
-            </div>
+            </select>
+          </div>
+
+          <div class="figma-cust-actions">
+            <button type="button" class="btn-outline" data-modal-close>Close</button>
+            <button type="button" id="figma-ord-primary-btn" class="btn-solid">${nextAction.label}</button>
           </div>
         </div>
       `,
     });
 
-    document.querySelectorAll('[data-ord-status]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const next = btn.dataset.ordStatus;
-        Store.updateOrderStatus(o.id, next);
-        UI.toast(`Order #${o.id} updated to ${next}.`);
-        window.NIHAYA_APP.render();
-        openOrderModal(o.id);
-      });
+    const selectEl = document.getElementById('figma-ord-status-select');
+    const primaryBtn = document.getElementById('figma-ord-primary-btn');
+
+    selectEl?.addEventListener('change', (e) => {
+      const chosen = e.target.value;
+      Store.updateOrderStatus(o.id, chosen);
+      UI.toast(`Order #${o.id} updated to ${chosen}.`);
+      window.NIHAYA_APP.render();
+      openOrderModal(o.id);
+    });
+
+    primaryBtn?.addEventListener('click', () => {
+      const targetStatus = nextAction.next;
+      Store.updateOrderStatus(o.id, targetStatus);
+      UI.toast(`Order #${o.id} marked as ${targetStatus}.`);
+      window.NIHAYA_APP.render();
+      openOrderModal(o.id);
     });
   }
 
