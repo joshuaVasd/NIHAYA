@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Log in · NIHAYA Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/styles.css" />
+  </head>
+  <body class="auth-page" data-auth-page="login">
+    <header class="auth-header">
+      <a href="./login.html" class="topbar-logo">
+        <img src="./assets/images/nihaya-logo.png" alt="NIHAYA" />
+      </a>
+    </header>
+
+    <main class="auth-main">
+      <form class="auth-card" id="login-form" novalidate>
+        <h1>Log in</h1>
+        <p class="auth-lead">Welcome back. Log in to manage your NIHAYA shop.</p>
+
+        <div class="auth-field">
+          <label class="field-label" for="login-id">Username or email</label>
+          <input
+            class="figma-input"
+            id="login-id"
+            type="text"
+            autocomplete="username"
+            placeholder="racman or admin@example.com"
+          />
+          <p class="auth-error hidden" id="login-id-error"></p>
+        </div>
+
+        <div class="auth-field">
+          <div class="auth-label-row">
+            <label class="field-label" for="login-pw">Password</label>
+            <button type="button" class="show-pw-btn" data-toggle-pw="login-pw">Show</button>
+          </div>
+          <input
+            class="figma-input"
+            id="login-pw"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Enter your password"
+          />
+          <p class="auth-error hidden" id="login-pw-error"></p>
+        </div>
+
+        <label class="auth-check">
+          <input type="checkbox" id="login-keep" checked />
+          <span>Keep me logged in</span>
+        </label>
+
+        <button type="submit" class="btn-solid btn-full">Log in</button>
+
+        <div class="auth-links">
+          <a href="./forgot-username.html">Forgot username?</a>
+          <a href="./forgot-password.html">Forgot password?</a>
+        </div>
+      </form>
+    </main>
+
+    <script src="./js/app.js"></script>
+  </body>
+</html>
