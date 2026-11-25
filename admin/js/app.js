@@ -67,15 +67,15 @@
    ========================================================= */
 
 (function () {
-  const STORAGE_KEY = 'nihaya_figma_admin_v5';
+  const STORAGE_KEY = 'nihaya_figma_admin_v6';
 
   const SEED_DATA = {
     categories: [
-      { id: 'cat-cellphone', name: 'Cellphone', icon: 'smartphone', stockStatus: 'In stock', visibility: 'Visible in shop' },
-      { id: 'cat-laptop', name: 'Laptop', icon: 'laptop', stockStatus: 'In stock', visibility: 'Visible in shop' },
-      { id: 'cat-airbuds', name: 'Airbuds', icon: 'headphones', stockStatus: 'In stock', visibility: 'Visible in shop' },
-      { id: 'cat-charger', name: 'Charger', icon: 'plug-zap', stockStatus: 'In stock', visibility: 'Visible in shop' },
-      { id: 'cat-powerbank', name: 'Powerbank', icon: 'battery-charging', stockStatus: 'In stock', visibility: 'Visible in shop' },
+      { id: 'cat-cellphone', name: 'Cellphone', image: '', stockStatus: 'In stock', visibility: 'Visible in shop' },
+      { id: 'cat-laptop', name: 'Laptop', image: '', stockStatus: 'In stock', visibility: 'Visible in shop' },
+      { id: 'cat-airbuds', name: 'Airbuds', image: '', stockStatus: 'In stock', visibility: 'Visible in shop' },
+      { id: 'cat-charger', name: 'Charger', image: '', stockStatus: 'In stock', visibility: 'Visible in shop' },
+      { id: 'cat-powerbank', name: 'Powerbank', image: '', stockStatus: 'In stock', visibility: 'Visible in shop' },
     ],
 
     products: [
@@ -249,14 +249,14 @@
     ],
 
     orders: [
-      { id: '10482', customerName: 'Maria S.', fullCustomer: 'Maria Santos', mobile: '0917 234 5678', email: 'maria.s@email.com', item: 'USB-C fast charger', qty: 1, subtotal: 1299, shippingFee: 75, total: 1374, date: 'Nov 10', deliveryMethod: 'Delivery', address: 'Purok 3, Brgy. Lag-on, Daet, Camarines Norte', notes: 'Please call before delivery.', paymentMethod: 'GCash', paymentStatus: 'Paid', status: 'Processing' },
-      { id: '10481', customerName: 'John D.', fullCustomer: 'John Dela Cruz', mobile: '0918 551 0394', email: 'john.d@email.com', item: 'Phone case', qty: 1, subtotal: 498, shippingFee: 75, total: 573, date: 'Nov 9', deliveryMethod: 'Delivery', address: '18 Ayala Ave, Makati City, Metro Manila', notes: 'Leave at lobby reception.', paymentMethod: 'Maya', paymentStatus: 'Paid', status: 'Shipped' },
-      { id: '10480', customerName: 'Ana R.', fullCustomer: 'Ana Reyes', mobile: '0927 891 4412', email: 'ana.r@email.com', item: 'Wireless earbuds', qty: 1, subtotal: 2150, shippingFee: 75, total: 2225, date: 'Nov 9', deliveryMethod: 'Delivery', address: '105 BGC High St, Taguig, Metro Manila', notes: 'Deliver during office hours.', paymentMethod: 'Credit Card', paymentStatus: 'Paid', status: 'Delivered' },
-      { id: '10479', customerName: 'Leo P.', fullCustomer: 'Leo Perez', mobile: '0917 663 9021', email: 'leo.p@email.com', item: 'Power bank 30,000 mAh', qty: 1, subtotal: 799, shippingFee: 75, total: 874, date: 'Nov 8', deliveryMethod: 'Delivery', address: '88 Ortigas Ave, Pasig City, Metro Manila', notes: 'Text upon arrival.', paymentMethod: 'GCash', paymentStatus: 'Pending', status: 'Pending' },
-      { id: '10478', customerName: 'Bea T.', fullCustomer: 'Bea Tolentino', mobile: '0915 772 6100', email: 'bea.t@email.com', item: 'USB-C fast charger', qty: 1, subtotal: 1299, shippingFee: 0, total: 1299, date: 'Nov 8', deliveryMethod: 'Pickup', address: '12 Session Rd, Baguio City, Benguet', notes: 'Store pickup requested.', paymentMethod: 'Credit Card', paymentStatus: 'Paid', status: 'Delivered' },
-      { id: '10477', customerName: 'Paolo G.', fullCustomer: 'Paolo Garcia', mobile: '0917 119 8832', email: 'paolo.g@email.com', item: 'Phone case', qty: 1, subtotal: 498, shippingFee: 75, total: 573, date: 'Nov 7', deliveryMethod: 'Delivery', address: '204 IT Park, Cebu City, Cebu', notes: 'Call 10 minutes before arrival.', paymentMethod: 'COD', paymentStatus: 'Pending', status: 'Pending' },
-      { id: '10476', customerName: 'Lia F.', fullCustomer: 'Lia Fernandez', mobile: '0928 441 5520', email: 'lia.f@email.com', item: 'Wireless earbuds', qty: 1, subtotal: 2150, shippingFee: 75, total: 2225, date: 'Nov 6', deliveryMethod: 'Delivery', address: '51 J.P. Laurel Ave, Davao City', notes: 'No special instructions.', paymentMethod: 'Maya', paymentStatus: 'Paid', status: 'Shipped' },
-      { id: '10475', customerName: 'Carlo M.', fullCustomer: 'Carlo Mendoza', mobile: '0919 304 7718', email: 'carlo.m@email.com', item: 'Power bank 30,000 mAh', qty: 1, subtotal: 799, shippingFee: 75, total: 874, date: 'Nov 5', deliveryMethod: 'Delivery', address: '33 Shaw Blvd, Mandaluyong City', notes: 'Deliver to guard house.', paymentMethod: 'GCash', paymentStatus: 'Paid', status: 'Delivered' },
+      { id: '10482', customerName: 'Maria S.', fullCustomer: 'Maria Santos', mobile: '0917 234 5678', email: 'maria.s@email.com', item: 'USB-C fast charger', qty: 1, subtotal: 1299, shippingFee: 75, total: 1374, date: 'Nov 10', deliveryMethod: 'Delivery', address: 'Purok 3, Brgy. Lag-on, Daet, Camarines Norte', notes: 'Please call before delivery.', paymentMethod: 'GCash', paymentStatus: 'Paid', paymentVerifiedAt: '2026-11-10T10:24:00', status: 'Processing' },
+      { id: '10481', customerName: 'John D.', fullCustomer: 'John Dela Cruz', mobile: '0918 551 0394', email: 'john.d@email.com', item: 'Phone case', qty: 1, subtotal: 498, shippingFee: 75, total: 573, date: 'Nov 9', deliveryMethod: 'Delivery', address: '18 Ayala Ave, Makati City, Metro Manila', notes: 'Leave at lobby reception.', paymentMethod: 'Maya', paymentStatus: 'Paid', paymentVerifiedAt: '2026-11-09T14:12:00', status: 'Shipped' },
+      { id: '10480', customerName: 'Ana R.', fullCustomer: 'Ana Reyes', mobile: '0927 891 4412', email: 'ana.r@email.com', item: 'Wireless earbuds', qty: 1, subtotal: 2150, shippingFee: 75, total: 2225, date: 'Nov 9', deliveryMethod: 'Delivery', address: '105 BGC High St, Taguig, Metro Manila', notes: 'Deliver during office hours.', paymentMethod: 'Credit Card', paymentStatus: 'Paid', paymentVerifiedAt: '2026-11-09T09:45:00', status: 'Delivered' },
+      { id: '10479', customerName: 'Leo P.', fullCustomer: 'Leo Perez', mobile: '0917 663 9021', email: 'leo.p@email.com', item: 'Power bank 30,000 mAh', qty: 1, subtotal: 799, shippingFee: 75, total: 874, date: 'Nov 8', deliveryMethod: 'Delivery', address: '88 Ortigas Ave, Pasig City, Metro Manila', notes: 'Text upon arrival.', paymentMethod: 'GCash', paymentStatus: 'Payment Pending', paymentVerifiedAt: null, status: 'Pending' },
+      { id: '10478', customerName: 'Bea T.', fullCustomer: 'Bea Tolentino', mobile: '0915 772 6100', email: 'bea.t@email.com', item: 'USB-C fast charger', qty: 1, subtotal: 1299, shippingFee: 0, total: 1299, date: 'Nov 8', deliveryMethod: 'Pickup', address: '12 Session Rd, Baguio City, Benguet', notes: 'Store pickup requested.', paymentMethod: 'Credit Card', paymentStatus: 'Paid', paymentVerifiedAt: '2026-11-08T16:05:00', status: 'Delivered' },
+      { id: '10477', customerName: 'Paolo G.', fullCustomer: 'Paolo Garcia', mobile: '0917 119 8832', email: 'paolo.g@email.com', item: 'Phone case', qty: 1, subtotal: 498, shippingFee: 75, total: 573, date: 'Nov 7', deliveryMethod: 'Delivery', address: '204 IT Park, Cebu City, Cebu', notes: 'Call 10 minutes before arrival.', paymentMethod: 'COD', paymentStatus: 'Payment Pending', paymentVerifiedAt: null, status: 'Pending' },
+      { id: '10476', customerName: 'Lia F.', fullCustomer: 'Lia Fernandez', mobile: '0928 441 5520', email: 'lia.f@email.com', item: 'Wireless earbuds', qty: 1, subtotal: 2150, shippingFee: 75, total: 2225, date: 'Nov 6', deliveryMethod: 'Delivery', address: '51 J.P. Laurel Ave, Davao City', notes: 'No special instructions.', paymentMethod: 'Maya', paymentStatus: 'Paid', paymentVerifiedAt: '2026-11-06T11:30:00', status: 'Shipped' },
+      { id: '10475', customerName: 'Carlo M.', fullCustomer: 'Carlo Mendoza', mobile: '0919 304 7718', email: 'carlo.m@email.com', item: 'Power bank 30,000 mAh', qty: 1, subtotal: 799, shippingFee: 75, total: 874, date: 'Nov 5', deliveryMethod: 'Delivery', address: '33 Shaw Blvd, Mandaluyong City', notes: 'Deliver to guard house.', paymentMethod: 'GCash', paymentStatus: 'Payment Pending', paymentVerifiedAt: null, status: 'Cancelled' },
     ],
 
     promotions: [
@@ -730,6 +730,7 @@
           sales: 0,
           featured: false,
           image: '',
+          gallery: [],
           description: '',
           boxContents: '',
           specs: {},
@@ -795,7 +796,7 @@
       const cat = {
         id: 'cat-' + Date.now(),
         name: String(payload.name || '').trim(),
-        icon: payload.icon || 'package',
+        image: payload.image || '',
         stockStatus: payload.stockStatus || 'In stock',
         visibility: payload.visibility || 'Visible in shop',
       };
@@ -866,6 +867,27 @@
       return db().simulateLatency(order);
     },
 
+    /** Creates a new order with default Payment Pending status until admin verifies payment. */
+    async create(payload) {
+      if (!cfg().USE_MOCK_API) {
+        return api().post(cfg().ENDPOINTS.ORDERS, Object.assign({ paymentStatus: 'Payment Pending', paymentVerifiedAt: null }, payload));
+      }
+      const data = db().read();
+      const order = Object.assign(
+        {
+          id: String(10483 + data.orders.length),
+          status: 'Pending',
+          paymentStatus: 'Payment Pending',
+          paymentVerifiedAt: null,
+        },
+        payload
+      );
+      data.orders.unshift(order);
+      db().write(data);
+      return db().simulateLatency(order);
+    },
+
+    /** Updates order fulfillment status independently of payment status. */
     async updateStatus(id, status) {
       if (!cfg().USE_MOCK_API) {
         return api().patch(`${cfg().ENDPOINTS.ORDERS}/${encodeURIComponent(id)}/status`, {
@@ -876,9 +898,24 @@
       const order = data.orders.find((o) => o.id === id);
       if (!order) throw new window.NIHAYA.ApiError('Order not found.', 404);
       order.status = status;
-      if (status === 'Delivered' && order.paymentStatus === 'Pending') {
-        order.paymentStatus = 'Paid';
+      db().write(data);
+      return db().simulateLatency(order);
+    },
+
+    /** Updates payment verification status independently of order status and records verified timestamp. */
+    async updatePaymentStatus(id, paymentStatus) {
+      const paymentVerifiedAt = paymentStatus === 'Paid' ? new Date().toISOString() : null;
+      if (!cfg().USE_MOCK_API) {
+        return api().patch(`${cfg().ENDPOINTS.ORDERS}/${encodeURIComponent(id)}/payment-status`, {
+          paymentStatus,
+          paymentVerifiedAt,
+        });
       }
+      const data = db().read();
+      const order = data.orders.find((o) => o.id === id);
+      if (!order) throw new window.NIHAYA.ApiError('Order not found.', 404);
+      order.paymentStatus = paymentStatus;
+      order.paymentVerifiedAt = paymentVerifiedAt;
       db().write(data);
       return db().simulateLatency(order);
     },
@@ -1009,14 +1046,6 @@
       }
       // Never store passwords in localStorage; backend handles hashing & verification
       return db().simulateLatency({ updated: true });
-    },
-
-    async resetDemoData() {
-      if (!cfg().USE_MOCK_API) {
-        throw new window.NIHAYA.ApiError('Demo reset is disabled in production API mode.', 400);
-      }
-      db().reset();
-      return db().simulateLatency({ reset: true });
     },
   };
 
@@ -1211,18 +1240,39 @@
     return 'In stock';
   }
 
+  /** Formats an ISO timestamp into a readable local date and time string. */
+  function formatDateTime(iso) {
+    if (!iso) return 'Not yet verified';
+    const d = new Date(iso);
+    if (Number.isNaN(d.getTime())) return String(iso);
+    return d.toLocaleString('en-PH', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+    });
+  }
+
+  /** Renders a color-coded status badge for order, payment, stock, customer, or promo statuses. */
   function statusPill(status) {
     const map = {
+      // Order statuses
+      Pending: 'pill-amber',
+      Processing: 'pill-blue',
+      Shipped: 'pill-purple',
+      Delivered: 'pill-green',
+      Cancelled: 'pill-red',
+      // Payment statuses
+      'Payment Pending': 'pill-amber',
+      Paid: 'pill-green',
+      // Stock, customer & promo statuses
       'In stock': 'pill-green',
       'Low stock': 'pill-red',
       'Out of stock': 'pill-gray',
       Active: 'pill-green',
       New: 'pill-mid',
       Inactive: 'pill-gray',
-      Processing: 'pill-mid',
-      Shipped: 'pill-mid',
-      Delivered: 'pill-green',
-      Pending: 'pill-green',
       Scheduled: 'pill-mid',
       Ended: 'pill-gray',
     };
@@ -1372,6 +1422,7 @@
   window.NIHAYA.ui = {
     esc,
     formatPeso,
+    formatDateTime,
     getStockLabel,
     statusPill,
     categoryIcon,
@@ -1664,9 +1715,14 @@
               return `
                 <div class="card cat-card">
                   <div class="cat-preview" data-open-cat="${UI.esc(cat.name)}">
-                    <div class="cat-icon-art">
-                      <i data-lucide="${UI.esc(UI.categoryIcon(cat.icon || cat.name))}"></i>
-                    </div>
+                    ${
+                      cat.image
+                        ? `<img class="cat-preview-img" src="${UI.esc(cat.image)}" alt="${UI.esc(cat.name)}" />`
+                        : `<button type="button" class="cat-photo-empty" data-edit-cat="${UI.esc(cat.id)}">
+                             <i data-lucide="image-plus"></i>
+                             <span>Add picture</span>
+                           </button>`
+                    }
                     <div class="cat-preview-tools">
                       <button type="button" class="cat-tool-btn" data-edit-cat="${UI.esc(cat.id)}" title="Edit category"><i data-lucide="pencil"></i></button>
                       <button type="button" class="cat-tool-btn danger" data-del-cat="${UI.esc(cat.id)}" title="Delete category"><i data-lucide="trash-2"></i></button>
@@ -1720,7 +1776,7 @@
 
     root.querySelectorAll('[data-open-cat]').forEach((el) => {
       el.addEventListener('click', (e) => {
-        if (e.target.closest('.cat-preview-tools')) return;
+        if (e.target.closest('.cat-preview-tools') || e.target.closest('.cat-photo-empty')) return;
         window.location.href = './products.html?view=all&category=' + encodeURIComponent(el.dataset.openCat);
       });
     });
@@ -1758,7 +1814,7 @@
     UI.refreshIcons();
   }
 
-  /** Opens the Figma Manage Category / New Category overlay (199:998 & 199:1043). */
+  /** Opens the Figma Manage Category / New Category overlay with custom category picture upload. */
   function openCategoryModal(catId, root) {
     const UI = window.NIHAYA.ui;
     const V = window.NIHAYA.validators;
@@ -1766,6 +1822,25 @@
     const existing = catId ? uiState.cachedCategories.find((c) => c.id === catId) : null;
     const stockStatus = existing?.stockStatus || 'In stock';
     const visibility = existing?.visibility || 'Visible in shop';
+    let categoryImage = existing?.image || '';
+
+    function readCategoryImage(file) {
+      if (!file) return;
+      if (!file.type || !file.type.startsWith('image/')) {
+        UI.toast('Please choose a valid PNG or JPG image file.', 'error');
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        UI.toast('Image must be 5 MB or smaller.', 'error');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        categoryImage = String(reader.result);
+        renderCatImageBox();
+      };
+      reader.readAsDataURL(file);
+    }
 
     UI.openModal({
       title: existing ? 'Manage Category' : 'New Category',
@@ -1778,6 +1853,11 @@
               ? 'Edit the category details or remove it from your shop.'
               : 'Add a category to organise your products.'
           }</p>
+
+          <div class="figma-order-status-field">
+            <label class="figma-order-status-label">CATEGORY PICTURE</label>
+            <div id="cat-upload-box" class="cat-upload-box"></div>
+          </div>
 
           <div class="figma-order-status-field">
             <label class="figma-order-status-label" for="cat-name-input">CATEGORY NAME</label>
@@ -1823,6 +1903,53 @@
       `,
     });
 
+    function renderCatImageBox() {
+      const box = document.getElementById('cat-upload-box');
+      if (!box) return;
+      box.innerHTML = categoryImage
+        ? `
+          <img class="cat-upload-preview" src="${UI.esc(categoryImage)}" alt="Category preview" />
+          <div class="upload-preview-actions">
+            <label class="btn-solid" style="height:32px;padding:0 16px;font-size:12.5px;cursor:pointer">
+              Change Picture
+              <input id="cat-img-input" type="file" accept="image/*" class="hidden" />
+            </label>
+            <button type="button" id="cat-img-remove" class="btn-outline" style="height:32px;padding:0 14px;font-size:12.5px">Remove</button>
+          </div>
+        `
+        : `
+          <i data-lucide="image-plus" style="width:24px;height:24px;color:var(--primary)"></i>
+          <div style="font-size:12.5px;color:var(--ink-muted)">Drag &amp; drop a category picture here, or</div>
+          <label class="btn-solid" style="height:34px;padding:0 18px;font-size:12.5px;cursor:pointer">
+            Upload Picture
+            <input id="cat-img-input" type="file" accept="image/*" class="hidden" />
+          </label>
+        `;
+
+      document.getElementById('cat-img-input')?.addEventListener('change', (e) => {
+        readCategoryImage(e.target.files?.[0]);
+      });
+      document.getElementById('cat-img-remove')?.addEventListener('click', () => {
+        categoryImage = '';
+        renderCatImageBox();
+      });
+      UI.refreshIcons();
+    }
+
+    const uploadBox = document.getElementById('cat-upload-box');
+    uploadBox?.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadBox.classList.add('drag-over');
+    });
+    uploadBox?.addEventListener('dragleave', () => uploadBox.classList.remove('drag-over'));
+    uploadBox?.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadBox.classList.remove('drag-over');
+      readCategoryImage(e.dataTransfer?.files?.[0]);
+    });
+
+    renderCatImageBox();
+
     document.getElementById('cat-delete-btn')?.addEventListener('click', () => {
       UI.confirmDialog({
         title: `Delete "${existing.name}"?`,
@@ -1848,9 +1975,9 @@
       const fd = new FormData(form);
       const payload = {
         name: String(fd.get('name') || '').trim(),
+        image: categoryImage,
         stockStatus: fd.get('stockStatus'),
         visibility: fd.get('visibility'),
-        icon: existing?.icon || UI.categoryIcon(String(fd.get('name') || '').trim()),
       };
 
       const check = V.validateCategory(payload);
@@ -2069,9 +2196,27 @@
     }
 
     let mainImage = editing?.image || '';
+    const existingGallery = Array.isArray(editing?.gallery) ? editing.gallery : [];
+    const galleryImages = [existingGallery[0] || '', existingGallery[1] || '', existingGallery[2] || ''];
     let featured = editing ? Boolean(editing.featured) : true;
     const selectedCategory = editing?.category || catList[0]?.name || 'Cellphone';
     const sp = editing?.specs || {};
+
+    /** Validates and reads an image file (PNG/JPG/WebP up to 5 MB) as a data URL. */
+    function readImageFile(file, onLoaded) {
+      if (!file) return;
+      if (!file.type || !file.type.startsWith('image/')) {
+        UI.toast('Please choose a valid PNG or JPG image file.', 'error');
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        UI.toast('Image must be 5 MB or smaller.', 'error');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => onLoaded(String(reader.result));
+      reader.readAsDataURL(file);
+    }
 
     root.innerHTML = `
       <div class="page-stack">
@@ -2090,30 +2235,14 @@
             <div class="page-stack" style="gap:16px">
               <div>
                 <label class="field-label">Product Picture *</label>
-                <div class="upload-dropzone" id="ap-dropzone">
-                  ${
-                    mainImage
-                      ? `<img src="${UI.esc(mainImage)}" alt="Preview" style="max-height:130px;border-radius:12px;object-fit:contain" />`
-                      : `<i data-lucide="upload" style="width:28px;height:28px;color:var(--primary)"></i>
-                         <div style="font-weight:500;color:var(--primary)">Drag & drop an image here</div>
-                         <div style="font-size:12px;color:var(--ink-subtle)">or</div>`
-                  }
-                  <label class="btn-solid" style="height:36px;padding:0 20px;font-size:13px;cursor:pointer">
-                    Browse Files
-                    <input id="ap-img-input" type="file" accept="image/*" class="hidden" />
-                  </label>
-                </div>
+                <div class="upload-dropzone" id="ap-dropzone"></div>
               </div>
 
               <div>
                 <label class="field-label">Gallery (Optional)</label>
-                <div class="gallery-slots">
-                  <div class="gallery-slot"><i data-lucide="plus"></i></div>
-                  <div class="gallery-slot"><i data-lucide="plus"></i></div>
-                  <div class="gallery-slot"><i data-lucide="plus"></i></div>
-                </div>
+                <div class="gallery-slots" id="ap-gallery-slots"></div>
                 <p style="margin:8px 0 0;font-size:11.5px;color:var(--ink-subtle);line-height:1.4">
-                  PNG or JPG, up to 5 MB. Square images look best on product cards.
+                  PNG or JPG, up to 5 MB. Click or drop onto any slot to add gallery photos.
                 </p>
               </div>
 
@@ -2204,17 +2333,132 @@
       e.currentTarget.classList.toggle('on', featured);
     });
 
-    root.querySelector('#ap-img-input').addEventListener('change', (e) => {
-      const file = e.target.files?.[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        mainImage = String(reader.result);
-        const dz = document.getElementById('ap-dropzone');
-        dz.innerHTML = `<img src="${UI.esc(mainImage)}" alt="Preview" style="max-height:130px;border-radius:12px;object-fit:contain" />`;
-      };
-      reader.readAsDataURL(file);
+    /** Renders the main product picture dropzone with upload, drag-and-drop, replace, and remove controls. */
+    function renderMainDropzone() {
+      const dz = document.getElementById('ap-dropzone');
+      if (!dz) return;
+      dz.innerHTML = mainImage
+        ? `
+          <img src="${UI.esc(mainImage)}" alt="Product preview" style="max-height:130px;border-radius:12px;object-fit:contain" />
+          <div class="upload-preview-actions">
+            <label class="btn-solid" style="height:32px;padding:0 16px;font-size:12.5px;cursor:pointer">
+              Replace
+              <input id="ap-img-input" type="file" accept="image/*" class="hidden" />
+            </label>
+            <button type="button" id="ap-img-remove" class="btn-outline" style="height:32px;padding:0 14px;font-size:12.5px">Remove</button>
+          </div>
+        `
+        : `
+          <i data-lucide="upload" style="width:28px;height:28px;color:var(--primary)"></i>
+          <div style="font-weight:500;color:var(--primary)">Drag &amp; drop an image here</div>
+          <div style="font-size:12px;color:var(--ink-subtle)">or</div>
+          <label class="btn-solid" style="height:36px;padding:0 20px;font-size:13px;cursor:pointer">
+            Browse Files
+            <input id="ap-img-input" type="file" accept="image/*" class="hidden" />
+          </label>
+        `;
+
+      document.getElementById('ap-img-input')?.addEventListener('change', (e) => {
+        readImageFile(e.target.files?.[0], (url) => {
+          mainImage = url;
+          renderMainDropzone();
+        });
+      });
+
+      document.getElementById('ap-img-remove')?.addEventListener('click', () => {
+        mainImage = '';
+        renderMainDropzone();
+      });
+
+      UI.refreshIcons();
+    }
+
+    /** Renders the 3 interactive gallery slots with click-to-upload, drag-and-drop, preview, and remove. */
+    function renderGallerySlots() {
+      const container = document.getElementById('ap-gallery-slots');
+      if (!container) return;
+
+      container.innerHTML = galleryImages
+        .map((src, idx) =>
+          src
+            ? `
+              <div class="gallery-slot has-image" data-gallery-idx="${idx}" title="Click to replace gallery image ${idx + 1}">
+                <img src="${UI.esc(src)}" alt="Gallery image ${idx + 1}" />
+                <button type="button" class="gallery-remove-btn" data-gallery-remove="${idx}" aria-label="Remove gallery image ${idx + 1}">
+                  <i data-lucide="x"></i>
+                </button>
+                <input type="file" accept="image/*" class="hidden" data-gallery-input="${idx}" />
+              </div>
+            `
+            : `
+              <div class="gallery-slot" data-gallery-idx="${idx}" title="Click or drop image to add to gallery">
+                <i data-lucide="plus"></i>
+                <input type="file" accept="image/*" class="hidden" data-gallery-input="${idx}" />
+              </div>
+            `
+        )
+        .join('');
+
+      container.querySelectorAll('.gallery-slot').forEach((slot) => {
+        const idx = Number(slot.dataset.galleryIdx);
+        const fileInput = slot.querySelector(`[data-gallery-input="${idx}"]`);
+
+        slot.addEventListener('click', (e) => {
+          if (e.target.closest('[data-gallery-remove]')) return;
+          fileInput?.click();
+        });
+
+        fileInput?.addEventListener('change', (e) => {
+          readImageFile(e.target.files?.[0], (url) => {
+            galleryImages[idx] = url;
+            renderGallerySlots();
+          });
+        });
+
+        slot.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          slot.classList.add('drag-over');
+        });
+        slot.addEventListener('dragleave', () => slot.classList.remove('drag-over'));
+        slot.addEventListener('drop', (e) => {
+          e.preventDefault();
+          slot.classList.remove('drag-over');
+          readImageFile(e.dataTransfer?.files?.[0], (url) => {
+            galleryImages[idx] = url;
+            renderGallerySlots();
+          });
+        });
+      });
+
+      container.querySelectorAll('[data-gallery-remove]').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const idx = Number(btn.dataset.galleryRemove);
+          galleryImages[idx] = '';
+          renderGallerySlots();
+        });
+      });
+
+      UI.refreshIcons();
+    }
+
+    const dropzoneEl = document.getElementById('ap-dropzone');
+    dropzoneEl?.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzoneEl.classList.add('drag-over');
     });
+    dropzoneEl?.addEventListener('dragleave', () => dropzoneEl.classList.remove('drag-over'));
+    dropzoneEl?.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzoneEl.classList.remove('drag-over');
+      readImageFile(e.dataTransfer?.files?.[0], (url) => {
+        mainImage = url;
+        renderMainDropzone();
+      });
+    });
+
+    renderMainDropzone();
+    renderGallerySlots();
 
     root.querySelector('#ap-delete-btn')?.addEventListener('click', () => {
       UI.confirmDialog({
@@ -2245,6 +2489,7 @@
         stock: fd.get('stock'),
         featured,
         image: mainImage,
+        gallery: galleryImages.filter(Boolean),
         description: fd.get('description'),
         boxContents: fd.get('boxContents'),
         specs: {
@@ -2915,7 +3160,7 @@
           <div class="card-head">
             <span class="chip">Recent orders</span>
             <div class="filter-pills">
-              ${['All', 'Pending', 'Processing', 'Shipped', 'Delivered']
+              ${['All', 'Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled']
                 .map((tab) => `<button type="button" class="filter-pill ${uiState.filter === tab ? 'active' : ''}" data-of="${tab}">${tab}</button>`)
                 .join('')}
             </div>
@@ -2930,6 +3175,7 @@
                   <th>ITEM</th>
                   <th>TOTAL</th>
                   <th>DATE</th>
+                  <th>PAYMENT</th>
                   <th>STATUS</th>
                   <th class="text-right">ACTION</th>
                 </tr>
@@ -2937,22 +3183,34 @@
               <tbody>
                 ${
                   filtered.length === 0
-                    ? `<tr><td colspan="7">${UI.emptyStateHTML('No matching orders', 'Try adjusting your search or status filter.')}</td></tr>`
+                    ? `<tr><td colspan="8">${UI.emptyStateHTML('No matching orders', 'Try adjusting your search or status filter.')}</td></tr>`
                     : filtered
-                        .map(
-                          (o) => `
+                        .map((o) => {
+                          const payStatus = o.paymentStatus === 'Paid' ? 'Paid' : 'Payment Pending';
+                          const payCls = payStatus === 'Paid' ? 'pill-green' : 'pill-amber';
+                          return `
                           <tr>
                             <td><strong style="color:var(--primary)">#${UI.esc(o.id)}</strong></td>
                             <td>${UI.esc(o.customerName)}</td>
                             <td style="color:var(--ink-muted)">${UI.esc(o.item)}</td>
                             <td class="price-green">${UI.formatPeso(o.total)}</td>
                             <td style="color:var(--ink-subtle)">${UI.esc(o.date)}</td>
+                            <td>
+                              <button
+                                type="button"
+                                class="status-pill ${payCls} payment-toggle-pill"
+                                data-toggle-pay="${UI.esc(o.id)}"
+                                title="${payStatus === 'Paid' ? 'Click to mark as Payment Pending' : 'Click to verify payment as Paid'}"
+                              >
+                                ${UI.esc(payStatus)}
+                              </button>
+                            </td>
                             <td>${UI.statusPill(o.status)}</td>
                             <td class="text-right">
                               <button type="button" class="btn-outline-sm" data-view-ord="${UI.esc(o.id)}">View</button>
                             </td>
-                          </tr>`
-                        )
+                          </tr>`;
+                        })
                         .join('')
                 }
               </tbody>
@@ -2980,11 +3238,53 @@
       })
     );
 
+    root.querySelectorAll('[data-toggle-pay]').forEach((b) =>
+      b.addEventListener('click', () => {
+        const ord = uiState.cachedItems.find((x) => x.id === b.dataset.togglePay);
+        if (!ord) return;
+        requestPaymentToggle(ord, () => renderOrders(root, false));
+      })
+    );
+
     root.querySelectorAll('[data-view-ord]').forEach((b) =>
       b.addEventListener('click', () => openOrderModal(b.dataset.viewOrd))
     );
 
     UI.refreshIcons();
+  }
+
+  /** Handles toggling payment status with confirmation before verifying as Paid. */
+  function requestPaymentToggle(order, onDone) {
+    const UI = window.NIHAYA.ui;
+    const { orders } = window.NIHAYA.services;
+    const isCurrentlyPaid = order.paymentStatus === 'Paid';
+    const nextPaymentStatus = isCurrentlyPaid ? 'Payment Pending' : 'Paid';
+
+    const performUpdate = async () => {
+      try {
+        await orders.updatePaymentStatus(order.id, nextPaymentStatus);
+        UI.toast(
+          nextPaymentStatus === 'Paid'
+            ? `Order #${order.id} payment verified as Paid.`
+            : `Order #${order.id} set to Payment Pending.`
+        );
+        if (typeof onDone === 'function') onDone();
+      } catch (err) {
+        UI.toast(err.message || 'Failed to update payment status.', 'error');
+      }
+    };
+
+    if (nextPaymentStatus === 'Paid') {
+      UI.confirmDialog({
+        title: `Verify Payment for Order #${order.id}?`,
+        message: `Confirm that payment of ${UI.formatPeso(order.total)} from ${order.fullCustomer} (${order.paymentMethod}) has been received?`,
+        confirmLabel: 'Mark as Paid',
+        danger: false,
+        onConfirm: performUpdate,
+      });
+    } else {
+      performUpdate();
+    }
   }
 
   /** Opens the Figma Order Details overlay with Items, Customer, Delivery, Payment, Warranty, and status updates. */
@@ -3005,11 +3305,13 @@
       const subtotal = o.subtotal !== undefined ? o.subtotal : Math.max(0, o.total - shippingFee);
       const warrantyStatus = o.status === 'Delivered' ? 'Active' : 'Starts on delivery';
 
+      const payStatus = o.paymentStatus === 'Paid' ? 'Paid' : 'Payment Pending';
       const nextStepMap = {
         Pending: { next: 'Processing', label: 'Mark as Processing' },
         Processing: { next: 'Shipped', label: 'Mark as Shipped' },
         Shipped: { next: 'Delivered', label: 'Mark as Delivered' },
         Delivered: { next: 'Delivered', label: 'Save Status' },
+        Cancelled: { next: 'Cancelled', label: 'Save Status' },
       };
       const nextAction = nextStepMap[o.status] || { next: 'Shipped', label: 'Mark as Shipped' };
 
@@ -3080,8 +3382,21 @@
               </div>
               <div class="figma-cust-row">
                 <span class="figma-cust-label">Payment status</span>
-                <span class="figma-cust-val">${UI.esc(o.paymentStatus)}</span>
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end">
+                  ${UI.statusPill(payStatus)}
+                  <button type="button" id="figma-ord-pay-toggle" class="payment-verify-btn">
+                    ${payStatus === 'Paid' ? 'Set Pending' : 'Verify Payment'}
+                  </button>
+                </div>
               </div>
+              ${
+                payStatus === 'Paid' && o.paymentVerifiedAt
+                  ? `<div class="figma-cust-row">
+                       <span class="figma-cust-label">Verified at</span>
+                       <span class="figma-cust-val">${UI.esc(UI.formatDateTime(o.paymentVerifiedAt))}</span>
+                     </div>`
+                  : ''
+              }
 
               <div class="figma-order-section">WARRANTY &amp; RETURNS</div>
               <div class="figma-cust-row">
@@ -3097,7 +3412,7 @@
             <div class="figma-order-status-field">
               <label class="figma-order-status-label" for="figma-ord-status-select">UPDATE STATUS</label>
               <select id="figma-ord-status-select" class="figma-order-select">
-                ${['Pending', 'Processing', 'Shipped', 'Delivered']
+                ${['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled']
                   .map((st) => `<option value="${st}" ${o.status === st ? 'selected' : ''}>${st}</option>`)
                   .join('')}
               </select>
@@ -3123,6 +3438,13 @@
           if (triggerBtn) UI.setButtonBusy(triggerBtn, false);
         }
       };
+
+      document.getElementById('figma-ord-pay-toggle')?.addEventListener('click', () => {
+        requestPaymentToggle(o, () => {
+          window.NIHAYA.app.refreshCurrentPage();
+          openOrderModal(o.id);
+        });
+      });
 
       document.getElementById('figma-ord-status-select')?.addEventListener('change', (e) => {
         applyStatus(e.target.value, null);
@@ -3511,19 +3833,29 @@
       mobileBackdrop?.classList.add('hidden');
     }
 
+    /** Syncs topbar admin profile name, role, and uploaded profile photo. */
     async function syncShell() {
       try {
         const user = (await services.account.getProfile()) || auth.getUser();
         if (!user) return;
+        const displayName = user.fullName || 'Admin';
+        const initial = (displayName[0] || 'A').toUpperCase();
+
         const nameEl = document.getElementById('topbar-admin-name');
         const ddName = document.getElementById('dropdown-admin-name');
         const ddEmail = document.getElementById('dropdown-admin-email');
         const orb = document.getElementById('topbar-avatar');
 
-        if (nameEl) nameEl.textContent = user.fullName || 'Admin';
-        if (ddName) ddName.textContent = user.fullName || 'Admin';
+        if (nameEl) nameEl.textContent = displayName;
+        if (ddName) ddName.textContent = displayName;
         if (ddEmail) ddEmail.textContent = user.email || '';
-        if (orb) orb.style.backgroundImage = user.photo ? `url("${user.photo}")` : '';
+        if (orb) {
+          if (user.photo) {
+            orb.innerHTML = `<img src="${UI.esc(user.photo)}" alt="${UI.esc(displayName)}" />`;
+          } else {
+            orb.textContent = initial;
+          }
+        }
       } catch {
         // fallback silently if profile header fails
       }
@@ -3579,28 +3911,6 @@
       profilePopover?.classList.add('hidden');
       window.location.href = './my-account.html';
     });
-
-    const resetBtn = document.getElementById('dropdown-reset-btn');
-    if (resetBtn) {
-      if (!window.NIHAYA.config.USE_MOCK_API) {
-        resetBtn.classList.add('hidden');
-      } else {
-        resetBtn.addEventListener('click', () => {
-          profilePopover?.classList.add('hidden');
-          UI.confirmDialog({
-            title: 'Reset demo data?',
-            message: 'Restore all NIHAYA mock data back to defaults?',
-            confirmLabel: 'Reset Data',
-            danger: true,
-            onConfirm: async () => {
-              await services.account.resetDemoData();
-              UI.toast('Demo data restored.');
-              refreshCurrentPage();
-            },
-          });
-        });
-      }
-    }
 
     document.getElementById('dropdown-logout-btn')?.addEventListener('click', () => {
       profilePopover?.classList.add('hidden');

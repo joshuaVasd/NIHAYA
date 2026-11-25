@@ -98,17 +98,36 @@ button {
   background: linear-gradient(90deg, #0f6b36 0%, #084a25 100%);
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  padding: 156px 20px 32px;
+  justify-content: space-between;
+  padding: 24px 20px 24px;
+  gap: 24px;
   z-index: 40;
   transition: transform 0.22s ease;
   user-select: none;
 }
 
+/* Nihaya Logo at Top of Left Sidebar (Logo Only, No White Box) */
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 8px;
+  flex-shrink: 0;
+}
+
+.sidebar-brand img {
+  height: 54px;
+  width: auto;
+  object-fit: contain;
+}
+
 .sidebar-nav {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  justify-content: flex-start;
+  padding-top: 28px;
+  gap: 20px;
 }
 
 .nav-pill {
@@ -183,6 +202,15 @@ button {
   object-fit: contain;
 }
 
+.topbar-title {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  color: var(--primary);
+}
+
 .profile-anchor {
   position: relative;
 }
@@ -190,9 +218,9 @@ button {
 .profile-trigger {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 4px 8px;
-  border-radius: var(--radius-full);
+  gap: 12px;
+  padding: 6px 12px 6px 8px;
+  border-radius: 14px;
   transition: background-color 0.15s;
 }
 
@@ -201,20 +229,46 @@ button {
 }
 
 .profile-orb {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #74c28e 0%, #0f6b36 58%, #073f1f 100%);
-  background-size: cover;
-  background-position: center;
-  display: inline-block;
+  background: var(--surface);
+  color: var(--primary);
+  font-size: 15px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 2px solid var(--surface-dark);
   flex-shrink: 0;
 }
 
+.profile-orb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.profile-meta {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  line-height: 1.2;
+}
+
 .profile-name {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--ink-dark);
+}
+
+.profile-role {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-subtle);
+  margin-top: 1px;
 }
 
 .profile-chevron {
@@ -855,11 +909,12 @@ table.figma-table tbody tr:hover {
   font-weight: 500;
 }
 
-/* Soft Figma Status Pills */
+/* Soft Status Pills (Order, Payment, Product & Customer Statuses) */
 .status-pill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 5px;
   padding: 4px 12px;
   border-radius: var(--radius-full);
   font-size: 11.5px;
@@ -867,9 +922,24 @@ table.figma-table tbody tr:hover {
   white-space: nowrap;
 }
 
+.pill-amber {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.pill-blue {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.pill-purple {
+  background: #f3e8ff;
+  color: #7e22ce;
+}
+
 .pill-green {
-  background: var(--surface);
-  color: var(--primary);
+  background: #dcfce7;
+  color: #15803d;
 }
 
 .pill-mid {
@@ -878,13 +948,43 @@ table.figma-table tbody tr:hover {
 }
 
 .pill-red {
-  background: var(--danger-bg);
-  color: var(--danger);
+  background: #fee2e2;
+  color: #dc2626;
 }
 
 .pill-gray {
   background: #eef2f0;
   color: var(--ink-subtle);
+}
+
+.payment-toggle-pill {
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: filter 0.14s ease, transform 0.1s ease, border-color 0.14s ease;
+}
+
+.payment-toggle-pill:hover {
+  filter: brightness(0.95);
+  border-color: currentColor;
+}
+
+.payment-verify-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  border: 1.25px solid var(--primary);
+  color: var(--primary);
+  background: var(--white);
+  transition: background-color 0.14s, color 0.14s;
+}
+
+.payment-verify-btn:hover {
+  background: var(--primary);
+  color: var(--white);
 }
 
 /* =========================================================
@@ -907,23 +1007,69 @@ table.figma-table tbody tr:hover {
   justify-content: center;
   margin-bottom: 14px;
   cursor: pointer;
+  overflow: hidden;
 }
 
-.cat-icon-art {
-  width: 72px;
-  height: 72px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.92);
-  color: var(--primary);
+.cat-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cat-photo-empty {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(15, 107, 54, 0.08);
+  gap: 6px;
+  color: var(--ink-muted);
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 1.5px dashed var(--border);
+  background: rgba(255, 255, 255, 0.7);
+  transition: background-color 0.14s ease, color 0.14s ease;
 }
 
-.cat-icon-art svg {
-  width: 34px;
-  height: 34px;
+.cat-photo-empty:hover {
+  background: var(--white);
+  color: var(--primary);
+}
+
+.cat-photo-empty svg {
+  width: 22px;
+  height: 22px;
+  color: var(--primary);
+}
+
+.cat-upload-box {
+  border: 1.5px dashed var(--border);
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  min-height: 124px;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.cat-upload-box.drag-over {
+  background: var(--surface-mid);
+  border-color: var(--primary);
+}
+
+.cat-upload-preview {
+  width: 100%;
+  max-height: 132px;
+  border-radius: 10px;
+  object-fit: cover;
+  display: block;
 }
 
 .cat-preview-tools {
@@ -1109,6 +1255,19 @@ table.figma-table tbody tr:hover {
   text-align: center;
   color: var(--ink-muted);
   font-size: 13.5px;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.upload-dropzone.drag-over {
+  background: var(--surface-mid);
+  border-color: var(--primary);
+}
+
+.upload-preview-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
 }
 
 .gallery-slots {
@@ -1118,6 +1277,7 @@ table.figma-table tbody tr:hover {
 }
 
 .gallery-slot {
+  position: relative;
   height: 92px;
   border: 1.5px dashed var(--border);
   background: var(--surface);
@@ -1128,12 +1288,49 @@ table.figma-table tbody tr:hover {
   color: var(--primary);
   cursor: pointer;
   overflow: hidden;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.gallery-slot:hover,
+.gallery-slot.drag-over {
+  background: var(--surface-mid);
+  border-color: var(--primary);
+}
+
+.gallery-slot.has-image {
+  border-style: solid;
+  border-color: var(--surface-dark);
 }
 
 .gallery-slot img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+}
+
+.gallery-remove-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(18, 48, 31, 0.78);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.14s ease;
+}
+
+.gallery-remove-btn:hover {
+  background: var(--danger);
+}
+
+.gallery-remove-btn svg {
+  width: 13px;
+  height: 13px;
 }
 
 /* Toggle Switch */
