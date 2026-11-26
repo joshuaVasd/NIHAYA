@@ -2017,3 +2017,9 @@ body.auth-page {
     width: 100%;
   }
 }
+
+/* Protected Route Guard: prevent unauthenticated UI flash before session check completes */
+body[data-page]:not(.auth-ready) #app-shell {
+  display: none;
+}
+

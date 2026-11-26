@@ -28,7 +28,10 @@
     API_BASE_URL: String(overrides.API_BASE_URL || 'http://localhost:5000/api').replace(/\/+$/, ''),
     USE_MOCK_API: overrides.USE_MOCK_API !== undefined ? Boolean(overrides.USE_MOCK_API) : true,
     API_TIMEOUT_MS: Number(overrides.API_TIMEOUT_MS) || 15000,
-    REQUIRE_AUTH: overrides.REQUIRE_AUTH !== undefined ? Boolean(overrides.REQUIRE_AUTH) : false,
+    // Authentication is always enforced for admin routes (no mock login or bypass).
+    // Note: frontend route guards only control UI access; the backend API MUST validate
+    // authentication tokens and admin authorization on every protected endpoint.
+    REQUIRE_AUTH: true,
     MOCK_DELAY_MS: Number(overrides.MOCK_DELAY_MS ?? 120),
     ROLES: Object.freeze({
       ADMIN: 'admin',
@@ -278,17 +281,6 @@
       clickRate: '6.8%',
     },
 
-    account: {
-      id: 'USR-ADMIN-1',
-      fullName: 'Racman',
-      role: 'Store admin',
-      roleCode: 'admin',
-      username: 'racman',
-      email: 'admin@example.com',
-      mobile: '+63 9XX XXX XXXX',
-      photo: '',
-    },
-
     analytics: {
       baseRevenue: 1277000,
       baseOrders: 992,
@@ -323,6 +315,9 @@
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return clone(SEED_DATA);
       const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object') {
+        delete parsed.account;
+      }
       return Object.assign(clone(SEED_DATA), parsed);
     } catch {
       return clone(SEED_DATA);
@@ -471,14 +466,86 @@
 
 /* =========================================================
    NIHAYA Admin - Authentication & Session Service
-   Backend-ready token & role handling. Never stores passwords.
+   Backend-ready authentication and protected-route guards.
+   - Never simulates login or accepts hardcoded credentials.
+   - Never creates default or automatic admin sessions.
+   - Frontend guards protect UI navigation only; the backend
+     API must enforce authentication & admin authorization
+     on every protected endpoint.
    ========================================================= */
 
 (function () {
   const SESSION_KEY = 'nihaya_admin_session_v1';
+  const LOCAL_PROFILE_KEY = 'nihaya_local_admin_profile_v1';
+  const LEGACY_MOCK_PREFIX = 'mock-session-token';
+  const LOCAL_DEV_PREFIX = 'local-dev-session-';
+
+  /** Returns the gitignored local-dev auth config if loaded from local-auth.secret.js. */
+  function getLocalAuthConfig() {
+    const cfg = window.__NIHAYA_LOCAL_AUTH__;
+    if (!cfg || cfg.enabled !== true || !cfg.admin || typeof cfg.admin !== 'object') {
+      return null;
+    }
+    return cfg;
+  }
+
+  /** Strips password from an admin object before storing in session or passing to UI. */
+  function sanitizeAdminUser(admin) {
+    if (!admin || typeof admin !== 'object') return null;
+    const copy = Object.assign({}, admin);
+    delete copy.password;
+    return copy;
+  }
+
+  function readLocalProfileOverride() {
+    try {
+      const raw = window.localStorage.getItem(LOCAL_PROFILE_KEY);
+      if (!raw) return {};
+      const parsed = JSON.parse(raw);
+      return parsed && typeof parsed === 'object' ? sanitizeAdminUser(parsed) || {} : {};
+    } catch {
+      return {};
+    }
+  }
+
+  function saveLocalProfileOverride(updates) {
+    try {
+      const merged = Object.assign({}, readLocalProfileOverride(), sanitizeAdminUser(updates) || {});
+      window.localStorage.setItem(LOCAL_PROFILE_KEY, JSON.stringify(merged));
+      return merged;
+    } catch {
+      return sanitizeAdminUser(updates) || {};
+    }
+  }
+
+  function getResolvedLocalAdmin() {
+    const localCfg = getLocalAuthConfig();
+    if (!localCfg) return null;
+    const base = sanitizeAdminUser(localCfg.admin);
+    return Object.assign({}, base, readLocalProfileOverride());
+  }
+
+  function isLocalDevToken(token) {
+    return typeof token === 'string' && token.startsWith(LOCAL_DEV_PREFIX);
+  }
 
   function getStorage(persistent) {
     return persistent ? window.localStorage : window.sessionStorage;
+  }
+
+  function isTokenFormatValid(token) {
+    if (typeof token !== 'string') return false;
+    const trimmed = token.trim();
+    if (!trimmed) return false;
+    // Reject any legacy client-generated mock tokens so they can never grant access
+    if (trimmed.startsWith(LEGACY_MOCK_PREFIX)) return false;
+    // Local-dev tokens are only valid when the gitignored local-auth.secret.js is active
+    if (trimmed.startsWith(LOCAL_DEV_PREFIX) && !getLocalAuthConfig()) return false;
+    return true;
+  }
+
+  function isUserObjectValid(user) {
+    return Boolean(user && typeof user === 'object' && !Array.isArray(user));
   }
 
   function readSession() {
@@ -488,28 +555,52 @@
         window.localStorage.getItem(SESSION_KEY);
       if (!raw) return null;
       const parsed = JSON.parse(raw);
-      if (!parsed || !parsed.token || !parsed.user) return null;
+      if (!parsed || !isTokenFormatValid(parsed.token) || !isUserObjectValid(parsed.user)) {
+        clearSession();
+        return null;
+      }
       return parsed;
     } catch {
+      clearSession();
       return null;
     }
   }
 
-  function saveSession(session, remember = true) {
+  function isPersistentSession() {
+    try {
+      return Boolean(window.localStorage.getItem(SESSION_KEY));
+    } catch {
+      return false;
+    }
+  }
+
+  function saveSession(session, remember = false) {
     clearSession();
+    if (!session || !isTokenFormatValid(session.token) || !isUserObjectValid(session.user)) {
+      return;
+    }
     try {
       const target = getStorage(Boolean(remember));
       target.setItem(
         SESSION_KEY,
         JSON.stringify({
-          token: session.token,
-          user: session.user,
+          token: session.token.trim(),
+          user: sanitizeAdminUser(session.user),
           issuedAt: new Date().toISOString(),
         })
       );
     } catch {
       // ignore storage errors
     }
+  }
+
+  function updateSessionUser(user) {
+    const current = readSession();
+    if (!current || !isUserObjectValid(user)) return;
+    saveSession(
+      { token: current.token, user: Object.assign({}, current.user, sanitizeAdminUser(user)) },
+      isPersistentSession()
+    );
   }
 
   function clearSession() {
@@ -526,16 +617,17 @@
   }
 
   function getUser() {
-    const session = readSession();
-    if (session?.user) return session.user;
-    if (window.NIHAYA.config.USE_MOCK_API) {
-      return window.NIHAYA.mockDb.read().account;
-    }
-    return null;
+    return readSession()?.user || null;
   }
 
   function isAuthenticated() {
-    return Boolean(getToken());
+    const session = readSession();
+    return Boolean(session && isTokenFormatValid(session.token) && isUserObjectValid(session.user));
+  }
+
+  function isUsingLocalDevSession() {
+    const session = readSession();
+    return Boolean(session && isLocalDevToken(session.token) && getLocalAuthConfig());
   }
 
   function hasRole(allowedRoles = []) {
@@ -546,52 +638,152 @@
     return allowedRoles.map((r) => String(r).toLowerCase()).includes(role);
   }
 
-  /** Guards admin pages: redirects to login.html when REQUIRE_AUTH is enabled and user is signed out. */
-  function requireAuth() {
-    const cfg = window.NIHAYA.config;
-    if (!cfg.REQUIRE_AUTH && cfg.USE_MOCK_API) {
-      return true;
-    }
-    if (!isAuthenticated()) {
-      const next = encodeURIComponent(window.location.pathname + window.location.search);
-      window.location.replace(`./login.html?next=${next}`);
+  function buildLoginRedirectUrl() {
+    const currentPath = window.location.pathname || '';
+    const fileName = currentPath.split('/').pop() || 'dashboard.html';
+    const isAdminPage =
+      fileName &&
+      !['index.html', 'login.html', 'forgot-password.html', 'forgot-username.html', 'reset-password.html'].includes(
+        fileName.toLowerCase()
+      );
+    if (!isAdminPage) return './login.html';
+    const next = encodeURIComponent(`./${fileName}${window.location.search || ''}`);
+    return `./login.html?next=${next}`;
+  }
+
+  /**
+   * Synchronous frontend route guard for protected admin pages.
+   * Immediately redirects unauthenticated visitors to login.html.
+   * Note: Backend APIs must also authenticate & authorize every request.
+   */
+  function requireAuth(allowedRoles = []) {
+    if (!isAuthenticated() || (allowedRoles.length && !hasRole(allowedRoles))) {
+      clearSession();
+      window.location.replace(buildLoginRedirectUrl());
       return false;
     }
     return true;
   }
 
-  /** Authenticates the admin user and saves the returned session token (never stores passwords). */
-  async function login({ identifier, password, remember = true }) {
-    const cfg = window.NIHAYA.config;
-    if (cfg.USE_MOCK_API) {
-      const db = window.NIHAYA.mockDb.read();
-      const user = Object.assign({}, db.account);
-      // Mock token only; real backend must verify password and issue signed JWT/session
-      const session = {
-        token: 'mock-session-token-' + Date.now(),
-        user,
-      };
-      const result = await window.NIHAYA.mockDb.simulateLatency(session);
-      saveSession(result, remember);
-      return result;
+  /**
+   * Verifies the stored session token.
+   * - In local-dev mode (when gitignored local-auth.secret.js is loaded), validates local dev session.
+   * - Otherwise validates against the backend authentication API (GET /auth/me).
+   */
+  async function verifySession() {
+    const session = readSession();
+    if (!session) {
+      return { authenticated: false, user: null };
     }
 
-    const res = await window.NIHAYA.apiClient.post(
-      cfg.ENDPOINTS.AUTH.LOGIN,
-      { identifier, password },
-      { skipAuth: true }
-    );
-    const session = { token: res.token || res.accessToken, user: res.user };
+    if (isLocalDevToken(session.token)) {
+      const localAdmin = getResolvedLocalAdmin();
+      if (!localAdmin) {
+        clearSession();
+        return { authenticated: false, user: null };
+      }
+      updateSessionUser(localAdmin);
+      return { authenticated: true, user: getUser() };
+    }
+
+    const cfg = window.NIHAYA.config;
+    try {
+      const res = await window.NIHAYA.apiClient.get(cfg.ENDPOINTS.AUTH.ME);
+      const user = res && typeof res === 'object' && res.user ? res.user : res;
+      if (!isUserObjectValid(user) || (!user.id && !user.email && !user.username)) {
+        clearSession();
+        return { authenticated: false, user: null };
+      }
+      updateSessionUser(user);
+      return { authenticated: true, user: getUser() };
+    } catch {
+      clearSession();
+      return { authenticated: false, user: null };
+    }
+  }
+
+  /**
+   * Authenticates an admin account.
+   * - If the gitignored local-auth.secret.js file is loaded & enabled, validates strictly against it.
+   * - Otherwise sends credentials to the backend API (POST /auth/login).
+   */
+  async function login({ identifier, password, remember = false }) {
+    const localCfg = getLocalAuthConfig();
+    if (localCfg) {
+      const expected = localCfg.admin;
+      const resolvedProfile = getResolvedLocalAdmin();
+      const inputId = String(identifier || '').trim().toLowerCase();
+      const validIds = [
+        expected.username,
+        expected.email,
+        resolvedProfile?.username,
+        resolvedProfile?.email,
+      ]
+        .filter(Boolean)
+        .map((v) => String(v).trim().toLowerCase());
+
+      const validPassword = String(expected.password || '');
+      const isMatch = Boolean(inputId && validPassword && validIds.includes(inputId) && password === validPassword);
+
+      await window.NIHAYA.mockDb.simulateLatency(null);
+      if (!isMatch) {
+        throw new window.NIHAYA.ApiError('Invalid username/email or password.', 401);
+      }
+
+      const session = {
+        token: LOCAL_DEV_PREFIX + Date.now(),
+        user: resolvedProfile,
+      };
+      saveSession(session, remember);
+      return session;
+    }
+
+    const cfg = window.NIHAYA.config;
+    let res;
+    try {
+      res = await window.NIHAYA.apiClient.post(
+        cfg.ENDPOINTS.AUTH.LOGIN,
+        { identifier, password },
+        { skipAuth: true }
+      );
+    } catch (err) {
+      if (err && err.status === 0) {
+        throw new window.NIHAYA.ApiError(
+          'Authentication server is unavailable. Connect the backend authentication API to log in.',
+          0,
+          err
+        );
+      }
+      throw err;
+    }
+
+    const token = res && typeof res === 'object' ? res.token || res.accessToken : null;
+    const user = res && typeof res === 'object' ? res.user : null;
+
+    if (!isTokenFormatValid(token) || !isUserObjectValid(user)) {
+      clearSession();
+      throw new window.NIHAYA.ApiError(
+        'Invalid authentication response from server.',
+        500,
+        res
+      );
+    }
+
+    const session = { token: token.trim(), user: sanitizeAdminUser(user) };
     saveSession(session, remember);
     return session;
   }
 
+  /** Logs the admin out via the backend API (when applicable) and clears local session state. */
   async function logout() {
     const cfg = window.NIHAYA.config;
+    const token = getToken();
     try {
-      if (!cfg.USE_MOCK_API && getToken()) {
+      if (token && !isLocalDevToken(token)) {
         await window.NIHAYA.apiClient.post(cfg.ENDPOINTS.AUTH.LOGOUT);
       }
+    } catch {
+      // Proceed with clearing local session even if the logout endpoint is unreachable
     } finally {
       clearSession();
     }
@@ -599,9 +791,6 @@
 
   async function requestPasswordReset(email) {
     const cfg = window.NIHAYA.config;
-    if (cfg.USE_MOCK_API) {
-      return window.NIHAYA.mockDb.simulateLatency({ ok: true });
-    }
     return window.NIHAYA.apiClient.post(
       cfg.ENDPOINTS.AUTH.FORGOT_PASSWORD,
       { email },
@@ -611,9 +800,6 @@
 
   async function requestUsernameReminder(email) {
     const cfg = window.NIHAYA.config;
-    if (cfg.USE_MOCK_API) {
-      return window.NIHAYA.mockDb.simulateLatency({ ok: true });
-    }
     return window.NIHAYA.apiClient.post(
       cfg.ENDPOINTS.AUTH.FORGOT_USERNAME,
       { email },
@@ -623,9 +809,6 @@
 
   async function resetPassword({ token, newPassword }) {
     const cfg = window.NIHAYA.config;
-    if (cfg.USE_MOCK_API) {
-      return window.NIHAYA.mockDb.simulateLatency({ ok: true });
-    }
     return window.NIHAYA.apiClient.post(
       cfg.ENDPOINTS.AUTH.RESET_PASSWORD,
       { token, newPassword },
@@ -637,12 +820,17 @@
   window.NIHAYA.auth = {
     getSession: readSession,
     saveSession,
+    updateSessionUser,
     clearSession,
     getToken,
     getUser,
     isAuthenticated,
+    isUsingLocalDevSession,
+    getResolvedLocalAdmin,
+    saveLocalProfileOverride,
     hasRole,
     requireAuth,
+    verifySession,
     login,
     logout,
     requestPasswordReset,
@@ -677,7 +865,7 @@
       const totalOrders = data.analytics.baseOrders + data.orders.length;
 
       return db().simulateLatency({
-        account: data.account,
+        account: window.NIHAYA.auth.getUser() || { fullName: 'Admin' },
         totalRevenue,
         totalOrders,
         avgOrder: Math.round(totalRevenue / Math.max(totalOrders, 1)),
@@ -1021,31 +1209,50 @@
 
   /* -------------------------------------------------------
      Account Service (Profile & Password)
+     Uses local-dev profile when signed in via gitignored
+     local-auth.secret.js, otherwise calls the backend API.
      ------------------------------------------------------- */
   const accountService = {
     async getProfile() {
-      if (!cfg().USE_MOCK_API) {
-        return api().get(cfg().ENDPOINTS.ACCOUNT_PROFILE);
+      if (window.NIHAYA.auth.isUsingLocalDevSession()) {
+        const localProfile = window.NIHAYA.auth.getResolvedLocalAdmin();
+        return db().simulateLatency(localProfile);
       }
-      return db().simulateLatency(db().read().account);
+      const res = await api().get(cfg().ENDPOINTS.ACCOUNT_PROFILE);
+      const profile = res && typeof res === 'object' && res.user ? res.user : res;
+      if (profile && typeof profile === 'object') {
+        window.NIHAYA.auth.updateSessionUser(profile);
+      }
+      return profile;
     },
 
     async updateProfile(updates) {
-      if (!cfg().USE_MOCK_API) {
-        return api().put(cfg().ENDPOINTS.ACCOUNT_PROFILE, updates);
+      if (window.NIHAYA.auth.isUsingLocalDevSession()) {
+        window.NIHAYA.auth.saveLocalProfileOverride(updates);
+        const updated = window.NIHAYA.auth.getResolvedLocalAdmin();
+        window.NIHAYA.auth.updateSessionUser(updated);
+        return db().simulateLatency(updated);
       }
-      const data = db().read();
-      Object.assign(data.account, updates);
-      db().write(data);
-      return db().simulateLatency(data.account);
+      const res = await api().put(cfg().ENDPOINTS.ACCOUNT_PROFILE, updates);
+      const profile = res && typeof res === 'object' && res.user ? res.user : res;
+      if (profile && typeof profile === 'object') {
+        window.NIHAYA.auth.updateSessionUser(profile);
+      }
+      return profile;
     },
 
     async changePassword({ currentPassword, newPassword }) {
-      if (!cfg().USE_MOCK_API) {
-        return api().put(cfg().ENDPOINTS.ACCOUNT_PASSWORD, { currentPassword, newPassword });
+      if (window.NIHAYA.auth.isUsingLocalDevSession()) {
+        const localCfg = window.__NIHAYA_LOCAL_AUTH__;
+        if (!localCfg?.admin || currentPassword !== localCfg.admin.password) {
+          throw new window.NIHAYA.ApiError('Current password is incorrect.', 400);
+        }
+        throw new window.NIHAYA.ApiError(
+          'To change the local mock admin password, update admin/js/local-auth.secret.js directly.',
+          400
+        );
       }
-      // Never store passwords in localStorage; backend handles hashing & verification
-      return db().simulateLatency({ updated: true });
+      return api().put(cfg().ENDPOINTS.ACCOUNT_PASSWORD, { currentPassword, newPassword });
     },
   };
 
@@ -1454,13 +1661,14 @@
     try {
       const data = await dashboard.getOverview();
       const maxBar = Math.max(...data.weeklyOrders.map((w) => w.count), 1);
+      const adminName = data.account?.fullName || window.NIHAYA.auth.getUser()?.fullName || 'Admin';
 
       root.innerHTML = `
         <div class="page-stack">
           <section class="hero-banner">
             <div>
               <h1>Overview</h1>
-              <p>Welcome back, ${UI.esc(data.account.fullName)}. Here is how Nihaya is doing over the last 30 days.</p>
+              <p>Welcome back, ${UI.esc(adminName)}. Here is how Nihaya is doing over the last 30 days.</p>
             </div>
           </section>
 
@@ -3488,7 +3696,9 @@
       return;
     }
 
-    let photo = profile.photo || '';
+    let photo = profile?.photo || '';
+    const displayName = profile?.fullName || 'Admin';
+    const initial = (displayName[0] || 'A').toUpperCase();
 
     root.innerHTML = `
       <div class="page-stack">
@@ -3505,11 +3715,11 @@
 
             <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
               <div class="account-avatar-lg" id="acct-avatar-box">
-                ${photo ? `<img src="${UI.esc(photo)}" alt="" />` : UI.esc((profile.fullName[0] || 'R').toUpperCase())}
+                ${photo ? `<img src="${UI.esc(photo)}" alt="" />` : UI.esc(initial)}
               </div>
               <div>
-                <div style="font-size:16px;font-weight:700;color:var(--primary)">${UI.esc(profile.fullName)}</div>
-                <div style="font-size:12.5px;color:var(--ink-subtle)">${UI.esc(profile.role)}</div>
+                <div style="font-size:16px;font-weight:700;color:var(--primary)">${UI.esc(displayName)}</div>
+                <div style="font-size:12.5px;color:var(--ink-subtle)">${UI.esc(profile?.role || 'Admin')}</div>
               </div>
               <label class="btn-outline" style="height:38px;padding:0 20px;font-size:13px;cursor:pointer">
                 Change photo
@@ -3518,12 +3728,12 @@
             </div>
 
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-              <div><label class="field-label">Full Name *</label><input name="fullName" class="figma-input" value="${UI.esc(profile.fullName)}" /></div>
-              <div><label class="field-label">Username *</label><input name="username" class="figma-input" value="${UI.esc(profile.username)}" /></div>
+              <div><label class="field-label">Full Name *</label><input name="fullName" class="figma-input" value="${UI.esc(profile?.fullName || '')}" /></div>
+              <div><label class="field-label">Username *</label><input name="username" class="figma-input" value="${UI.esc(profile?.username || '')}" /></div>
             </div>
 
-            <div><label class="field-label">Email Address *</label><input name="email" type="email" class="figma-input" value="${UI.esc(profile.email)}" /></div>
-            <div><label class="field-label">Mobile Number</label><input name="mobile" class="figma-input" value="${UI.esc(profile.mobile)}" /></div>
+            <div><label class="field-label">Email Address *</label><input name="email" type="email" class="figma-input" value="${UI.esc(profile?.email || '')}" /></div>
+            <div><label class="field-label">Mobile Number</label><input name="mobile" class="figma-input" value="${UI.esc(profile?.mobile || '')}" /></div>
 
             <div style="display:flex;justify-content:flex-end;gap:10px;padding-top:6px">
               <a href="./dashboard.html" class="btn-outline">Cancel</a>
@@ -3639,11 +3849,29 @@
    ========================================================= */
 
 (function () {
-  /** Initializes form validation and authService handlers for Login and Account Recovery pages. */
-  function initAuthPage(authPage) {
+  /** Validates a post-login redirect target so only safe local admin pages are allowed. */
+  function resolvePostLoginUrl(rawNext) {
+    if (!rawNext || typeof rawNext !== 'string') return './dashboard.html';
+    const trimmed = rawNext.trim();
+    const isSafeRelative =
+      (trimmed.startsWith('./') || trimmed.startsWith('/')) &&
+      !trimmed.startsWith('//') &&
+      !/login\.html|index\.html/i.test(trimmed);
+    return isSafeRelative ? trimmed : './dashboard.html';
+  }
+
+  /** Initializes form validation and authService handlers for Entry, Login, and Account Recovery pages. */
+  async function initAuthPage(authPage) {
     const auth = window.NIHAYA.auth;
     const UI = window.NIHAYA.ui;
     const V = window.NIHAYA.validators;
+
+    // Application entry point (index.html): check authentication first; default to login.html
+    if (authPage === 'entry') {
+      const verification = await auth.verifySession();
+      window.location.replace(verification.authenticated ? './dashboard.html' : './login.html');
+      return;
+    }
 
     document.querySelectorAll('[data-toggle-pw]').forEach((btn) => {
       btn.addEventListener('click', () => {
@@ -3656,6 +3884,9 @@
     });
 
     if (authPage === 'login') {
+      // Clear any invalid or legacy mock session on load; never auto-redirect unauthenticated users
+      auth.getSession();
+
       document.getElementById('login-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const identifier = document.getElementById('login-id').value.trim();
@@ -3685,7 +3916,7 @@
         try {
           await auth.login({ identifier, password, remember });
           const next = new URLSearchParams(window.location.search).get('next');
-          window.location.href = next && next.startsWith('/') ? next : './dashboard.html';
+          window.location.replace(resolvePostLoginUrl(next));
         } catch (err) {
           pwErr.textContent = err.message || 'Sign-in failed. Please check your credentials.';
           pwErr.classList.remove('hidden');
@@ -3807,22 +4038,31 @@
    ========================================================= */
 
 (function () {
-  /** Main application entry point: checks auth, binds sidebar/topbar events, and renders the active HTML page. */
-  function boot() {
+  /** Main application entry point: enforces authentication, binds sidebar/topbar events, and renders the active HTML page. */
+  async function boot() {
     const { auth, ui: UI, pages, services } = window.NIHAYA;
 
-    // 1. Auth pages (login, forgot-password, forgot-username, reset-password)
+    // 1. Entry & Auth pages (index, login, forgot-password, forgot-username, reset-password)
     const authPage = document.body?.dataset?.authPage;
     if (authPage) {
-      pages.initAuthPage(authPage);
+      await pages.initAuthPage(authPage);
       return;
     }
 
-    // 2. Protected route guard for admin pages
+    // 2. Protected route guard for all admin modules (dashboard, products, orders, customers, marketing, account)
+    // Note: Frontend guards prevent unauthenticated UI access only; the backend must enforce auth on all API endpoints.
     const shell = document.getElementById('app-shell');
     const pageRoot = document.getElementById('page-root');
     if (!shell || !pageRoot) return;
     if (!auth.requireAuth()) return;
+
+    // Verify stored token against the backend auth endpoint before revealing dashboard UI
+    const verification = await auth.verifySession();
+    if (!verification.authenticated) {
+      auth.requireAuth();
+      return;
+    }
+    document.body.classList.add('auth-ready');
 
     const mobileBackdrop = document.getElementById('mobile-backdrop');
     const profileBtn = document.getElementById('profile-btn');
@@ -3833,10 +4073,10 @@
       mobileBackdrop?.classList.add('hidden');
     }
 
-    /** Syncs topbar admin profile name, role, and uploaded profile photo. */
+    /** Syncs topbar admin profile name, role, and uploaded profile photo from the authenticated admin account. */
     async function syncShell() {
       try {
-        const user = (await services.account.getProfile()) || auth.getUser();
+        const user = auth.getUser() || (await services.account.getProfile());
         if (!user) return;
         const displayName = user.fullName || 'Admin';
         const initial = (displayName[0] || 'A').toUpperCase();
@@ -3921,7 +4161,7 @@
         danger: false,
         onConfirm: async () => {
           await auth.logout();
-          window.location.href = './login.html';
+          window.location.replace('./login.html');
         },
       });
     });

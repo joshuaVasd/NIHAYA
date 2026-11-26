@@ -62,9 +62,9 @@
           <div class="topbar-right">
             <div class="profile-anchor">
               <button id="profile-btn" type="button" class="profile-trigger">
-                <span id="topbar-avatar" class="profile-orb">R</span>
+                <span id="topbar-avatar" class="profile-orb">A</span>
                 <span class="profile-meta">
-                  <span id="topbar-admin-name" class="profile-name">Racman</span>
+                  <span id="topbar-admin-name" class="profile-name">Admin</span>
                   <span class="profile-role">Admin</span>
                 </span>
                 <i data-lucide="chevron-down" class="profile-chevron"></i>
@@ -72,8 +72,8 @@
 
               <div id="profile-popover" class="profile-popover hidden">
                 <div class="popover-user">
-                  <strong id="dropdown-admin-name">Racman</strong>
-                  <span id="dropdown-admin-email">admin@example.com</span>
+                  <strong id="dropdown-admin-name">Admin</strong>
+                  <span id="dropdown-admin-email"></span>
                 </div>
                 <button type="button" class="popover-link" id="dropdown-account-btn">
                   <i data-lucide="user"></i>
@@ -134,6 +134,8 @@
     <!-- Toast Notification Container -->
     <div id="toast-container" class="toast-container"></div>
 
+    <!-- Optional gitignored local-dev admin config (ignored if absent in production) -->
+    <script src="./js/local-auth.secret.js"></script>
     <!-- Single backend-ready application script -->
     <script src="./js/app.js"></script>
   </body>

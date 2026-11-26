@@ -2,11 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="refresh" content="0; url=./dashboard.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
     <title>NIHAYA — Admin</title>
-    <script>
-      window.location.replace('./dashboard.html');
-    </script>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <noscript>
+      <meta http-equiv="refresh" content="0; url=./login.html" />
+    </noscript>
   </head>
-  <body></body>
+  <body class="auth-page" data-auth-page="entry">
+    <!-- Application entry point: verifies admin session and defaults to login.html when unauthenticated -->
+    <!-- Optional gitignored local-dev admin config (ignored if absent in production) -->
+    <script src="./js/local-auth.secret.js"></script>
+    <script src="./js/app.js"></script>
+  </body>
 </html>

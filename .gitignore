@@ -3,12 +3,28 @@
 Thumbs.db
 desktop.ini
 
-# Environment and secrets (never commit)
+# Environment, credentials, and sensitive data (never commit)
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
+admin/js/local-auth.secret.js
+*.secret.js
+*.secret.json
+*.local.js
+*.local.json
+secrets/
+config/secrets.*
+credentials*.json
 *.pem
 *.key
+*.crt
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.sqlite
+*.sqlite3
+*.db
 
 # Editor / IDE
 .vscode/

@@ -32,7 +32,7 @@
             id="login-id"
             type="text"
             autocomplete="username"
-            placeholder="racman or admin@example.com"
+            placeholder="Enter your username or email"
           />
           <p class="auth-error hidden" id="login-id-error"></p>
         </div>
@@ -53,7 +53,7 @@
         </div>
 
         <label class="auth-check">
-          <input type="checkbox" id="login-keep" checked />
+          <input type="checkbox" id="login-keep" />
           <span>Keep me logged in</span>
         </label>
 
@@ -66,6 +66,8 @@
       </form>
     </main>
 
+    <!-- Optional gitignored local-dev admin config (ignored if absent in production) -->
+    <script src="./js/local-auth.secret.js"></script>
     <!-- Single backend-ready application script -->
     <script src="./js/app.js"></script>
   </body>
