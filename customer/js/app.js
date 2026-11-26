@@ -234,7 +234,7 @@ const AppState = {
   },
   checkout: {
     step: 1,
-    paymentMethod: "gcash",
+    paymentMethod: "qrph",
     proofOfPayment: null,
     formData: {
       email: "",
@@ -1381,101 +1381,186 @@ function validateField(field) {
   return valid;
 }
 
-// Designated payment accounts & QR codes shown in Checkout Step 3
-// Replace the placeholder account numbers and optional qrImage paths with NIHAYA's actual details
-const PAYMENT_ACCOUNTS = {
-  gcash: {
-    label: "GCash",
-    qrCaption: "Scan GCash QR",
-    accountName: "NIHAYA Cellphone & Accessories",
-    numberLabel: "GCash Number",
-    accountNumber: "0917 123 4567",
-    qrImage: "", // e.g. "assets/images/qr-gcash.png"
-  },
-  maya: {
-    label: "Maya",
-    qrCaption: "Scan Maya QR",
-    accountName: "NIHAYA Cellphone & Accessories",
-    numberLabel: "Maya Number",
-    accountNumber: "0918 765 4321",
-    qrImage: "", // e.g. "assets/images/qr-maya.png"
-  },
-  paypal: {
-    label: "PayPal",
-    qrCaption: "Scan PayPal QR",
-    accountName: "NIHAYA Daet Store",
-    numberLabel: "PayPal Email",
-    accountNumber: "payments@nihaya.ph",
-    qrImage: "", // e.g. "assets/images/qr-paypal.png"
-  },
-  gotyme: {
-    label: "GoTyme",
-    qrCaption: "Scan GoTyme QR",
-    accountName: "NIHAYA Cellphone & Accessories",
-    numberLabel: "GoTyme Account No.",
-    accountNumber: "0123 4567 8901",
-    qrImage: "", // e.g. "assets/images/qr-gotyme.png"
-  },
+// Unified QR Ph / InstaPay payment configuration for Checkout Step 3
+const QR_PAYMENT_CONFIG = {
+  id: "qrph",
+  label: "QR Ph / InstaPay",
+  merchantName: "NIHAYA Cellphone & Accessories",
+  qrImage: "assets/images/qr-instapay.jpg",
 };
 
-const PLACEHOLDER_QR_SVG = `<svg viewBox="0 0 64 64" fill="currentColor" aria-hidden="true"><path d="M4 4h20v20H4V4zm4 4v12h12V8H8zm4 4h4v4h-4v-4zm28-8h20v20H40V4zm4 4v12h12V8H44zm4 4h4v4h-4v-4zM4 40h20v20H4V40zm4 4v12h12V44H8zm4 4h4v4h-4v-4zM28 4h4v8h-4V4zm8 8h4v4h-4v-4zm-8 4h4v8h-4v-8zm4 8h8v4h-8v-4zM4 28h8v4H4v-4zm12 0h8v8h-4v-4h-4v-4zm12 4h8v4h-8v-4zm12-4h8v4h-8v-4zm12 0h8v8h-4v-4h-4v-4zM28 40h4v8h-4v-8zm8 0h8v4h-4v4h-4v-8zm12 0h4v4h4v4h-8v-8zm8 8h4v12h-8v-4h4v-8zm-16 4h8v8h-4v-4h-4v-4zm-12 0h8v8h-8v-8z"/></svg>`;
+let paymentCountdownInterval = null;
 
-// Populate Step 3 with the selected payment method's QR, account details, and total
-function renderPaymentStep() {
-  const methodKey = AppState.checkout.paymentMethod || "gcash";
-  const account = PAYMENT_ACCOUNTS[methodKey] || PAYMENT_ACCOUNTS.gcash;
-  const totalText =
-    document.querySelector(
-      "#checkout-step-2 .order-summary__total .order-summary__value",
-    )?.textContent || "₱22,730";
-
-  const headingEl = document.getElementById("payment-step-heading");
-  const totalEl = document.getElementById("payment-step-total");
-  const qrBoxEl = document.getElementById("payment-qr-box");
-  const qrCaptionEl = document.getElementById("payment-qr-caption");
-  const accNameEl = document.getElementById("payment-account-name");
-  const numLabelEl = document.getElementById("payment-number-label");
-  const accNumEl = document.getElementById("payment-account-number");
-  const proofLabelEl = document.getElementById("proof-payment-label");
-
-  if (headingEl) headingEl.textContent = `Pay via ${account.label}`;
-  if (totalEl) totalEl.textContent = totalText;
-  if (qrCaptionEl) qrCaptionEl.textContent = account.qrCaption;
-  if (accNameEl) accNameEl.textContent = account.accountName;
-  if (numLabelEl) numLabelEl.textContent = account.numberLabel;
-  if (accNumEl) accNumEl.textContent = account.accountNumber;
-  if (proofLabelEl) proofLabelEl.textContent = account.label;
-
-  if (qrBoxEl) {
-    qrBoxEl.innerHTML = account.qrImage
-      ? `<img src="${account.qrImage}" alt="${account.label} QR code" />`
-      : PLACEHOLDER_QR_SVG;
-  }
+function getCheckoutTotalText() {
+  return (
+    document
+      .querySelector(
+        "#checkout-step-2 .order-summary__total .order-summary__value",
+      )
+      ?.textContent?.trim() || "₱22,730"
+  );
 }
 
-// Initialize Step 3 controls (Copy button, Back to Step 2, Confirm & Submit Order)
+function startPaymentCountdown() {
+  const timerEl = document.getElementById("payment-countdown");
+  if (!timerEl) return;
+
+  if (paymentCountdownInterval) {
+    clearInterval(paymentCountdownInterval);
+  }
+
+  let secondsLeft = 15 * 60 - 1;
+  const renderTimer = () => {
+    const mins = String(Math.floor(secondsLeft / 60)).padStart(2, "0");
+    const secs = String(secondsLeft % 60).padStart(2, "0");
+    timerEl.textContent = `${mins}:${secs}`;
+  };
+
+  renderTimer();
+  paymentCountdownInterval = setInterval(() => {
+    if (secondsLeft > 0) {
+      secondsLeft--;
+      renderTimer();
+    } else {
+      clearInterval(paymentCountdownInterval);
+      paymentCountdownInterval = null;
+    }
+  }, 1000);
+}
+
+// Save a clean downloadable QR slip PNG (falls back to raw QR image if canvas export is blocked)
+function savePaymentQRCode() {
+  const img = document.getElementById("payment-qr-img");
+  const totalText = getCheckoutTotalText();
+
+  if (img && img.complete && img.naturalWidth > 0) {
+    try {
+      const canvas = document.createElement("canvas");
+      const w = 900;
+      const h = 1080;
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext("2d");
+
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.fillStyle = "#12301f";
+      ctx.font = "600 34px Inter, Arial, sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(QR_PAYMENT_CONFIG.merchantName, w / 2, 76);
+
+      ctx.fillStyle = "#295b53";
+      ctx.font = "500 22px Inter, Arial, sans-serif";
+      ctx.fillText(QR_PAYMENT_CONFIG.label, w / 2, 114);
+
+      const qrSize = 720;
+      ctx.drawImage(img, (w - qrSize) / 2, 150, qrSize, qrSize);
+
+      ctx.fillStyle = "#0f6b36";
+      ctx.font = "700 32px Inter, Arial, sans-serif";
+      ctx.fillText(`Total: ${totalText}`, w / 2, 945);
+
+      ctx.fillStyle = "#295b53";
+      ctx.font = "400 20px Inter, Arial, sans-serif";
+      ctx.fillText(
+        "Scan or upload in GCash, Maya, GoTyme, or any InstaPay app",
+        w / 2,
+        988,
+      );
+
+      const link = document.createElement("a");
+      link.download = "NIHAYA-QRPh-InstaPay.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+      showToast("QR code saved", "Upload it in your e-wallet's QR scanner.");
+      return;
+    } catch (err) {
+      // Fallback for file:// tainted canvas restriction
+    }
+  }
+
+  const link = document.createElement("a");
+  link.download = "NIHAYA-QRPh-InstaPay.jpg";
+  link.href = QR_PAYMENT_CONFIG.qrImage;
+  link.click();
+  showToast("QR code saved", "Upload it in your e-wallet's QR scanner.");
+}
+
+// Populate Step 3 with the order total and start the payment countdown
+function renderPaymentStep() {
+  const totalText = getCheckoutTotalText();
+
+  const totalEl = document.getElementById("payment-step-total");
+  const howTotalEl = document.getElementById("payment-how-total");
+  const modalTotalEl = document.getElementById("qr-modal-total");
+
+  if (totalEl) totalEl.textContent = totalText;
+  if (howTotalEl) howTotalEl.textContent = totalText;
+  if (modalTotalEl) modalTotalEl.textContent = totalText;
+
+  startPaymentCountdown();
+}
+
+// Initialize Step 3 controls (Copy amount, Save QR, Enlarge QR modal, Back, Confirm)
 function initPaymentStep() {
   const step2Card = document.getElementById("checkout-step-2");
   const step3Card = document.getElementById("checkout-step-3");
-  const copyBtn = document.getElementById("btn-copy-account");
+  const copyAmountBtn = document.getElementById("btn-copy-amount");
+  const saveQrBtn = document.getElementById("btn-save-qr");
+  const modalSaveQrBtn = document.getElementById("btn-modal-save-qr");
+  const qrSurfaceBtn = document.getElementById("btn-qr-surface");
+  const enlargeQrBtn = document.getElementById("btn-enlarge-qr");
+  const qrModal = document.getElementById("qr-lightbox-modal");
+  const closeQrModalBtn = document.getElementById("btn-close-qr-modal");
   const backBtn = document.getElementById("btn-back-to-step-2");
   const confirmBtn = document.getElementById("btn-confirm-payment");
 
-  if (copyBtn) {
-    copyBtn.addEventListener("click", () => {
-      const account =
-        PAYMENT_ACCOUNTS[AppState.checkout.paymentMethod] ||
-        PAYMENT_ACCOUNTS.gcash;
-      navigator.clipboard?.writeText(account.accountNumber).catch(() => {});
-      copyBtn.textContent = "Copied!";
+  if (copyAmountBtn) {
+    copyAmountBtn.addEventListener("click", () => {
+      const totalText = getCheckoutTotalText();
+      const numericAmount = totalText.replace(/[^\d.]/g, "");
+      navigator.clipboard?.writeText(numericAmount || totalText).catch(() => {});
+      copyAmountBtn.textContent = "Copied";
+      showToast("Amount copied", `${totalText} copied to clipboard.`);
       setTimeout(() => {
-        copyBtn.textContent = "Copy";
+        copyAmountBtn.textContent = "Copy";
       }, 1500);
+    });
+  }
+
+  saveQrBtn?.addEventListener("click", savePaymentQRCode);
+  modalSaveQrBtn?.addEventListener("click", savePaymentQRCode);
+
+  if (qrModal) {
+    let lastTrigger = null;
+    const openModal = (trigger) => {
+      lastTrigger = trigger || null;
+      qrModal.hidden = false;
+      closeQrModalBtn?.focus();
+    };
+    const closeModal = () => {
+      qrModal.hidden = true;
+      lastTrigger?.focus();
+    };
+
+    qrSurfaceBtn?.addEventListener("click", (e) => openModal(e.currentTarget));
+    enlargeQrBtn?.addEventListener("click", (e) => openModal(e.currentTarget));
+    closeQrModalBtn?.addEventListener("click", closeModal);
+    qrModal.addEventListener("click", (e) => {
+      if (e.target === qrModal) closeModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !qrModal.hidden) closeModal();
     });
   }
 
   if (backBtn && step2Card && step3Card) {
     backBtn.addEventListener("click", () => {
+      if (paymentCountdownInterval) {
+        clearInterval(paymentCountdownInterval);
+        paymentCountdownInterval = null;
+      }
       step3Card.style.display = "none";
       step2Card.style.display = "block";
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1587,13 +1672,10 @@ async function submitPaymentAndOrder() {
     "nihaya_order",
     JSON.stringify({
       orderNumber: "#NHY-" + Math.floor(10000 + Math.random() * 90000),
-      paymentMethod: AppState.checkout.paymentMethod.toUpperCase(),
+      paymentMethod: QR_PAYMENT_CONFIG.label,
       proofFileName: formData.proofOfPayment?.name || "",
       email: formData.email,
-      total:
-        document.querySelector(
-          "#checkout-step-2 .order-summary__total .order-summary__value",
-        )?.textContent || "₱22,730",
+      total: getCheckoutTotalText(),
       date: new Date().toLocaleDateString(),
     }),
   );

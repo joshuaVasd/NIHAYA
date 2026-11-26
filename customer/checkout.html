@@ -233,26 +233,37 @@
               <!-- Payment Method -->
               <div class="checkout-section">
                 <h2 class="checkout-section__title">Payment method</h2>
-                <div class="payment-grid">
-                  <div
-                    class="payment-option payment-option--selected"
-                    data-payment="gcash"
+                <div
+                  class="payment-option payment-option--selected payment-option--qr"
+                  data-payment="qrph"
+                  role="radio"
+                  aria-checked="true"
+                  tabindex="0"
+                >
+                  <div class="payment-option__radio" aria-hidden="true"></div>
+                  <div class="payment-option__body">
+                    <span class="payment-option__label">QR Ph / InstaPay</span>
+                    <span class="payment-option__desc">
+                      Scan or save our QR code on the next step. Works with
+                      GCash, Maya, GoTyme, SeaBank, BDO, BPI, and other InstaPay
+                      apps.
+                    </span>
+                  </div>
+                  <svg
+                    class="payment-option__icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
                   >
-                    <div class="payment-option__radio"></div>
-                    <span class="payment-option__label">GCash</span>
-                  </div>
-                  <div class="payment-option" data-payment="maya">
-                    <div class="payment-option__radio"></div>
-                    <span class="payment-option__label">Maya</span>
-                  </div>
-                  <div class="payment-option" data-payment="paypal">
-                    <div class="payment-option__radio"></div>
-                    <span class="payment-option__label">PayPal</span>
-                  </div>
-                  <div class="payment-option" data-payment="gotyme">
-                    <div class="payment-option__radio"></div>
-                    <span class="payment-option__label">GoTyme</span>
-                  </div>
+                    <rect x="3" y="3" width="7" height="7" rx="1" />
+                    <rect x="14" y="3" width="7" height="7" rx="1" />
+                    <rect x="3" y="14" width="7" height="7" rx="1" />
+                    <path d="M14 14h3v3h-3zM20 14v3h-3M14 20h6" />
+                  </svg>
                 </div>
               </div>
             </div>
@@ -317,7 +328,7 @@
           <!-- Title Row with Progress -->
           <div class="title-row--checkout">
             <h1 class="title-row__heading" id="payment-step-heading">
-              Pay via GCash
+              Pay with QR Ph
             </h1>
             <div class="progress">
               <div class="progress__bars">
@@ -334,100 +345,60 @@
           <!-- Amount Banner -->
           <div class="payment-amount-banner">
             <div>
-              <span class="payment-amount-banner__label"
-                >Total amount to pay (incl. ₱250 LBC shipping)</span
-              >
-              <span class="payment-amount-banner__note"
-                >Send the exact amount using the QR code or account details
-                below.</span
-              >
+              <span class="payment-amount-banner__label">Total Payment</span>
+              <span class="payment-amount-banner__note">
+                Includes ₱250 LBC shipping · Pay within
+                <strong id="payment-countdown">14:59</strong>
+              </span>
             </div>
-            <strong class="payment-amount-banner__value" id="payment-step-total"
-              >₱22,730</strong
-            >
+            <div class="payment-amount-banner__right">
+              <strong
+                class="payment-amount-banner__value"
+                id="payment-step-total"
+                >₱22,730</strong
+              >
+              <button
+                type="button"
+                class="payment-copy-btn"
+                id="btn-copy-amount"
+              >
+                Copy
+              </button>
+            </div>
           </div>
 
           <!-- 2-Column Payment + Upload Layout -->
           <div class="payment-step-grid">
-            <!-- Left: Designated QR & Account Details -->
-            <div class="payment-details-card">
-              <div class="payment-details-card__qr" id="payment-qr-box">
-                <svg
-                  viewBox="0 0 64 64"
-                  fill="currentColor"
-                  aria-hidden="true"
+            <!-- Left: QR Ph / InstaPay Code -->
+            <div class="payment-qr-col">
+              <div class="payment-qr-col__merchant">
+                <strong
+                  class="payment-qr-col__name"
+                  id="payment-account-name"
+                  >NIHAYA Cellphone &amp; Accessories</strong
                 >
-                  <path
-                    d="M4 4h20v20H4V4zm4 4v12h12V8H8zm4 4h4v4h-4v-4zm28-8h20v20H40V4zm4 4v12h12V8H44zm4 4h4v4h-4v-4zM4 40h20v20H4V40zm4 4v12h12V44H8zm4 4h4v4h-4v-4zM28 4h4v8h-4V4zm8 8h4v4h-4v-4zm-8 4h4v8h-4v-8zm4 8h8v4h-8v-4zM4 28h8v4H4v-4zm12 0h8v8h-4v-4h-4v-4zm12 4h8v4h-8v-4zm12-4h8v4h-8v-4zm12 0h8v8h-4v-4h-4v-4zM28 40h4v8h-4v-8zm8 0h8v4h-4v4h-4v-8zm12 0h4v4h4v4h-8v-8zm8 8h4v12h-8v-4h4v-8zm-16 4h8v8h-4v-4h-4v-4zm-12 0h8v8h-8v-8z"
-                  />
-                </svg>
+                <span class="payment-qr-col__sub">QR Ph · InstaPay</span>
               </div>
-              <span class="payment-details-card__caption" id="payment-qr-caption"
-                >Scan GCash QR</span
+
+              <button
+                type="button"
+                class="payment-qr-surface"
+                id="btn-qr-surface"
+                aria-label="Enlarge InstaPay QR code for scanning"
               >
+                <img
+                  id="payment-qr-img"
+                  src="assets/images/qr-instapay.jpg"
+                  alt="NIHAYA InstaPay QR Ph payment code"
+                />
+              </button>
 
-              <div class="payment-details-card__info">
-                <div class="payment-details-card__row">
-                  <span class="payment-details-card__label">Account Name</span>
-                  <strong
-                    class="payment-details-card__value"
-                    id="payment-account-name"
-                    >NIHAYA Cellphone &amp; Accessories</strong
-                  >
-                </div>
-                <div class="payment-details-card__row">
-                  <span
-                    class="payment-details-card__label"
-                    id="payment-number-label"
-                    >GCash Number</span
-                  >
-                  <div class="payment-details-card__copy-row">
-                    <strong
-                      class="payment-details-card__number"
-                      id="payment-account-number"
-                      >0917 123 4567</strong
-                    >
-                    <button
-                      type="button"
-                      class="payment-copy-btn"
-                      id="btn-copy-account"
-                    >
-                      Copy
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Right: Proof of Payment Upload & Confirm -->
-            <div class="checkout-section" id="proof-of-payment-section">
-              <div class="proof-upload__header">
-                <h2 class="checkout-section__title">
-                  Proof of payment <span class="proof-upload__required">*</span>
-                </h2>
-                <span class="proof-upload__hint"
-                  >PNG, JPG, WEBP, or PDF · Max 5 MB</span
+              <div class="payment-qr-actions">
+                <button
+                  type="button"
+                  class="btn btn--secondary payment-qr-save-btn"
+                  id="btn-save-qr"
                 >
-              </div>
-              <p class="proof-upload__helper">
-                Upload a screenshot or receipt of your
-                <strong id="proof-payment-label">GCash</strong> payment so we
-                can verify your order.
-              </p>
-
-              <input
-                type="file"
-                id="proof-of-payment-input"
-                class="proof-upload__input"
-                accept="image/png,image/jpeg,image/webp,application/pdf"
-              />
-
-              <label
-                for="proof-of-payment-input"
-                class="proof-upload__dropzone"
-                id="proof-dropzone"
-              >
-                <span class="proof-upload__icon" aria-hidden="true">
                   <svg
                     viewBox="0 0 24 24"
                     fill="none"
@@ -435,72 +406,236 @@
                     stroke-width="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
+                    aria-hidden="true"
                   >
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                    <polyline points="17 8 12 3 7 8" />
-                    <line x1="12" y1="3" x2="12" y2="15" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
                   </svg>
-                </span>
-                <span class="proof-upload__cta">
-                  <strong>Click to upload</strong> or drag and drop
-                </span>
-                <span class="proof-upload__sub"
-                  >Receipt screenshot or PDF file</span
+                  Save QR Code
+                </button>
+                <button
+                  type="button"
+                  class="payment-qr-enlarge-link"
+                  id="btn-enlarge-qr"
                 >
-              </label>
-
-              <div class="proof-upload__preview" id="proof-preview" hidden>
-                <div class="proof-upload__thumb" id="proof-thumb"></div>
-                <div class="proof-upload__meta">
-                  <span class="proof-upload__filename" id="proof-filename"
-                    >receipt.png</span
-                  >
-                  <span class="proof-upload__size" id="proof-size"
-                    >Ready to submit</span
-                  >
-                </div>
-                <div class="proof-upload__actions">
-                  <label
-                    for="proof-of-payment-input"
-                    class="proof-upload__btn proof-upload__btn--change"
-                    >Change</label
-                  >
-                  <button
-                    type="button"
-                    class="proof-upload__btn proof-upload__btn--remove"
-                    id="proof-remove-btn"
-                  >
-                    Remove
-                  </button>
-                </div>
+                  Enlarge QR for scanning
+                </button>
               </div>
 
-              <span class="proof-upload__error" id="proof-error"
-                >Please upload your proof of payment before confirming your
-                order.</span
-              >
+              <p class="payment-qr-apps">
+                Scan or upload in
+                <strong>GCash, Maya, GoTyme, SeaBank, BDO, BPI</strong>, or any
+                InstaPay app.
+              </p>
+            </div>
 
-              <div class="payment-step-actions">
-                <button
-                  class="btn btn--secondary"
-                  id="btn-back-to-step-2"
-                  type="button"
+            <!-- Right: How to Pay + Proof of Payment Upload -->
+            <div class="payment-proof-col">
+              <div class="payment-how">
+                <h2 class="payment-how__title">How to pay</h2>
+                <ol class="payment-how__list">
+                  <li>
+                    <span class="payment-how__num">1.</span>
+                    <span
+                      >Save the QR code or scan it directly in your e-wallet or
+                      banking app.</span
+                    >
+                  </li>
+                  <li>
+                    <span class="payment-how__num">2.</span>
+                    <span
+                      >Transfer the exact amount of
+                      <strong id="payment-how-total">₱22,730</strong> to NIHAYA
+                      Cellphone &amp; Accessories.</span
+                    >
+                  </li>
+                  <li>
+                    <span class="payment-how__num">3.</span>
+                    <span
+                      >Upload your payment screenshot below to submit your
+                      order.</span
+                    >
+                  </li>
+                </ol>
+              </div>
+
+              <div class="divider"></div>
+
+              <div class="checkout-section" id="proof-of-payment-section">
+                <div class="proof-upload__header">
+                  <h2 class="checkout-section__title">
+                    Proof of payment
+                    <span class="proof-upload__required">*</span>
+                  </h2>
+                  <span class="proof-upload__hint"
+                    >PNG, JPG, WEBP, or PDF · Max 5 MB</span
+                  >
+                </div>
+
+                <input
+                  type="file"
+                  id="proof-of-payment-input"
+                  class="proof-upload__input"
+                  accept="image/png,image/jpeg,image/webp,application/pdf"
+                />
+
+                <label
+                  for="proof-of-payment-input"
+                  class="proof-upload__dropzone"
+                  id="proof-dropzone"
                 >
-                  Back
-                </button>
-                <button
-                  class="btn btn--primary payment-step-actions__submit"
-                  id="btn-confirm-payment"
-                  type="button"
+                  <span class="proof-upload__icon" aria-hidden="true">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="17 8 12 3 7 8" />
+                      <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                  </span>
+                  <span class="proof-upload__cta">
+                    <strong>Click to upload</strong> or drag and drop
+                  </span>
+                  <span class="proof-upload__sub"
+                    >Receipt screenshot or PDF file</span
+                  >
+                </label>
+
+                <div class="proof-upload__preview" id="proof-preview" hidden>
+                  <div class="proof-upload__thumb" id="proof-thumb"></div>
+                  <div class="proof-upload__meta">
+                    <span class="proof-upload__filename" id="proof-filename"
+                      >receipt.png</span
+                    >
+                    <span class="proof-upload__size" id="proof-size"
+                      >Ready to submit</span
+                    >
+                  </div>
+                  <div class="proof-upload__actions">
+                    <label
+                      for="proof-of-payment-input"
+                      class="proof-upload__btn proof-upload__btn--change"
+                      >Change</label
+                    >
+                    <button
+                      type="button"
+                      class="proof-upload__btn proof-upload__btn--remove"
+                      id="proof-remove-btn"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+
+                <span
+                  class="proof-upload__error"
+                  id="proof-error"
+                  role="alert"
+                  >Please upload your proof of payment before confirming your
+                  order.</span
                 >
-                  Confirm &amp; Submit Order
-                </button>
+
+                <div class="payment-step-actions">
+                  <button
+                    class="btn btn--secondary"
+                    id="btn-back-to-step-2"
+                    type="button"
+                  >
+                    Back
+                  </button>
+                  <button
+                    class="btn btn--primary payment-step-actions__submit"
+                    id="btn-confirm-payment"
+                    type="button"
+                  >
+                    Confirm &amp; Submit Order
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </main>
+
+    <!-- Enlarged QR Code Lightbox Modal -->
+    <div
+      class="qr-modal-overlay"
+      id="qr-lightbox-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="qr-modal-title"
+      hidden
+    >
+      <div class="qr-modal">
+        <div class="qr-modal__header">
+          <div>
+            <h2 class="qr-modal__title" id="qr-modal-title">
+              QR Ph · InstaPay
+            </h2>
+            <p class="qr-modal__sub">NIHAYA Cellphone &amp; Accessories</p>
+          </div>
+          <button
+            type="button"
+            class="qr-modal__close"
+            id="btn-close-qr-modal"
+            aria-label="Close enlarged QR code"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="qr-modal__frame">
+          <img
+            src="assets/images/qr-instapay.jpg"
+            alt="Enlarged NIHAYA InstaPay QR Ph payment code"
+          />
+        </div>
+
+        <div class="qr-modal__total-row">
+          <span>Total Payment</span>
+          <strong id="qr-modal-total">₱22,730</strong>
+        </div>
+
+        <button
+          type="button"
+          class="btn btn--primary btn--full qr-modal__save-btn"
+          id="btn-modal-save-qr"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          Save QR Code
+        </button>
+      </div>
+    </div>
     <!-- Site Footer -->
     <footer class="site-footer">
       <div class="footer-trust">
